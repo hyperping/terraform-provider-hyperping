@@ -45,7 +45,14 @@ type Monitor struct {
 	AlertsWait         int             `json:"alerts_wait,omitempty"`
 	EscalationPolicy   *string         `json:"escalation_policy,omitempty"`
 	Status             string          `json:"status,omitempty"`         // up, down (read-only)
-	SSLExpiration      *int            `json:"ssl_expiration,omitempty"` // Days until SSL cert expiration (read-only)
+	SSLExpiration      *int            `json:"ssl_expiration,omitempty"` // Whole days (rounded down) until the TLS cert expires (read-only)
+	// SSL/domain expiry alerting. Pointers so an absent field (older API) maps
+	// to null rather than a misleading zero value.
+	SSLAlertDays      *int  `json:"ssl_alert_days,omitempty"`       // Days before cert expiry to send the first alert (-1 = never)
+	SSLReminders      *bool `json:"ssl_reminders,omitempty"`        // Also remind at the standard steps below the threshold
+	SSLNotifyOnChange *bool `json:"ssl_notify_on_change,omitempty"` // Notify when the served certificate changes
+	DomainAlertDays   *int  `json:"domain_alert_days,omitempty"`    // Days before domain expiry to alert (-1 = never)
+	DomainExpiration  *int  `json:"domain_expiration,omitempty"`    // Whole days until domain registration expires (read-only, nullable)
 }
 
 // monitorAlias is used to prevent infinite recursion in Monitor.UnmarshalJSON.
@@ -118,6 +125,10 @@ type CreateMonitorRequest struct {
 	Port               *int            `json:"port,omitempty"`
 	AlertsWait         *int            `json:"alerts_wait,omitempty"`
 	EscalationPolicy   *string         `json:"escalation_policy,omitempty"`
+	SSLAlertDays       *int            `json:"ssl_alert_days,omitempty"`
+	SSLReminders       *bool           `json:"ssl_reminders,omitempty"`
+	SSLNotifyOnChange  *bool           `json:"ssl_notify_on_change,omitempty"`
+	DomainAlertDays    *int            `json:"domain_alert_days,omitempty"`
 }
 
 // Validate checks input lengths on CreateMonitorRequest fields.
@@ -150,4 +161,8 @@ type UpdateMonitorRequest struct {
 	Port               *int             `json:"port,omitempty"`
 	AlertsWait         *int             `json:"alerts_wait,omitempty"`
 	EscalationPolicy   *string          `json:"escalation_policy,omitempty"`
+	SSLAlertDays       *int             `json:"ssl_alert_days,omitempty"`
+	SSLReminders       *bool            `json:"ssl_reminders,omitempty"`
+	SSLNotifyOnChange  *bool            `json:"ssl_notify_on_change,omitempty"`
+	DomainAlertDays    *int             `json:"domain_alert_days,omitempty"`
 }

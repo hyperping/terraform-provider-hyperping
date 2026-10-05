@@ -187,6 +187,15 @@ func ValidateOptionalInteger(t *testing.T, fieldName string, value *int, minVal,
 	}
 }
 
+// validateOptionalIntEnum checks that an optional integer, when present, is one of the allowed values.
+func validateOptionalIntEnum(t *testing.T, fieldName string, value *int, allowedValues []int64) {
+	t.Helper()
+	if value == nil {
+		return
+	}
+	assert.Contains(t, allowedValues, int64(*value), "%s should be one of %v", fieldName, allowedValues)
+}
+
 // ValidateLocalizedText checks that localized text has valid content.
 func ValidateLocalizedText(t *testing.T, fieldName string, text LocalizedText, maxLength int) {
 	t.Helper()
@@ -281,6 +290,8 @@ func (cv *ContractValidator) ValidateMonitor(monitor *Monitor) {
 	// Optional fields
 	ValidateOptionalInteger(cv.t, "Port", monitor.Port, 1, 65535)
 	ValidateOptionalInteger(cv.t, "SSLExpiration", monitor.SSLExpiration, 0, 365)
+	validateOptionalIntEnum(cv.t, "SSLAlertDays", monitor.SSLAlertDays, AllowedSSLAlertDays)
+	validateOptionalIntEnum(cv.t, "DomainAlertDays", monitor.DomainAlertDays, AllowedDomainAlertDays)
 
 	// Read-only fields
 	if monitor.Status != "" {

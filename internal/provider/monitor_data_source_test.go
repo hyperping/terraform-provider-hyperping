@@ -37,6 +37,11 @@ func TestAccMonitorDataSource_basic(t *testing.T) {
 				"regions":              []string{"london", "virginia"},
 				"status":               "up",
 				"ssl_expiration":       90,
+				"ssl_alert_days":       30,
+				"ssl_reminders":        true,
+				"ssl_notify_on_change": false,
+				"domain_alert_days":    -1,
+				"domain_expiration":    120,
 				"projectUuid":          "proj_test123",
 			})
 			return
@@ -74,6 +79,11 @@ data "hyperping_monitor" "test" {
 					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "regions.#", "2"),
 					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "status", "up"),
 					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "ssl_expiration", "90"),
+					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "ssl_alert_days", "30"),
+					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "ssl_reminders", "true"),
+					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "ssl_notify_on_change", "false"),
+					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "domain_alert_days", "-1"),
+					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "domain_expiration", "120"),
 					tfresource.TestCheckResourceAttr("data.hyperping_monitor.test", "project_uuid", "proj_test123"),
 				),
 			},
@@ -229,7 +239,8 @@ func TestMonitorDataSource_Schema(t *testing.T) {
 	// Verify computed attributes exist
 	computedAttrs := []string{"name", "url", "protocol", "http_method", "check_frequency", "regions",
 		"request_headers", "request_body", "expected_status_code", "follow_redirects", "paused",
-		"status", "ssl_expiration", "project_uuid"}
+		"status", "ssl_expiration", "project_uuid",
+		"ssl_alert_days", "ssl_reminders", "ssl_notify_on_change", "domain_alert_days", "domain_expiration"}
 	for _, attr := range computedAttrs {
 		if _, ok := resp.Schema.Attributes[attr]; !ok {
 			t.Errorf("Schema missing '%s' attribute", attr)

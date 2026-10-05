@@ -428,6 +428,26 @@ func TestInt64PtrToTF(t *testing.T) {
 	}
 }
 
+func TestIntPtrToTF(t *testing.T) {
+	assert.True(t, intPtrToTF(nil).IsNull())
+
+	for _, v := range []int{-1, 0, 30} {
+		got := intPtrToTF(&v)
+		assert.False(t, got.IsNull())
+		assert.Equal(t, int64(v), got.ValueInt64())
+	}
+}
+
+func TestBoolPtrToTF(t *testing.T) {
+	assert.True(t, boolPtrToTF(nil).IsNull())
+
+	for _, v := range []bool{true, false} {
+		got := boolPtrToTF(&v)
+		assert.False(t, got.IsNull())
+		assert.Equal(t, v, got.ValueBool())
+	}
+}
+
 func TestStringOrNull(t *testing.T) {
 	tests := []struct {
 		name   string

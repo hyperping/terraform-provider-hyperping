@@ -124,6 +124,104 @@ func TestContractMonitor_MarshalCreateRequest(t *testing.T) {
 	assertJSONNotContains(t, data, "followRedirects")
 }
 
+func TestContractMonitor_UnmarshalExpiryAlertFields(t *testing.T) {
+	data := loadTestData(t, "monitors/response.json")
+
+	var monitor Monitor
+	if err := json.Unmarshal(data, &monitor); err != nil {
+		t.Fatalf("failed to unmarshal monitor response: %v", err)
+	}
+
+	if monitor.SSLExpiration == nil || *monitor.SSLExpiration != 41 {
+		t.Errorf("expected SSLExpiration 41, got %v", monitor.SSLExpiration)
+	}
+	if monitor.SSLAlertDays == nil || *monitor.SSLAlertDays != 30 {
+		t.Errorf("expected SSLAlertDays 30, got %v", monitor.SSLAlertDays)
+	}
+	if monitor.SSLReminders == nil || !*monitor.SSLReminders {
+		t.Errorf("expected SSLReminders true, got %v", monitor.SSLReminders)
+	}
+	if monitor.SSLNotifyOnChange == nil || *monitor.SSLNotifyOnChange {
+		t.Errorf("expected SSLNotifyOnChange false (non-nil), got %v", monitor.SSLNotifyOnChange)
+	}
+	if monitor.DomainAlertDays == nil || *monitor.DomainAlertDays != -1 {
+		t.Errorf("expected DomainAlertDays -1, got %v", monitor.DomainAlertDays)
+	}
+	if monitor.DomainExpiration != nil {
+		t.Errorf("expected DomainExpiration nil for JSON null, got %d", *monitor.DomainExpiration)
+	}
+
+	// Older API responses without the fields must decode to nil (mapped to null in state).
+	var legacy Monitor
+	if err := json.Unmarshal([]byte(`{"uuid":"mon_legacy","name":"Legacy"}`), &legacy); err != nil {
+		t.Fatalf("failed to unmarshal legacy monitor: %v", err)
+	}
+	if legacy.SSLAlertDays != nil || legacy.SSLReminders != nil || legacy.SSLNotifyOnChange != nil ||
+		legacy.DomainAlertDays != nil || legacy.DomainExpiration != nil {
+		t.Error("expected all expiry alert fields nil when absent from the response")
+	}
+}
+
+func TestContractMonitor_MarshalExpiryAlertFields(t *testing.T) {
+	// Unset fields must not be sent, so the server keeps its default / stored value.
+	unset, err := json.Marshal(CreateMonitorRequest{Name: "n", URL: "https://example.com", Protocol: "http"})
+	if err != nil {
+		t.Fatalf("failed to marshal create request: %v", err)
+	}
+	for _, f := range []string{"ssl_alert_days", "ssl_reminders", "ssl_notify_on_change", "domain_alert_days", "domain_expiration"} {
+		assertJSONNotContains(t, unset, f)
+	}
+
+	unsetUpdate, err := json.Marshal(UpdateMonitorRequest{})
+	if err != nil {
+		t.Fatalf("failed to marshal update request: %v", err)
+	}
+	if string(unsetUpdate) != "{}" {
+		t.Errorf("expected empty update request to marshal to {}, got %s", unsetUpdate)
+	}
+
+	// Zero-ish values (-1 = never, false) must still be sent when set.
+	set := CreateMonitorRequest{
+		Name:              "n",
+		URL:               "https://example.com",
+		Protocol:          "http",
+		SSLAlertDays:      intPtr(-1),
+		SSLReminders:      boolPtr(false),
+		SSLNotifyOnChange: boolPtr(false),
+		DomainAlertDays:   intPtr(-1),
+	}
+	data, err := json.Marshal(set)
+	if err != nil {
+		t.Fatalf("failed to marshal create request: %v", err)
+	}
+	var decoded map[string]interface{}
+	if err = json.Unmarshal(data, &decoded); err != nil {
+		t.Fatalf("failed to decode marshalled request: %v", err)
+	}
+	if decoded["ssl_alert_days"] != float64(-1) {
+		t.Errorf("expected ssl_alert_days -1, got %v", decoded["ssl_alert_days"])
+	}
+	if decoded["ssl_reminders"] != false {
+		t.Errorf("expected ssl_reminders false, got %v", decoded["ssl_reminders"])
+	}
+	if decoded["ssl_notify_on_change"] != false {
+		t.Errorf("expected ssl_notify_on_change false, got %v", decoded["ssl_notify_on_change"])
+	}
+	if decoded["domain_alert_days"] != float64(-1) {
+		t.Errorf("expected domain_alert_days -1, got %v", decoded["domain_alert_days"])
+	}
+
+	update := UpdateMonitorRequest{SSLAlertDays: intPtr(30), DomainAlertDays: intPtr(30), SSLNotifyOnChange: boolPtr(true)}
+	data, err = json.Marshal(update)
+	if err != nil {
+		t.Fatalf("failed to marshal update request: %v", err)
+	}
+	want := `{"ssl_alert_days":30,"ssl_notify_on_change":true,"domain_alert_days":30}`
+	if string(data) != want {
+		t.Errorf("unexpected update payload:\n got: %s\nwant: %s", data, want)
+	}
+}
+
 func TestContractMonitor_UnmarshalListResponse(t *testing.T) {
 	data := loadTestData(t, "monitors/list_response.json")
 

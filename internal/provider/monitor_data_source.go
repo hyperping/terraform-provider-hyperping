@@ -51,6 +51,11 @@ type MonitorDataSourceModel struct {
 	RequiredKeyword    types.String `tfsdk:"required_keyword"`
 	Status             types.String `tfsdk:"status"`
 	SSLExpiration      types.Int64  `tfsdk:"ssl_expiration"`
+	SSLAlertDays       types.Int64  `tfsdk:"ssl_alert_days"`
+	SSLReminders       types.Bool   `tfsdk:"ssl_reminders"`
+	SSLNotifyOnChange  types.Bool   `tfsdk:"ssl_notify_on_change"`
+	DomainAlertDays    types.Int64  `tfsdk:"domain_alert_days"`
+	DomainExpiration   types.Int64  `tfsdk:"domain_expiration"`
 	ProjectUUID        types.String `tfsdk:"project_uuid"`
 }
 
@@ -148,7 +153,27 @@ func (d *MonitorDataSource) Schema(_ context.Context, _ datasource.SchemaRequest
 			},
 			"ssl_expiration": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "Days until the SSL certificate expires.",
+				MarkdownDescription: "Whole days until the TLS certificate expires (rounded down).",
+			},
+			"ssl_alert_days": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Days before the TLS certificate expires to send the first expiry alert (`-1` = never).",
+			},
+			"ssl_reminders": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Whether reminders are also sent at the standard steps below `ssl_alert_days` (30, 15, 7, 3 and 1 days).",
+			},
+			"ssl_notify_on_change": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Whether a notification is sent when the server starts serving a different TLS certificate.",
+			},
+			"domain_alert_days": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Days before the domain registration expires to send an alert (`-1` = never).",
+			},
+			"domain_expiration": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Whole days until the domain registration expires. `null` when unknown or when the registry does not publish expiry dates (e.g. `.de`, `.eu`, `.ch`).",
 			},
 			"project_uuid": schema.StringAttribute{
 				Computed:            true,
@@ -226,5 +251,10 @@ func (d *MonitorDataSource) mapMonitorToDataSourceModel(monitor *client.Monitor,
 	model.RequiredKeyword = fields.RequiredKeyword
 	model.Status = fields.Status
 	model.SSLExpiration = fields.SSLExpiration
+	model.SSLAlertDays = fields.SSLAlertDays
+	model.SSLReminders = fields.SSLReminders
+	model.SSLNotifyOnChange = fields.SSLNotifyOnChange
+	model.DomainAlertDays = fields.DomainAlertDays
+	model.DomainExpiration = fields.DomainExpiration
 	model.ProjectUUID = fields.ProjectUUID
 }

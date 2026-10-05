@@ -18,5 +18,11 @@
   ],
   "required_keyword": null,
   "alerts_wait": 0,
-  "escalation_policy": null
+  "escalation_policy": null,
+  "ssl_expiration": 41,
+  "ssl_alert_days": 30,
+  "ssl_reminders": true,
+  "ssl_notify_on_change": false,
+  "domain_alert_days": -1,
+  "domain_expiration": null
 }

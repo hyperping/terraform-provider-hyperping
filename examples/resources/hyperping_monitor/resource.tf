@@ -40,3 +40,28 @@ resource "hyperping_monitor" "maintenance" {
   protocol = "http"
   paused   = true
 }
+
+# Monitor with TLS certificate and domain expiry alerts
+resource "hyperping_monitor" "expiry_alerts" {
+  name     = "Customer Portal"
+  url      = "https://portal.example.com"
+  protocol = "http"
+
+  # First certificate expiry alert 30 days ahead, then reminders at 15, 7, 3 and 1 days
+  ssl_alert_days = 30
+  ssl_reminders  = true
+
+  # Alert when the site starts serving a different certificate
+  ssl_notify_on_change = true
+
+  # Alert 30 days before the domain registration expires (-1 disables)
+  domain_alert_days = 30
+}
+
+output "portal_certificate_days_left" {
+  value = hyperping_monitor.expiry_alerts.ssl_expiration
+}
+
+output "portal_domain_days_left" {
+  value = hyperping_monitor.expiry_alerts.domain_expiration
+}
