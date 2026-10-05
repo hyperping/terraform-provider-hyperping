@@ -42,6 +42,7 @@ type HealthchecksDataSourceModel struct {
 // HealthcheckDataModel describes a single healthcheck in the list data source.
 type HealthcheckDataModel struct {
 	ID               types.String `tfsdk:"id"`
+	PublicID         types.String `tfsdk:"public_id"`
 	Name             types.String `tfsdk:"name"`
 	PingURL          types.String `tfsdk:"ping_url"`
 	Cron             types.String `tfsdk:"cron"`
@@ -87,6 +88,10 @@ func (d *HealthchecksDataSource) Schema(_ context.Context, _ datasource.SchemaRe
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
 							MarkdownDescription: "The unique identifier (UUID) of the healthcheck.",
+							Computed:            true,
+						},
+						"public_id": schema.StringAttribute{
+							MarkdownDescription: "Public id of the healthcheck (`hc_…`). Use it to show the healthcheck on a status page (`sections[].services[].uuid`). Unlike `id`, which is the secret token of the ping URL, it is safe to share.",
 							Computed:            true,
 						},
 						"name": schema.StringAttribute{
@@ -270,6 +275,7 @@ func (d *HealthchecksDataSource) shouldIncludeHealthcheck(hc *hyperping.Healthch
 func (d *HealthchecksDataSource) mapHealthcheckToDataModel(hc *hyperping.Healthcheck, model *HealthcheckDataModel) {
 	f := MapHealthcheckCommonFields(hc)
 	model.ID = f.ID
+	model.PublicID = f.PublicID
 	model.Name = f.Name
 	model.PingURL = f.PingURL
 	model.Cron = f.Cron

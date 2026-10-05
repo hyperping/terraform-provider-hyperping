@@ -228,6 +228,10 @@ func (d *StatusPageDataSource) Schema(ctx context.Context, req datasource.Schema
 										MarkdownDescription: "Service is a group",
 										Computed:            true,
 									},
+									"type": schema.StringAttribute{
+										MarkdownDescription: "Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.",
+										Computed:            true,
+									},
 									"show_uptime": schema.BoolAttribute{
 										MarkdownDescription: "Show uptime",
 										Computed:            true,
@@ -261,6 +265,10 @@ func (d *StatusPageDataSource) Schema(ctx context.Context, req datasource.Schema
 												},
 												"is_group": schema.BoolAttribute{
 													MarkdownDescription: "Service is a group",
+													Computed:            true,
+												},
+												"type": schema.StringAttribute{
+													MarkdownDescription: "Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.",
 													Computed:            true,
 												},
 												"show_uptime": schema.BoolAttribute{

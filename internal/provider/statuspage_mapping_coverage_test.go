@@ -662,6 +662,7 @@ func TestMapTFToSections_WithValues(t *testing.T) {
 			"fr": types.StringValue("Passerelle API"),
 		}),
 		"is_group":            types.BoolValue(false),
+		"type":                types.StringNull(),
 		"show_uptime":         types.BoolValue(true),
 		"show_response_times": types.BoolValue(true),
 		"description":         types.MapNull(types.StringType),
@@ -710,6 +711,7 @@ func TestMapTFToServices_WithValues(t *testing.T) {
 			"en": types.StringValue("API"),
 		}),
 		"is_group":            types.BoolValue(false),
+		"type":                types.StringNull(),
 		"show_uptime":         types.BoolValue(true),
 		"show_response_times": types.BoolValue(false),
 		"description":         types.MapNull(types.StringType),
@@ -723,6 +725,7 @@ func TestMapTFToServices_WithValues(t *testing.T) {
 			"en": types.StringValue("Primary DB"),
 		}),
 		"is_group":            types.BoolValue(false),
+		"type":                types.StringNull(),
 		"show_uptime":         types.BoolValue(false),
 		"show_response_times": types.BoolValue(false),
 		"description":         types.MapNull(types.StringType),
@@ -736,6 +739,7 @@ func TestMapTFToServices_WithValues(t *testing.T) {
 			"en": types.StringValue("Database Group"),
 		}),
 		"is_group":            types.BoolValue(true),
+		"type":                types.StringNull(),
 		"show_uptime":         types.BoolValue(false),
 		"show_response_times": types.BoolValue(true),
 		"description":         types.MapNull(types.StringType),
@@ -1167,6 +1171,7 @@ func TestMapTFToServices_NonGroupWithoutUUID(t *testing.T) {
 		"uuid":                types.StringNull(),
 		"name":                types.MapNull(types.StringType),
 		"is_group":            types.BoolValue(false),
+		"type":                types.StringNull(),
 		"show_uptime":         types.BoolNull(),
 		"show_response_times": types.BoolNull(),
 		"description":         types.MapNull(types.StringType),
@@ -1194,6 +1199,7 @@ func TestMapTFToServices_GroupWithEmptyServices(t *testing.T) {
 		"uuid":                types.StringNull(),
 		"name":                types.MapNull(types.StringType),
 		"is_group":            types.BoolValue(true),
+		"type":                types.StringNull(),
 		"show_uptime":         types.BoolNull(),
 		"show_response_times": types.BoolNull(),
 		"description":         types.MapNull(types.StringType),
@@ -1330,7 +1336,7 @@ func TestIsAllowedBaseURL_PortVariants(t *testing.T) {
 
 func TestServiceAttrTypes_Count(t *testing.T) {
 	attrs := ServiceAttrTypes()
-	expectedKeys := []string{"id", "uuid", "name", "is_group", "show_uptime", "show_response_times", "description", "services"}
+	expectedKeys := []string{"id", "uuid", "name", "is_group", "type", "show_uptime", "show_response_times", "description", "services"}
 
 	if len(attrs) != len(expectedKeys) {
 		t.Errorf("expected %d keys, got %d: %v", len(expectedKeys), len(attrs), keysOf(attrs))
@@ -1588,6 +1594,7 @@ func TestMapTFToService_Description(t *testing.T) {
 				"en": types.StringValue("API"),
 			}),
 			"is_group":            types.BoolValue(false),
+			"type":                types.StringNull(),
 			"show_uptime":         types.BoolNull(),
 			"show_response_times": types.BoolNull(),
 			"description": types.MapValueMust(types.StringType, map[string]attr.Value{
@@ -1612,6 +1619,7 @@ func TestMapTFToService_Description(t *testing.T) {
 			"uuid":                types.StringValue("mon_1"),
 			"name":                types.MapNull(types.StringType),
 			"is_group":            types.BoolValue(false),
+			"type":                types.StringNull(),
 			"show_uptime":         types.BoolNull(),
 			"show_response_times": types.BoolNull(),
 			"description": types.MapValueMust(types.StringType, map[string]attr.Value{
@@ -1636,6 +1644,7 @@ func TestMapTFToService_Description(t *testing.T) {
 			"uuid":                types.StringValue("mon_1"),
 			"name":                types.MapNull(types.StringType),
 			"is_group":            types.BoolValue(false),
+			"type":                types.StringNull(),
 			"show_uptime":         types.BoolNull(),
 			"show_response_times": types.BoolNull(),
 			"description":         types.MapNull(types.StringType),
@@ -1660,6 +1669,7 @@ func TestMapTFToNestedServices_Description(t *testing.T) {
 			"uuid":                types.StringValue("mon_1"),
 			"name":                types.MapNull(types.StringType),
 			"is_group":            types.BoolValue(false),
+			"type":                types.StringNull(),
 			"show_uptime":         types.BoolValue(false),
 			"show_response_times": types.BoolValue(false),
 			"description": types.MapValueMust(types.StringType, map[string]attr.Value{
@@ -1687,6 +1697,7 @@ func TestMapTFToNestedServices_Description(t *testing.T) {
 			"uuid":                types.StringValue("mon_1"),
 			"name":                types.MapNull(types.StringType),
 			"is_group":            types.BoolValue(false),
+			"type":                types.StringNull(),
 			"show_uptime":         types.BoolValue(false),
 			"show_response_times": types.BoolValue(false),
 			"description":         types.MapNull(types.StringType),

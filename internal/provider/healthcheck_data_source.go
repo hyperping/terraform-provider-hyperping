@@ -33,6 +33,7 @@ type HealthcheckDataSource struct {
 // HealthcheckDataSourceModel describes the data source data model.
 type HealthcheckDataSourceModel struct {
 	ID               types.String `tfsdk:"id"`
+	PublicID         types.String `tfsdk:"public_id"`
 	Name             types.String `tfsdk:"name"`
 	PingURL          types.String `tfsdk:"ping_url"`
 	Cron             types.String `tfsdk:"cron"`
@@ -64,6 +65,10 @@ func (d *HealthcheckDataSource) Schema(_ context.Context, _ datasource.SchemaReq
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The unique identifier (UUID) of the healthcheck to look up.",
 				Required:            true,
+			},
+			"public_id": schema.StringAttribute{
+				MarkdownDescription: "Public id of the healthcheck (`hc_…`). Use it to show the healthcheck on a status page (`sections[].services[].uuid`). Unlike `id`, which is the secret token of the ping URL, it is safe to share.",
+				Computed:            true,
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: "The name of the healthcheck.",
@@ -177,6 +182,7 @@ func (d *HealthcheckDataSource) Read(ctx context.Context, req datasource.ReadReq
 func mapHealthcheckToDataSourceModel(hc *hyperping.Healthcheck, model *HealthcheckDataSourceModel) {
 	f := MapHealthcheckCommonFields(hc)
 	model.ID = f.ID
+	model.PublicID = f.PublicID
 	model.Name = f.Name
 	model.PingURL = f.PingURL
 	model.Cron = f.Cron

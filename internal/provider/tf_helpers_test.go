@@ -236,3 +236,12 @@ func TestBoolPtrToTF(t *testing.T) {
 		}
 	}
 }
+
+func TestStringOrNull(t *testing.T) {
+	if !stringOrNull("").IsNull() {
+		t.Error(`stringOrNull("") should be null`)
+	}
+	if got := stringOrNull("hc_abc"); got.IsNull() || got.ValueString() != "hc_abc" {
+		t.Errorf(`stringOrNull("hc_abc") = %v`, got)
+	}
+}

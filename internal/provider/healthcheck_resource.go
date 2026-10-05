@@ -40,6 +40,7 @@ type HealthcheckResource struct {
 // HealthcheckResourceModel describes the resource data model.
 type HealthcheckResourceModel struct {
 	ID               types.String `tfsdk:"id"`
+	PublicID         types.String `tfsdk:"public_id"`
 	Name             types.String `tfsdk:"name"`
 	PingURL          types.String `tfsdk:"ping_url"`
 	Cron             types.String `tfsdk:"cron"`
@@ -69,7 +70,14 @@ func (r *HealthcheckResource) Schema(_ context.Context, _ resource.SchemaRequest
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: "The unique identifier (UUID) of the healthcheck.",
+				MarkdownDescription: "The unique identifier of the healthcheck (`tok_…`). It is also the secret token of the ping URL: to show the healthcheck on a status page, use `public_id`.",
+				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"public_id": schema.StringAttribute{
+				MarkdownDescription: "Public id of the healthcheck (`hc_…`). Use it to show the healthcheck on a status page (`sections[].services[].uuid`). Unlike `id`, which is the secret token of the ping URL, it is safe to share.",
 				Computed:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
@@ -617,6 +625,7 @@ func (r *HealthcheckResource) ImportState(ctx context.Context, req resource.Impo
 func (r *HealthcheckResource) mapHealthcheckToModel(hc *hyperping.Healthcheck, model *HealthcheckResourceModel) {
 	f := MapHealthcheckCommonFields(hc)
 	model.ID = f.ID
+	model.PublicID = f.PublicID
 	model.Name = f.Name
 	model.PingURL = f.PingURL
 	model.Cron = f.Cron

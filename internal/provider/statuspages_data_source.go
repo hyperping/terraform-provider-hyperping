@@ -232,6 +232,9 @@ func (d *StatusPagesDataSource) Schema(ctx context.Context, req datasource.Schem
 													MarkdownDescription: "Whether this is a group",
 													Computed:            true,
 												},
+												"type": schema.StringAttribute{
+													Computed: true,
+												},
 												"show_uptime": schema.BoolAttribute{
 													MarkdownDescription: "Show uptime percentage",
 													Computed:            true,
@@ -266,6 +269,9 @@ func (d *StatusPagesDataSource) Schema(ctx context.Context, req datasource.Schem
 															"is_group": schema.BoolAttribute{
 																MarkdownDescription: "Whether this is a group",
 																Computed:            true,
+															},
+															"type": schema.StringAttribute{
+																Computed: true,
 															},
 															"show_uptime": schema.BoolAttribute{
 																MarkdownDescription: "Show uptime percentage",

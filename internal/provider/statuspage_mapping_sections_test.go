@@ -271,6 +271,7 @@ func buildFullServiceObj() types.Object {
 		"show_response_times": types.BoolValue(true),
 		"is_group":            types.BoolValue(false),
 		"description":         types.MapNull(types.StringType),
+		"type":                types.StringNull(),
 		"services":            types.ListNull(types.ObjectType{AttrTypes: NestedServiceAttrTypes()}),
 	})
 }
@@ -284,6 +285,7 @@ func buildMinimalServiceObj() types.Object {
 		"show_response_times": types.BoolNull(),
 		"is_group":            types.BoolNull(),
 		"description":         types.MapNull(types.StringType),
+		"type":                types.StringNull(),
 		"services":            types.ListNull(types.ObjectType{AttrTypes: NestedServiceAttrTypes()}),
 	})
 }

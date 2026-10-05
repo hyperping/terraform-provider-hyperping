@@ -63,3 +63,11 @@ func boolPtrToTF(b *bool) types.Bool {
 	}
 	return types.BoolValue(*b)
 }
+
+// stringOrNull returns types.String with value if string is non-empty, otherwise null.
+func stringOrNull(s string) types.String {
+	if s == "" {
+		return types.StringNull()
+	}
+	return types.StringValue(s)
+}

@@ -250,6 +250,7 @@ func mapRequestHeadersToTFList(headers []hyperping.RequestHeader, diags *diag.Di
 // Used by resource, single data source, and list data source to avoid triple duplication.
 type HealthcheckCommonFields struct {
 	ID               types.String
+	PublicID         types.String
 	Name             types.String
 	PingURL          types.String
 	Cron             types.String
@@ -273,6 +274,7 @@ func MapHealthcheckCommonFields(hc *hyperping.Healthcheck) HealthcheckCommonFiel
 	if hc == nil {
 		return HealthcheckCommonFields{
 			ID:               types.StringNull(),
+			PublicID:         types.StringNull(),
 			Name:             types.StringNull(),
 			PingURL:          types.StringNull(),
 			Cron:             types.StringNull(),
@@ -292,6 +294,7 @@ func MapHealthcheckCommonFields(hc *hyperping.Healthcheck) HealthcheckCommonFiel
 	}
 	f := HealthcheckCommonFields{
 		ID:               types.StringValue(hc.UUID),
+		PublicID:         types.StringNull(),
 		Name:             types.StringValue(hc.Name),
 		PingURL:          types.StringValue(hc.PingURL),
 		IsDown:           types.BoolValue(hc.IsDown),
@@ -302,6 +305,10 @@ func MapHealthcheckCommonFields(hc *hyperping.Healthcheck) HealthcheckCommonFiel
 		GracePeriodType:  types.StringValue(hc.GracePeriodType),
 	}
 
+	// Legacy healthchecks may have no public id yet (NULL or empty).
+	if hc.PublicUUID != nil {
+		f.PublicID = stringOrNull(*hc.PublicUUID)
+	}
 	if hc.Cron != "" {
 		f.Cron = types.StringValue(hc.Cron)
 	} else {

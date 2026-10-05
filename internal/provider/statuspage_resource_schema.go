@@ -264,7 +264,7 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 										Computed:            true,
 									},
 									"uuid": schema.StringAttribute{
-										MarkdownDescription: "Monitor UUID to display. Required for non-group services (is_group=false). Omit for group header entries (is_group=true).",
+										MarkdownDescription: "Id of what to display: a monitor (`mon_…`, e.g. `hyperping_monitor.x.id`), a healthcheck (`hc_…`, `hyperping_healthcheck.x.public_id`, never the `tok_…` ping token), a server (`agt_…`) or a component (`comp_…`). Required for non-group services (is_group=false). Omit for group header entries (is_group=true).",
 										Optional:            true,
 										Computed:            true,
 									},
@@ -279,13 +279,17 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 										Optional:            true,
 										Computed:            true,
 									},
+									"type": schema.StringAttribute{
+										MarkdownDescription: "Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.",
+										Computed:            true,
+									},
 									"show_uptime": schema.BoolAttribute{
-										MarkdownDescription: "Show uptime percentage",
+										MarkdownDescription: "Show uptime bars. Supported for every service type, healthchecks included.",
 										Optional:            true,
 										Computed:            true,
 									},
 									"show_response_times": schema.BoolAttribute{
-										MarkdownDescription: "Show response times",
+										MarkdownDescription: "Show response times. Not available for a healthcheck: leave unset or set to `false`.",
 										Optional:            true,
 										Computed:            true,
 									},
@@ -305,7 +309,7 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 													Computed:            true,
 												},
 												"uuid": schema.StringAttribute{
-													MarkdownDescription: "Monitor UUID to display",
+													MarkdownDescription: "Id of what to display: a monitor (`mon_…`), a healthcheck (`hc_…`, `hyperping_healthcheck.x.public_id`), a server (`agt_…`) or a component (`comp_…`).",
 													Optional:            true,
 													Computed:            true,
 												},
@@ -320,13 +324,17 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 													Optional:            true,
 													Computed:            true,
 												},
+												"type": schema.StringAttribute{
+													MarkdownDescription: "Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.",
+													Computed:            true,
+												},
 												"show_uptime": schema.BoolAttribute{
-													MarkdownDescription: "Show uptime percentage",
+													MarkdownDescription: "Show uptime bars. Supported for every service type, healthchecks included.",
 													Optional:            true,
 													Computed:            true,
 												},
 												"show_response_times": schema.BoolAttribute{
-													MarkdownDescription: "Show response times",
+													MarkdownDescription: "Show response times. Not available for a healthcheck: leave unset or set to `false`.",
 													Optional:            true,
 													Computed:            true,
 												},

@@ -10,6 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	hyperping "github.com/hyperping/hyperping-go"
@@ -387,6 +388,7 @@ func mapServiceToTFWithFilter(service hyperping.StatusPageService, configuredLan
 		"uuid":                types.StringValue(service.UUID),
 		"name":                nameMap,
 		"is_group":            types.BoolValue(service.IsGroup),
+		"type":                stringOrNull(service.Type),
 		"show_uptime":         types.BoolValue(service.ShowUptime),
 		"show_response_times": types.BoolValue(service.ShowResponseTimes),
 		"description":         descMap,
@@ -416,6 +418,7 @@ func mapNestedServicesToTF(services []hyperping.StatusPageService, configuredLan
 			"uuid":                types.StringValue(svc.UUID),
 			"name":                nameMap,
 			"is_group":            types.BoolValue(svc.IsGroup),
+			"type":                stringOrNull(svc.Type),
 			"show_uptime":         types.BoolValue(svc.ShowUptime),
 			"show_response_times": types.BoolValue(svc.ShowResponseTimes),
 			"description":         descMap,
@@ -494,6 +497,12 @@ func mapTFToServices(list types.List, diags *diag.Diagnostics) []hyperping.Creat
 
 	for i, elem := range elements {
 		service := mapTFToService(elem, diags)
+
+		// Apply-time check of what ValidateConfig could not see at plan time
+		// (e.g. the public_id of a healthcheck created in the same apply).
+		for _, issue := range statusPageServiceIssues(service.MonitorUUID, service.ShowResponseTimes) {
+			diags.AddError(issue.summary, fmt.Sprintf("sections[*].services[%d]: %s", i, issue.detail))
+		}
 
 		// Apply-time validation: non-group services must have a UUID.
 		if (service.IsGroup == nil || !*service.IsGroup) && service.MonitorUUID == nil {
@@ -608,7 +617,7 @@ func mapTFToNestedServices(list types.List, diags *diag.Diagnostics) []hyperping
 	elements := list.Elements()
 	services := make([]hyperping.CreateStatusPageService, 0, len(elements))
 
-	for _, elem := range elements {
+	for i, elem := range elements {
 		obj, ok := elem.(types.Object)
 		if !ok {
 			diags.AddError("Invalid nested service element", "Expected object type for nested service")
@@ -635,22 +644,127 @@ func mapTFToNestedServices(list types.List, diags *diag.Diagnostics) []hyperping
 			svc.Description = mapTFToStringMap(descMap, diags)
 		}
 
-		// Extract show_uptime and show_response_times for nested services.
-		// The API may ignore these on write but we must send them to prevent
-		// "inconsistent result after apply" when the plan has explicit values.
-		if showUptime, ok := attrs["show_uptime"].(types.Bool); ok && !showUptime.IsNull() {
-			val := showUptime.ValueBool()
-			svc.ShowUptime = &val
+		// Each child of a group has its own uptime bars and response times:
+		// send them when known (an unknown value is left to the API default).
+		if showUptime, ok := attrs["show_uptime"].(types.Bool); ok {
+			svc.ShowUptime = tfBoolToPtr(showUptime)
 		}
-		if showResponseTimes, ok := attrs["show_response_times"].(types.Bool); ok && !showResponseTimes.IsNull() {
-			val := showResponseTimes.ValueBool()
-			svc.ShowResponseTimes = &val
+		if showResponseTimes, ok := attrs["show_response_times"].(types.Bool); ok {
+			svc.ShowResponseTimes = tfBoolToPtr(showResponseTimes)
+		}
+
+		for _, issue := range statusPageServiceIssues(svc.UUID, svc.ShowResponseTimes) {
+			diags.AddError(issue.summary, fmt.Sprintf("sections[*].services[*].services[%d]: %s", i, issue.detail))
 		}
 
 		services = append(services, svc)
 	}
 
 	return services
+}
+
+// =============================================================================
+// Service references (monitors, healthchecks, servers, components)
+// =============================================================================
+
+const (
+	// healthcheckPublicIDPrefix is the public id of a healthcheck, the one a
+	// status page references (hyperping_healthcheck.public_id).
+	healthcheckPublicIDPrefix = "hc_"
+	// healthcheckTokenPrefix is the healthcheck id the API uses everywhere
+	// else (hyperping_healthcheck.id). It is the secret part of the ping URL.
+	healthcheckTokenPrefix = "tok_"
+)
+
+type statusPageServiceIssue struct {
+	attribute string // "uuid" or "show_response_times"
+	summary   string
+	detail    string
+}
+
+// statusPageServiceIssues lists why a status page service cannot be sent as
+// written. Both arguments may be nil (unset or unknown).
+//
+// A ping token is refused although the API would convert it to its public id:
+// the state would then hold hc_… against a tok_… in the config, an
+// inconsistent result on every apply. show_response_times=true is refused for
+// a healthcheck because the API always stores false (permanent diff).
+func statusPageServiceIssues(uuid *string, showResponseTimes *bool) []statusPageServiceIssue {
+	if uuid == nil {
+		return nil
+	}
+	var issues []statusPageServiceIssue
+	if strings.HasPrefix(*uuid, healthcheckTokenPrefix) {
+		issues = append(issues, statusPageServiceIssue{
+			attribute: "uuid",
+			summary:   "Healthcheck ping token used as a status page service",
+			detail: fmt.Sprintf("%q is the ping token of a healthcheck, the secret part of its ping URL. "+
+				"Reference the healthcheck by its public id instead: uuid = hyperping_healthcheck.<name>.public_id (hc_…).", *uuid),
+		})
+	}
+	isHealthcheck := strings.HasPrefix(*uuid, healthcheckPublicIDPrefix) || strings.HasPrefix(*uuid, healthcheckTokenPrefix)
+	if isHealthcheck && showResponseTimes != nil && *showResponseTimes {
+		issues = append(issues, statusPageServiceIssue{
+			attribute: "show_response_times",
+			summary:   "show_response_times is not available for a healthcheck",
+			detail: fmt.Sprintf("%q is a healthcheck: Hyperping records no response times for it and always stores false. "+
+				"Remove show_response_times or set it to false (show_uptime is supported).", *uuid),
+		})
+	}
+	return issues
+}
+
+// validateStatusPageSections reports, at plan time, the service issues of
+// statusPageServiceIssues on the attribute at fault. Unknown values are
+// skipped here and checked again at apply time.
+func validateStatusPageSections(sections types.List, diags *diag.Diagnostics) {
+	if sections.IsNull() || sections.IsUnknown() {
+		return
+	}
+	for i, sectionElem := range sections.Elements() {
+		section, ok := sectionElem.(types.Object)
+		if !ok || section.IsNull() || section.IsUnknown() {
+			continue
+		}
+		servicesPath := path.Root("sections").AtListIndex(i).AtName("services")
+		services, ok := section.Attributes()["services"].(types.List)
+		if !ok {
+			continue
+		}
+		validateStatusPageServices(services, servicesPath, true, diags)
+	}
+}
+
+func validateStatusPageServices(services types.List, at path.Path, withChildren bool, diags *diag.Diagnostics) {
+	if services.IsNull() || services.IsUnknown() {
+		return
+	}
+	for j, serviceElem := range services.Elements() {
+		service, ok := serviceElem.(types.Object)
+		if !ok || service.IsNull() || service.IsUnknown() {
+			continue
+		}
+		servicePath := at.AtListIndex(j)
+		attrs := service.Attributes()
+
+		var uuid *string
+		if v, ok := attrs["uuid"].(types.String); ok {
+			uuid = tfStringToPtr(v)
+		}
+		var showResponseTimes *bool
+		if v, ok := attrs["show_response_times"].(types.Bool); ok {
+			showResponseTimes = tfBoolToPtr(v)
+		}
+		for _, issue := range statusPageServiceIssues(uuid, showResponseTimes) {
+			diags.AddAttributeError(servicePath.AtName(issue.attribute), issue.summary, issue.detail)
+		}
+
+		if withChildren {
+			if children, ok := attrs["services"].(types.List); ok {
+				validateStatusPageServices(children, servicePath.AtName("services"), false, diags)
+			}
+		}
+	}
 }
 
 // =============================================================================

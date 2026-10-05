@@ -18,9 +18,10 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces.
 var (
-	_ resource.Resource                = &StatusPageResource{}
-	_ resource.ResourceWithImportState = &StatusPageResource{}
-	_ resource.ResourceWithModifyPlan  = &StatusPageResource{}
+	_ resource.Resource                   = &StatusPageResource{}
+	_ resource.ResourceWithImportState    = &StatusPageResource{}
+	_ resource.ResourceWithModifyPlan     = &StatusPageResource{}
+	_ resource.ResourceWithValidateConfig = &StatusPageResource{}
 )
 
 func NewStatusPageResource() resource.Resource {
@@ -98,6 +99,17 @@ func (r *StatusPageResource) ModifyPlan(ctx context.Context, req resource.Modify
 
 func (r *StatusPageResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_statuspage"
+}
+
+// ValidateConfig refuses, at plan time, a healthcheck referenced by its ping
+// token and show_response_times=true on a healthcheck (see statusPageServiceIssues).
+func (r *StatusPageResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var sections types.List
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("sections"), &sections)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	validateStatusPageSections(sections, &resp.Diagnostics)
 }
 
 func (r *StatusPageResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -494,6 +506,11 @@ func (r *StatusPageResource) mapStatusPageToModel(_ context.Context, sp *hyperpi
 	// Extract configured languages from the model's settings
 	// This is used to filter localized fields in the API response
 	configuredLangs := r.extractConfiguredLanguages(model.Settings, diags)
+	// On import there is no state yet: filter on the page's own languages, as
+	// the next refresh will, so an imported page plans without a diff.
+	if configuredLangs == nil && sp != nil {
+		configuredLangs = sp.Settings.Languages
+	}
 
 	// Preserve plan values BEFORE they get overwritten by API response
 	// 1. settings.name - API returns resource.name in settings.name field

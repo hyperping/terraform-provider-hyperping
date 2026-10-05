@@ -309,6 +309,9 @@ func buildMockService(svcMap map[string]interface{}) map[string]interface{} {
 		"show_uptime":         getOrDefaultBool(svcMap, "show_uptime", true),
 		"show_response_times": getOrDefaultBool(svcMap, "show_response_times", true),
 	}
+	if !isGroup {
+		service["type"] = "monitor" // the API returns the service type, absent for a group header
+	}
 
 	if svcName, ok := svcMap["name"].(map[string]interface{}); ok {
 		nameStrMap := make(map[string]string)
