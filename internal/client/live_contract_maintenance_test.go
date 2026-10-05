@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/provider/testutil"
+	"github.com/hyperping/terraform-provider-hyperping/internal/provider/testutil"
 )
 
 // TestLiveContract_Maintenance_CRUD tests maintenance create, read, update, delete operations.

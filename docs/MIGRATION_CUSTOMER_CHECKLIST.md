@@ -252,17 +252,17 @@ Complete these steps before running the migration tool.
 
   **Better Stack:**
   ```bash
-  go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack@latest
+  go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack@latest
   ```
 
   **UptimeRobot:**
   ```bash
-  go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
+  go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
   ```
 
   **Pingdom:**
   ```bash
-  go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom@latest
+  go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom@latest
   ```
 
 - [ ] **Verify tool installation**
@@ -901,7 +901,7 @@ migrate-betterstack --rollback
 - **Support:**
   - Email: support@hyperping.io
   - Documentation: https://docs.hyperping.io
-  - GitHub Issues: https://github.com/develeap/terraform-provider-hyperping/issues
+  - GitHub Issues: https://github.com/hyperping/terraform-provider-hyperping/issues
 
 ### Before Contacting Support
 
@@ -922,9 +922,9 @@ Gather these artifacts:
 
 ```bash
 # Install migration tools
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack@latest
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom@latest
 ```
 
 ### Environment Setup

@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // ErrorContext provides structured error information for enhanced error messages.

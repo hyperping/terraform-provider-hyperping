@@ -10,7 +10,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/provider/testutil"
+	"github.com/hyperping/terraform-provider-hyperping/internal/provider/testutil"
 )
 
 // TestLiveContract_Monitor_Update tests updating a monitor.

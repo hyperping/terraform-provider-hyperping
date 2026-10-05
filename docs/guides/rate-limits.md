@@ -365,4 +365,4 @@ Error: context deadline exceeded
 
 - [Rate Limit Support](https://hyperping.io/support) - Request limit increases
 - [Troubleshooting Guide](../TROUBLESHOOTING.md) - Common issues
-- [GitHub Issues](https://github.com/develeap/terraform-provider-hyperping/issues)
+- [GitHub Issues](https://github.com/hyperping/terraform-provider-hyperping/issues)

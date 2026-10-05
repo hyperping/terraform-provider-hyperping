@@ -116,7 +116,7 @@ comparisons := dryrun.BuildComparisons(converters)
 ## Usage Example
 
 ```go
-import "github.com/develeap/terraform-provider-hyperping/pkg/dryrun"
+import "github.com/hyperping/terraform-provider-hyperping/pkg/dryrun"
 
 // 1. Build resource comparisons
 var bridges []dryrun.BridgeConverter

@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
 )
 
 func TestGenerator_GenerateTerraform(t *testing.T) {

@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // sweepMonitors deletes all test monitors (those prefixed with "tf-acc-test-")

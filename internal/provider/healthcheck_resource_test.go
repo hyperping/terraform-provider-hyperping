@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // mockHealthcheckAPI implements client.HealthcheckAPI for testing

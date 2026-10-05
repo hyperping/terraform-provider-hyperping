@@ -10,11 +10,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/generator"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/report"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
-	"github.com/develeap/terraform-provider-hyperping/pkg/interactive"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/generator"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/report"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/interactive"
 )
 
 // interactiveConfigUR holds configuration collected from interactive prompts.
@@ -368,7 +368,7 @@ func printFinalSummary(prompter *interactive.Prompter, config *interactiveConfig
 	fmt.Fprintf(os.Stderr, "  3. Run: terraform apply\n")
 	fmt.Fprintf(os.Stderr, "  4. Review %s for manual configuration steps\n", config.manualStepsFile)
 	fmt.Fprintf(os.Stderr, "\n")
-	fmt.Fprintf(os.Stderr, "📚 Documentation: https://github.com/develeap/terraform-provider-hyperping/tree/main/docs/guides\n")
+	fmt.Fprintf(os.Stderr, "📚 Documentation: https://github.com/hyperping/terraform-provider-hyperping/tree/main/docs/guides\n")
 	fmt.Fprintf(os.Stderr, "\n")
 }
 

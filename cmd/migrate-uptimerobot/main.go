@@ -22,13 +22,13 @@ import (
 	"os"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/generator"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/report"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
-	"github.com/develeap/terraform-provider-hyperping/pkg/checkpoint"
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrationstate"
-	"github.com/develeap/terraform-provider-hyperping/pkg/recovery"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/generator"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/report"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/checkpoint"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrationstate"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/recovery"
 )
 
 var (

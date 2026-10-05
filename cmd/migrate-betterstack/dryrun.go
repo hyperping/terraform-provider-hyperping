@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
-	"github.com/develeap/terraform-provider-hyperping/pkg/dryrun"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/dryrun"
 )
 
 // monitorBridge adapts Better Stack monitors to dryrun interface.

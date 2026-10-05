@@ -13,10 +13,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/generator"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
 	"github.com/stretchr/testify/require"
+
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/generator"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
 )
 
 // TestUptimeRobotLoad_SmallScale tests migration with 10 monitors (baseline).

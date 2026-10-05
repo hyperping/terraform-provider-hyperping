@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	tfresource "github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 func TestAccMonitorsDataSource_basic(t *testing.T) {

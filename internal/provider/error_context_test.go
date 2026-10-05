@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 func TestDetectErrorContext_NotFound(t *testing.T) {

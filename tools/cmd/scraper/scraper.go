@@ -7,8 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/extractor"
 	"github.com/go-rod/rod"
+
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/extractor"
 )
 
 // scrapeWithRetry attempts to scrape a page with exponential backoff.

@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
 )
 
 // MigrationReport contains the complete migration report.

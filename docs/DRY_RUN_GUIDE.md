@@ -571,8 +571,8 @@ After reviewing dry-run results:
 
 Questions or issues with dry-run mode?
 
-- GitHub Issues: https://github.com/develeap/terraform-provider-hyperping/issues
-- Documentation: https://registry.terraform.io/providers/develeap/hyperping/latest/docs
+- GitHub Issues: https://github.com/hyperping/terraform-provider-hyperping/issues
+- Documentation: https://registry.terraform.io/providers/hyperping/hyperping/latest/docs
 - Discord Community: [Link]
 
 ---

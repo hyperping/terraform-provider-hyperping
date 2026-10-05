@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/extractor"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/openapi"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/extractor"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/openapi"
 )
 
 func main() {

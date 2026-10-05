@@ -26,13 +26,13 @@ import (
 	"os"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/generator"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/report"
-	"github.com/develeap/terraform-provider-hyperping/pkg/checkpoint"
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrationstate"
-	"github.com/develeap/terraform-provider-hyperping/pkg/recovery"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/generator"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/report"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/checkpoint"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrationstate"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/recovery"
 )
 
 var (

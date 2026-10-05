@@ -6,7 +6,7 @@ package main
 import (
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 func TestFilterConfig_NewFilterConfig(t *testing.T) {

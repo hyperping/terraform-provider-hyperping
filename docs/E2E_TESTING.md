@@ -279,7 +279,7 @@ rm -rf ~/.terraform.d/plugin-cache
 terraform init -upgrade
 
 # Check provider registry availability
-curl -I https://registry.terraform.io/v1/providers/develeap/hyperping
+curl -I https://registry.terraform.io/v1/providers/hyperping/hyperping
 ```
 
 ### Resources Not Cleaned Up

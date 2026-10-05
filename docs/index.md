@@ -15,7 +15,7 @@ The Hyperping provider allows you to manage Hyperping monitors, incidents, and m
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 }
@@ -83,6 +83,7 @@ provider "hyperping" {
 - [Monitoring API Gateways](guides/use-case-api-gateway.md) - Monitor Kong, AWS API Gateway, NGINX, Traefik
 
 ### Advanced Topics
+- [Migrating from develeap/hyperping](guides/migrate-from-develeap.md) - Move existing state from the `develeap/hyperping` address
 - [Filtering Data Sources](guides/filtering-data-sources.md) - Query and filter monitors efficiently
 - [Importing Resources](guides/importing-resources.md) - Import existing Hyperping resources
 - [Error Handling](guides/error-handling.md) - Handle failures gracefully
@@ -91,7 +92,7 @@ provider "hyperping" {
 
 ## CI/CD
 
-- [GitHub Actions Workflows](https://github.com/develeap/terraform-provider-hyperping/tree/main/examples/github-actions) - Ready-to-use workflows for automated Terraform deployments
+- [GitHub Actions Workflows](https://github.com/hyperping/terraform-provider-hyperping/tree/main/examples/github-actions) - Ready-to-use workflows for automated Terraform deployments
 
 ## Troubleshooting
 

@@ -11,19 +11,20 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/analyzer"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/contract"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/coverage"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/diff"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/discovery"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/extractor"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/notify"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/openapi"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/utils"
 	"github.com/go-rod/rod"
 	"github.com/go-rod/rod/lib/proto"
 	tfjson "github.com/hashicorp/terraform-json"
 	"golang.org/x/time/rate"
+
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/analyzer"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/contract"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/coverage"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/diff"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/discovery"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/extractor"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/notify"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/openapi"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/utils"
 )
 
 // Command line flags.

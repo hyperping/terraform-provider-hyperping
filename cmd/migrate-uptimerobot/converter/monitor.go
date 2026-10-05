@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
 )
 
 // HyperpingMonitor represents a Hyperping monitor configuration.

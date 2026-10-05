@@ -16,7 +16,7 @@ import (
 // Config holds credentials and repository coordinates for GitHub notifications.
 type Config struct {
 	Token string
-	Owner string // e.g., "develeap"
+	Owner string // e.g., "hyperping"
 	Repo  string // e.g., "terraform-provider-hyperping"
 }
 

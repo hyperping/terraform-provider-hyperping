@@ -71,7 +71,7 @@ jobs:
           cat > ~/.terraformrc <<'EOF'
           provider_installation {
             dev_overrides {
-              "develeap/hyperping" = "/tmp"
+              "hyperping/hyperping" = "/tmp"
             }
             direct {}
           }

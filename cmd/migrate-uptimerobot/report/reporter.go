@@ -6,8 +6,8 @@ package report
 import (
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
 )
 
 // Report represents a migration report.

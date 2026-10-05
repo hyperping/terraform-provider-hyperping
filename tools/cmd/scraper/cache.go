@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/extractor"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/utils"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/extractor"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/utils"
 )
 
 // LoadCache reads the cache file from disk

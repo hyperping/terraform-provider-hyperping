@@ -506,7 +506,7 @@ To modify, edit the respective `checkpoint.go` file for each tool.
 Checkpoint manager can be used programmatically:
 
 ```go
-import "github.com/develeap/terraform-provider-hyperping/pkg/checkpoint"
+import "github.com/hyperping/terraform-provider-hyperping/pkg/checkpoint"
 
 mgr, _ := checkpoint.NewManager()
 

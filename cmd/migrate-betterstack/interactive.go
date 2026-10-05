@@ -9,12 +9,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/generator"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/report"
-	"github.com/develeap/terraform-provider-hyperping/pkg/interactive"
-	"github.com/develeap/terraform-provider-hyperping/pkg/recovery"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/generator"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/report"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/interactive"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/recovery"
 )
 
 // interactiveConfig holds configuration collected from interactive prompts.
@@ -271,7 +271,7 @@ func printInteractiveSummary(
 	fmt.Fprintf(os.Stderr, "  3. Run: terraform init && terraform plan\n")
 	fmt.Fprintf(os.Stderr, "  4. Run: terraform apply\n")
 	fmt.Fprintf(os.Stderr, "\n")
-	fmt.Fprintf(os.Stderr, "Documentation: https://github.com/develeap/terraform-provider-hyperping/tree/main/docs/guides\n")
+	fmt.Fprintf(os.Stderr, "Documentation: https://github.com/hyperping/terraform-provider-hyperping/tree/main/docs/guides\n")
 	fmt.Fprintf(os.Stderr, "\n")
 }
 

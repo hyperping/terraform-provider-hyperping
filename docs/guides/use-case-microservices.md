@@ -199,7 +199,7 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
+      source  = "hyperping/hyperping"
       version = "~> 1.0"
     }
   }
@@ -380,7 +380,7 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
+      source  = "hyperping/hyperping"
       version = "~> 1.0"
     }
   }
@@ -851,6 +851,6 @@ data "hyperping_monitor_report" "regional_performance" {
 
 ## Additional Resources
 
-- [Hyperping Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- [Hyperping Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
 - [Microservices Health Check Patterns](https://microservices.io/patterns/observability/health-check-api.html)
 - [Terraform Best Practices](https://www.terraform-best-practices.com/)

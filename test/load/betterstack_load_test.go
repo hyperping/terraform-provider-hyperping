@@ -17,10 +17,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/generator"
 	"github.com/stretchr/testify/require"
+
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/generator"
 )
 
 // TestBetterStackLoad_SmallScale tests migration with 10 monitors (baseline).

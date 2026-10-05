@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // FilterConfig holds filtering criteria for resources.

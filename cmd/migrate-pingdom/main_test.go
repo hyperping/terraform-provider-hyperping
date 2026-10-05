@@ -6,8 +6,8 @@ package main
 import (
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
 )
 
 func TestCheckConversion(t *testing.T) {

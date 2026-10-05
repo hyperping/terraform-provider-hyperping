@@ -8,9 +8,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/extractor"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/utils"
 	"gopkg.in/yaml.v3"
+
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/extractor"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/utils"
 )
 
 // --- OpenAPI 3.0 data structures ---

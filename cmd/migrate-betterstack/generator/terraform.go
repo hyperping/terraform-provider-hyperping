@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
 )
 
 // Generator generates Terraform HCL and import scripts.
@@ -30,7 +30,7 @@ func (g *Generator) GenerateTerraform(monitors []converter.ConvertedMonitor, hea
 	sb.WriteString("  required_version = \">= 1.8\"\n\n")
 	sb.WriteString("  required_providers {\n")
 	sb.WriteString("    hyperping = {\n")
-	sb.WriteString("      source  = \"develeap/hyperping\"\n")
+	sb.WriteString("      source  = \"hyperping/hyperping\"\n")
 	sb.WriteString("      version = \"~> 1.0\"\n")
 	sb.WriteString("    }\n")
 	sb.WriteString("  }\n")

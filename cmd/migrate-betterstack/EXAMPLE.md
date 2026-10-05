@@ -28,7 +28,7 @@ cd acme-hyperping-migration
 
 ```bash
 # Dry run first to validate
-go run github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack \
+go run github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack \
   --dry-run \
   --verbose
 
@@ -59,7 +59,7 @@ go run github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack 
 
 ```bash
 # Run actual migration
-go run github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack \
+go run github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack \
   --output=acme-production.tf \
   --import-script=import-acme.sh \
   --report=acme-migration-report.json \
@@ -113,7 +113,7 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
+      source  = "hyperping/hyperping"
       version = "~> 1.0"
     }
   }
@@ -324,9 +324,9 @@ terraform init
 # Output:
 # Initializing the backend...
 # Initializing provider plugins...
-# - Finding develeap/hyperping versions matching "~> 1.0"...
-# - Installing develeap/hyperping v1.0.7...
-# - Installed develeap/hyperping v1.0.7
+# - Finding hyperping/hyperping versions matching "~> 1.0"...
+# - Installing hyperping/hyperping v1.0.7...
+# - Installed hyperping/hyperping v1.0.7
 #
 # Terraform has been successfully initialized!
 ```

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // Integration tests that validate error propagation through resources

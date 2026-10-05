@@ -17,7 +17,7 @@ Automate your UptimeRobot to Hyperping migration with our CLI tool:
 
 ```bash
 # Install tool
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
 
 # Run automated migration
 migrate-uptimerobot migrate \
@@ -759,7 +759,7 @@ cat > "$OUTPUT_FILE" <<'EOF'
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 }
@@ -1148,7 +1148,7 @@ variable "critical_escalation_policy" {
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 }
@@ -1373,7 +1373,7 @@ output "monitor_ids" {
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 
@@ -1405,7 +1405,7 @@ output "production_monitors" {
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 
@@ -2242,14 +2242,14 @@ You now have a complete migration path from UptimeRobot to Hyperping:
 
 ### Additional Resources
 
-- [Hyperping Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping)
+- [Hyperping Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping)
 - [Importing Existing Resources Guide](importing-resources.md)
 - [Validation Guide](validation.md)
 - [Error Handling Guide](error-handling.md)
 - [Hyperping API Documentation](https://hyperping.io/docs/api)
 
 **Need help?**
-- GitHub Issues: [terraform-provider-hyperping/issues](https://github.com/develeap/terraform-provider-hyperping/issues)
+- GitHub Issues: [terraform-provider-hyperping/issues](https://github.com/hyperping/terraform-provider-hyperping/issues)
 - Hyperping Support: support@hyperping.io
 
 Good luck with your migration!

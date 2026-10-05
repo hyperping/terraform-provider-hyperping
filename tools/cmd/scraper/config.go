@@ -54,7 +54,7 @@ func DefaultConfig() ScraperConfig {
 // GitHubConfig holds GitHub integration configuration
 type GitHubConfig struct {
 	Token string
-	Owner string // e.g., "develeap"
+	Owner string // e.g., "hyperping"
 	Repo  string // e.g., "terraform-provider-hyperping"
 }
 

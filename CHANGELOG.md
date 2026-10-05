@@ -10,6 +10,10 @@ Published releases start from v1.0.3.
 
 ## [Unreleased]
 
+### Changed
+
+- **Provider address**: the provider is now maintained by Hyperping and published as `hyperping/hyperping` (Go module `github.com/hyperping/terraform-provider-hyperping`), forked from `develeap/terraform-provider-hyperping`. Existing users run `terraform state replace-provider registry.terraform.io/develeap/hyperping registry.terraform.io/hyperping/hyperping`; see the [migration guide](docs/guides/migrate-from-develeap.md).
+
 ### Added
 
 - **`hyperping_monitor`**: TLS certificate and domain expiry alert settings — new optional attributes `ssl_alert_days` (`-1` = never, `1`, `3`, `7`, `15`, `30`, `60`, `90`), `ssl_reminders`, `ssl_notify_on_change` and `domain_alert_days` (`-1` = never, `7`, `14`, `30`, `60`, `90`). They are Optional + Computed: when omitted, the provider sends nothing and reads back whatever Hyperping has stored (server defaults on create), so existing configurations see no diff. Values are populated on `terraform import`.
@@ -604,7 +608,7 @@ This provider is production-ready with comprehensive test coverage (45.8% overal
 - Operations guide for production deployments
 - Troubleshooting guide with common issues and solutions
 
-[Unreleased]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.3.5...HEAD
+[Unreleased]: https://github.com/hyperping/terraform-provider-hyperping/compare/v1.3.5...HEAD
 [1.3.5]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.3.4...v1.3.5
 [1.3.4]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.3.3...v1.3.4
 [1.3.3]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.3.2...v1.3.3

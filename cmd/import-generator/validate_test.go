@@ -9,7 +9,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 func TestValidate_AllValid(t *testing.T) {

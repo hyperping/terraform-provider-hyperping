@@ -306,7 +306,7 @@ func buildGenericSteps(ctx ErrorContext) []string {
 		"3. Verify your API key is valid and has required permissions",
 		"4. Check Hyperping service status: https://status.hyperping.app",
 		"5. Review Terraform provider logs for additional context",
-		"6. If the issue persists, report it to the provider maintainers: https://github.com/develeap/terraform-provider-hyperping/issues",
+		"6. If the issue persists, report it to the provider maintainers: https://github.com/hyperping/terraform-provider-hyperping/issues",
 	}
 
 	return steps

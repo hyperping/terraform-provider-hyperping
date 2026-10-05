@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
 )
 
 // GenerateImportScript generates a shell script for importing existing Hyperping resources.

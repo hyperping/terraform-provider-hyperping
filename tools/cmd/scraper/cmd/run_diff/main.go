@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/diff"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/diff"
 )
 
 func main() {

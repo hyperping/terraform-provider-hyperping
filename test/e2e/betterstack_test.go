@@ -15,10 +15,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
-	"github.com/develeap/terraform-provider-hyperping/test/e2e/fixtures"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
+	"github.com/hyperping/terraform-provider-hyperping/test/e2e/fixtures"
 )
 
 const (

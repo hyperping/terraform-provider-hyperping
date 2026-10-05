@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/diff"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/discovery"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/extractor"
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/openapi"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/diff"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/discovery"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/extractor"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/openapi"
 )
 
 const docsScrapedDir = "./docs_scraped"

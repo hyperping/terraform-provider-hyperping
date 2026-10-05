@@ -1,4 +1,4 @@
-module github.com/develeap/terraform-provider-hyperping
+module github.com/hyperping/terraform-provider-hyperping
 
 go 1.24.0
 

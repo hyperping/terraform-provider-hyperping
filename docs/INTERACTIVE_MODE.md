@@ -138,7 +138,7 @@ Next steps:
   3. Run: terraform init && terraform plan
   4. Run: terraform apply
 
-📚 Documentation: https://github.com/develeap/terraform-provider-hyperping/tree/main/docs/guides
+📚 Documentation: https://github.com/hyperping/terraform-provider-hyperping/tree/main/docs/guides
 ```
 
 ## Platform-Specific Features
@@ -467,6 +467,6 @@ Interactive mode adds minimal overhead:
 
 For issues or questions:
 
-- **GitHub Issues**: https://github.com/develeap/terraform-provider-hyperping/issues
-- **Documentation**: https://github.com/develeap/terraform-provider-hyperping/tree/main/docs
-- **Examples**: https://github.com/develeap/terraform-provider-hyperping/tree/main/examples
+- **GitHub Issues**: https://github.com/hyperping/terraform-provider-hyperping/issues
+- **Documentation**: https://github.com/hyperping/terraform-provider-hyperping/tree/main/docs
+- **Examples**: https://github.com/hyperping/terraform-provider-hyperping/tree/main/examples

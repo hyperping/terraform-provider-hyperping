@@ -64,7 +64,7 @@
 ```bash
 $ go test ./internal/provider -v -run "TestEmail|TestValidateMaintenance"
 PASS
-ok  	github.com/develeap/terraform-provider-hyperping/internal/provider	0.015s
+ok  	github.com/hyperping/terraform-provider-hyperping/internal/provider	0.015s
 ```
 
 ### Coverage

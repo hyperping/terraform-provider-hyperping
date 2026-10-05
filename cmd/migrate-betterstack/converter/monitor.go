@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
 )
 
 // Converter handles conversion from Better Stack to Hyperping format.

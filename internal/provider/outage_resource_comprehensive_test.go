@@ -14,7 +14,7 @@ import (
 
 	tfresource "github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // TestAccOutageResource_escalationPolicy tests the escalation_policy_uuid field

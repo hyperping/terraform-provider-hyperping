@@ -15,7 +15,7 @@ The `interactive` package provides utilities for creating interactive command-li
 ### Basic Prompts
 
 ```go
-import "github.com/develeap/terraform-provider-hyperping/pkg/interactive"
+import "github.com/hyperping/terraform-provider-hyperping/pkg/interactive"
 
 // Create prompter
 prompter := interactive.NewPrompter(interactive.DefaultConfig())

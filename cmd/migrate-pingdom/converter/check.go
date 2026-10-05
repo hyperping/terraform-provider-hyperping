@@ -6,8 +6,8 @@ package converter
 import (
 	"fmt"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // ConversionResult represents the result of converting a Pingdom check.

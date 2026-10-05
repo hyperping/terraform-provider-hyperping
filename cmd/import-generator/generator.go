@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/client"
+	"github.com/hyperping/terraform-provider-hyperping/internal/client"
 )
 
 // APIClient defines the interface for fetching Hyperping resources.

@@ -14,10 +14,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
-	"github.com/develeap/terraform-provider-hyperping/test/e2e/fixtures"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/test/e2e/fixtures"
 )
 
 const (

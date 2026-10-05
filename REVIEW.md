@@ -273,8 +273,8 @@ $ golangci-lint run ./...
 
 ```bash
 $ go test -race -count=1 ./internal/...
-ok  	github.com/develeap/terraform-provider-hyperping/internal/client	42.828s	coverage: 94.5%
-ok  	github.com/develeap/terraform-provider-hyperping/internal/provider	1.094s	coverage: 34.9%
+ok  	github.com/hyperping/terraform-provider-hyperping/internal/client	42.828s	coverage: 94.5%
+ok  	github.com/hyperping/terraform-provider-hyperping/internal/provider	1.094s	coverage: 34.9%
 ```
 
 ### Secrets Scan

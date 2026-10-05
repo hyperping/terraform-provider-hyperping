@@ -45,7 +45,7 @@ jobs:
           cat > ~/.terraformrc << EOF
           provider_installation {
             dev_overrides {
-              "develeap/hyperping" = "${{ github.workspace }}"
+              "hyperping/hyperping" = "${{ github.workspace }}"
             }
             direct {}
           }

@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/provider/testutil"
+	"github.com/hyperping/terraform-provider-hyperping/internal/provider/testutil"
 )
 
 // =============================================================================

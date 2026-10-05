@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/tools/scraper/extractor"
+	"github.com/hyperping/terraform-provider-hyperping/tools/scraper/extractor"
 )
 
 // savePageData is a test helper that serialises a PageData value to a JSON file.

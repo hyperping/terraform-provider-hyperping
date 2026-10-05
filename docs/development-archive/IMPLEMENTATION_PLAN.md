@@ -319,7 +319,7 @@ Create step-by-step tutorial to reduce time-to-first-monitor from 30min to 5min.
 terraform {
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
+      source  = "hyperping/hyperping"
       version = "~> 1.0"
     }
   }

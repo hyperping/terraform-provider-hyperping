@@ -27,7 +27,7 @@ Automated CLI tool for migrating monitoring configurations from UptimeRobot to H
 
 ```bash
 # Clone the repository
-git clone https://github.com/develeap/terraform-provider-hyperping.git
+git clone https://github.com/hyperping/terraform-provider-hyperping.git
 cd terraform-provider-hyperping
 
 # Build the migration tool
@@ -40,7 +40,7 @@ go run ./cmd/migrate-uptimerobot [options]
 ### Using Go Install
 
 ```bash
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
 ```
 
 ## Quick Start
@@ -539,8 +539,8 @@ See the [migration guide](../../docs/guides/migrate-from-uptimerobot.md) for com
 ## Support
 
 - **Documentation:** [Migration Guide](../../docs/guides/migrate-from-uptimerobot.md)
-- **Provider Docs:** [Terraform Registry](https://registry.terraform.io/providers/develeap/hyperping)
-- **Issues:** [GitHub Issues](https://github.com/develeap/terraform-provider-hyperping/issues)
+- **Provider Docs:** [Terraform Registry](https://registry.terraform.io/providers/hyperping/hyperping)
+- **Issues:** [GitHub Issues](https://github.com/hyperping/terraform-provider-hyperping/issues)
 - **Hyperping Support:** support@hyperping.io
 
 ## License

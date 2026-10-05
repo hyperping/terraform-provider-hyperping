@@ -110,7 +110,7 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
+      source  = "hyperping/hyperping"
       version = "~> 1.0"
     }
     kubernetes = {
@@ -395,7 +395,7 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
+      source  = "hyperping/hyperping"
       version = "~> 1.0"
     }
     kubernetes = {
@@ -896,6 +896,6 @@ locals {
 ## Additional Resources
 
 - [Kubernetes Provider Documentation](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs)
-- [Hyperping Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- [Hyperping Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
 - [Kubernetes Health Checks Best Practices](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 - [GitOps with Terraform](https://www.terraform.io/docs/cloud/guides/recommended-practices/part1.html)

@@ -727,18 +727,18 @@ The provider is production-ready and suitable for managing Hyperping infrastruct
 All implemented resources and data sources are fully documented in the Terraform Registry:
 
 **Resources:**
-- [hyperping_monitor](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/monitor)
-- [hyperping_incident](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/incident)
-- [hyperping_incident_update](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/incident_update)
-- [hyperping_maintenance](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/maintenance)
-- [hyperping_healthcheck](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/healthcheck)
-- [hyperping_outage](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/outage)
-- [hyperping_statuspage](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/statuspage)
-- [hyperping_statuspage_subscriber](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/statuspage_subscriber)
+- [hyperping_monitor](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/monitor)
+- [hyperping_incident](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/incident)
+- [hyperping_incident_update](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/incident_update)
+- [hyperping_maintenance](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/maintenance)
+- [hyperping_healthcheck](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/healthcheck)
+- [hyperping_outage](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/outage)
+- [hyperping_statuspage](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/statuspage)
+- [hyperping_statuspage_subscriber](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/statuspage_subscriber)
 
 **Data Sources:**
-- [hyperping_monitors](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/data-sources/monitors)
-- [And 12 more...](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- [hyperping_monitors](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/data-sources/monitors)
+- [And 12 more...](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
 
 ---
 
