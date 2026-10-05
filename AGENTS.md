@@ -10,6 +10,45 @@ This file provides context for AI coding agents working on the Terraform Provide
 **Framework**: Terraform Plugin Framework
 **API**: Hyperping REST API (https://api.hyperping.io) + MCP server (https://api.hyperping.io/v1/mcp)
 
+**Ownership**: Maintained by Hyperping since October 2026 (registry address `hyperping/hyperping`, module `github.com/hyperping/terraform-provider-hyperping`, HTTP client `github.com/hyperping/hyperping-go`). Forked from `develeap/terraform-provider-hyperping` v2.0.0 under MPL-2.0: keep the `// Copyright (c) 2026 Develeap` + SPDX headers on existing files and the credit in README.md. New files carry `// Copyright (c) 2026 Hyperping`.
+
+## Hyperping API source (read before touching the client)
+
+The API this provider talks to lives in the Hyperping monorepo: `/Users/leo/dev/hyperping/server` (Node/Express). It is the source of truth for field names, defaults, validation and response shapes; read the controller before adding or changing an attribute, instead of guessing from responses.
+
+Public routes (API-key auth `isAPIAuth`, writes also `checkApiWritePermission`) are declared in `server/server.js`:
+
+| Provider path | Server controller |
+|---|---|
+| `/v1/monitors` | `server/public/monitors.js` |
+| `/v3/incidents` | `server/public/incidents.js` |
+| `/v1/maintenance-windows` | `server/public/maintenance-windows.js` |
+| `/v2/healthchecks` | `server/public/healthchecks.js` |
+| `/v2/outages` | `server/api/outages/` |
+| `/v2/statuspages` | `server/api/statuspages/` |
+| `/v2/reporting/monitor-reports` | `server/api/reporting/` |
+
+Search `grep -n "isAPIAuth" server/server.js` for the full list. Server changes are made and deployed from the Hyperping repo, never from here.
+
+The HTTP client (models, request/response shapes) is `github.com/hyperping/hyperping-go` (`/Users/leo/dev/hyperping-go`, MIT, continued from `develeap/hyperping-go`). A new API field is added there first (model + `openapi.yaml` + schema contract test + unit test), tagged, then consumed here. For local work across both repos use a `go.work` outside the repo (`use` both modules + `replace github.com/hyperping/hyperping-go vX => /Users/leo/dev/hyperping-go`), never a `replace` in `go.mod`.
+
+Local API for manual testing: the Hyperping server listens on `http://localhost:5500` (`PORT` env). Point the provider at it with `base_url = "http://localhost:5500"` (localhost is the only non-HTTPS host `isAllowedBaseURL` accepts; the EU stack `https://api.eu.hyperping.io` also passes) and use a `dev_overrides` CLI config for a locally built binary.
+
+### Rule: new attributes are Optional + Computed
+
+Customers configure monitors, status pages, etc. in the dashboard as well as in Terraform. Unless there is a specific reason not to, every new attribute is `Optional: true, Computed: true` with `UseStateForUnknown()`:
+
+- when omitted from config, the provider sends nothing (pointer fields with `omitempty`, `tfIntToPtr`/`tfBoolToPtr` return nil for unknown) and reads back what Hyperping stored, so a value set in the dashboard is never overwritten by `terraform apply`;
+- on update, only send the field when `!plan.X.Equal(state.X)`;
+- map absent API fields to `null` (pointer types in the `hyperping-go` models, `intPtrToTF`/`boolPtrToTF`), not to a zero value;
+- populate it on `terraform import`, expose it on the matching data sources, document it, add a CHANGELOG entry.
+
+A plain `Optional` attribute with a schema `Default` is only acceptable when the API itself has no stored value to preserve. `ssl_alert_days`, `domain_alert_days` and `ip_version` on `hyperping_monitor` are the reference implementation. Read-only counters that change on their own (`ssl_expiration`, `domain_expiration`) get no `UseStateForUnknown()`.
+
+### Rule: the API must echo what the provider sends
+
+Terraform fails with "Provider produced an unexpected new value" if the API rewrites a value it accepted (e.g. a status page logo externalized to S3). On the server side, any normalization of an API-settable field must preserve the original for echo; on the provider side, normalize in the client mapping rather than diffing on server formatting.
+
 ## Quick Start Commands
 
 ```bash
@@ -376,6 +415,9 @@ Integration tests for migration tools skip when source platform API keys are mis
 ### Monitor Protocol Differences
 HTTP monitors have fields (http_method, expected_status_code) that don't apply to ICMP/Port. Use save-restore pattern to prevent drift for non-HTTP protocols.
 
+### `make docs` wipes the hand-written docs
+`tfplugindocs generate` deletes `docs/guides/*` and rewrites `docs/index.md` (no `templates/` for them). Regenerate with `lefthook run pre-commit` (backs them up and restores them), or restore them from git right after `make docs`. tfplugindocs also needs a `terraform` binary on PATH.
+
 ### VCR Test Fixtures
 - VCR cassettes for the REST client are maintained in `github.com/hyperping/hyperping-go/testdata/cassettes/`
 - Provider acceptance tests use mock HTTP servers (no cassettes needed)
@@ -418,7 +460,7 @@ HTTP monitors have fields (http_method, expected_status_code) that don't apply t
 
 ## Resources
 
-- **Hyperping API**: https://hyperping.io/docs/api (unofficial - no public docs)
+- **Hyperping API**: source in `/Users/leo/dev/hyperping/server` (see "Hyperping API source" above); public docs at https://hyperping.com/docs/api/overview
 - **Terraform Plugin Framework**: https://developer.hashicorp.com/terraform/plugin/framework
 - **Provider Development**: https://developer.hashicorp.com/terraform/plugin/best-practices
 - **Similar Provider (Reference)**: github.com/BetterStackHQ/terraform-provider-better-uptime
