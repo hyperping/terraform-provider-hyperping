@@ -85,4 +85,5 @@ Read-Only:
 - `period_type` (String) Unit for period_value.
 - `period_value` (Number) Numeric value for the expected interval.
 - `ping_url` (String) The auto-generated ping URL.
+- `public_id` (String) Public id of the healthcheck (`hc_…`). Use it to show the healthcheck on a status page (`sections[].services[].uuid`). Unlike `id`, which is the secret token of the ping URL, it is safe to share.
 - `timezone` (String) Timezone for the cron expression.

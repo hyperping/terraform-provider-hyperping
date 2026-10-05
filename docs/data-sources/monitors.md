@@ -88,12 +88,15 @@ Read-Only:
 - `dns_expected_answer` (String) Expected DNS answer to validate against.
 - `dns_nameserver` (String) Nameserver used for DNS queries.
 - `dns_record_type` (String) DNS record type for DNS-protocol monitors.
+- `domain_alert_days` (Number) Days before the domain registration expires to send an alert (`-1` = never).
+- `domain_expiration` (Number) Whole days until the domain registration expires. `null` when unknown or when the registry does not publish expiry dates (e.g. `.de`, `.eu`, `.ch`).
 - `escalation_policy` (String) UUID of the escalation policy linked to this monitor.
 - `escalation_policy_name` (String) Human-readable name of the assigned escalation policy.
 - `expected_status_code` (String) Expected HTTP status code or pattern (e.g., `200`, `2xx`, `1xx-3xx`).
 - `follow_redirects` (Boolean) Whether to follow HTTP redirects.
 - `http_method` (String) HTTP method used for the check (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).
 - `id` (String) The unique identifier (UUID) of the monitor.
+- `ip_version` (Number) IP version used to reach the target: `4` or `6` (IPv6 only).
 - `is_down` (Boolean) Whether the monitor is currently reporting as down.
 - `name` (String) The name of the monitor.
 - `paused` (Boolean) Whether the monitor is paused.
@@ -104,7 +107,10 @@ Read-Only:
 - `request_body` (String) Request body for POST/PUT/PATCH requests.
 - `request_headers` (Attributes List) Custom HTTP headers sent with the request. (see [below for nested schema](#nestedatt--monitors--request_headers))
 - `required_keyword` (String) Keyword that must appear in the response body.
-- `ssl_expiration` (Number) Days until the SSL certificate expires.
+- `ssl_alert_days` (Number) Days before the TLS certificate expires to send the first expiry alert (`-1` = never).
+- `ssl_expiration` (Number) Whole days until the TLS certificate expires (rounded down).
+- `ssl_notify_on_change` (Boolean) Whether a notification is sent when the server starts serving a different TLS certificate.
+- `ssl_reminders` (Boolean) Whether reminders are also sent at the standard steps below `ssl_alert_days` (30, 15, 7, 3 and 1 days).
 - `status` (String) Current monitor status. Either `up` or `down`.
 - `url` (String) The URL being monitored.
 

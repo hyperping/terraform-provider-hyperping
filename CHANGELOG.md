@@ -10,6 +10,40 @@ Published releases start from v1.0.3.
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-10-05
+
+### Changed
+
+- **The provider is now maintained by Hyperping** and published as **`hyperping/hyperping`** (Go module `github.com/hyperping/terraform-provider-hyperping`). It continues `develeap/terraform-provider-hyperping` from v2.0.0 under the same MPL-2.0 license; thanks to Develeap for building it. Resources, data sources and attributes are unchanged, and a state written by `develeap/hyperping` 2.0.x is supported as is. To migrate, set `source = "hyperping/hyperping"` (version `~> 2.1`) in `required_providers`, then run once per state and workspace:
+
+  ```shell
+  terraform state replace-provider registry.terraform.io/develeap/hyperping registry.terraform.io/hyperping/hyperping
+  terraform init -upgrade
+  terraform plan   # expected: No changes.
+  ```
+
+  Terraform >= 1.11 is still required, as in v2.0.0. See the [migration guide](docs/guides/migrating-from-develeap.md).
+- The HTTP client is now `github.com/hyperping/hyperping-go` v0.8.0, Hyperping's continuation of `github.com/develeap/hyperping-go` (MIT).
+- Go toolchain 1.26.8 for released binaries; `google.golang.org/grpc` bumped to v1.83.2 (GO-2026-6061, GO-2026-6348, GO-2026-6443).
+
+### Added
+
+- **`hyperping_monitor`**: New `ip_version` attribute (`4` or `6`). An IPv6 monitor is checked over IPv6 only, for the `http`, `port` and `icmp` protocols. Optional + Computed: when omitted, nothing is sent and the stored value is read back, so a monitor switched to IPv6 in the dashboard is not flipped back to IPv4. Populated on `terraform import`.
+- **`hyperping_monitor`**: TLS certificate and domain expiry alert settings: `ssl_alert_days` (`-1` = never, `1`, `3`, `7`, `15`, `30`, `60`, `90`), `ssl_reminders`, `ssl_notify_on_change` and `domain_alert_days` (`-1` = never, `7`, `14`, `30`, `60`, `90`), plus the read-only `domain_expiration` (days until the domain registration expires, `null` when the registry does not publish it). Optional + Computed like `ip_version`: existing configurations see no diff, and values set in the dashboard are kept. Populated on `terraform import`.
+- **`hyperping_monitor` / `hyperping_monitors` data sources**: Expose `ip_version`, `ssl_alert_days`, `ssl_reminders`, `ssl_notify_on_change`, `domain_alert_days` and `domain_expiration`.
+- **`hyperping_statuspage`**: Healthchecks can be shown on a status page, directly in a section or inside a group: set `uuid` to the healthcheck's public id, `hyperping_healthcheck.<name>.public_id` (`hc_…`). `show_uptime` is supported for a healthcheck; `show_response_times` is not, and `true` is refused at plan time with a clear error (the API always stores `false`, which would otherwise be a permanent diff). A healthcheck referenced by its `id` (`tok_…`, the secret token of its ping URL) is refused at plan time too, with a pointer to `public_id`. Healthcheck, server (`agt_…`) and component ids are sent as is; only monitors go through the numeric id translation the uptime renderer needs.
+- **`hyperping_healthcheck`** and the `hyperping_healthcheck` / `hyperping_healthchecks` data sources: New read-only `public_id` (`hc_…`), the id a status page references. Unlike `id`, it is not a secret. `null` until the Hyperping API returns it.
+- **`hyperping_statuspage`** and the `hyperping_statuspage` / `hyperping_statuspages` data sources: New read-only `type` on every service and group child: `monitor`, `healthcheck`, `server` or `component` (`null` for a group header).
+- Guide: [Migrating from develeap/hyperping](docs/guides/migrating-from-develeap.md). Generated docs for the MCP data sources (`hyperping_escalation_policies`, `hyperping_escalation_policy`, `hyperping_integrations`, `hyperping_on_call_schedules`, `hyperping_on_call_schedule`).
+
+### Fixed
+
+- **`hyperping_healthcheck`**: A cron healthcheck no longer fails on create with "Provider produced inconsistent result after apply: .timezone: was "Europe/Berlin", but now null" (the resource then ended up tainted, and every later plan showed a timezone diff). `GET`/`PUT /v2/healthchecks` return the timezone as `tz`, which is now read. Period-based healthchecks keep a `null` timezone. A state left by v2.0.0 heals on the first refresh.
+- **`hyperping_statuspage`**: On a group child, an unknown `show_uptime` or `show_response_times` is no longer sent as `false`.
+- **`hyperping_statuspage`**: Importing a status page no longer plans a diff on section and service names: the empty translations the API returns for languages the page does not use (`fr = ""`, `de = ""`…) are now filtered on the page's languages on the first read, as every later refresh already did.
+- Examples: the healthcheck example used `tz` instead of `timezone`; the status page example used `tcp://` URLs that fail validation.
+- `make docs` pointed at a `tools/` module that no longer exists.
+
 ## [2.0.0] - 2026-07-21
 
 ### Changed (breaking)
@@ -1152,7 +1186,8 @@ This provider is production-ready with comprehensive test coverage (45.8% overal
 - Operations guide for production deployments
 - Troubleshooting guide with common issues and solutions
 
-[Unreleased]: https://github.com/develeap/terraform-provider-hyperping/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.12.1...v2.0.0
 [1.9.2]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.9.1...v1.9.2
 [1.9.1]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.9.0...v1.9.1

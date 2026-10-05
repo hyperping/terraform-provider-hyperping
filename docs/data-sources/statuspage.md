@@ -102,6 +102,7 @@ Read-Only:
 - `services` (Attributes List) Nested monitor services within this group (see [below for nested schema](#nestedatt--sections--services--services))
 - `show_response_times` (Boolean) Show response times
 - `show_uptime` (Boolean) Show uptime
+- `type` (String) Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.
 - `uuid` (String) Monitor UUID
 
 <a id="nestedatt--sections--services--services"></a>
@@ -115,6 +116,7 @@ Read-Only:
 - `name` (Map of String) Localized service name
 - `show_response_times` (Boolean) Show response times
 - `show_uptime` (Boolean) Show uptime
+- `type` (String) Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.
 - `uuid` (String) Monitor UUID
 
 

@@ -27,7 +27,7 @@ resource "hyperping_statuspage" "basic" {
   }
 }
 
-# Advanced status page with all features
+# Status page with monitors, healthchecks and groups
 resource "hyperping_statuspage" "production" {
   name             = "Production Status"
   hosted_subdomain = "prod-status"
@@ -45,9 +45,9 @@ resource "hyperping_statuspage" "production" {
     default_language = "en"
 
     # Theme and branding
-    theme        = "dark"     # Options: system, light, dark
-    font         = "Inter"    # Options: Inter, Roboto, Poppins, Lato, etc.
-    accent_color = "#0066cc"  # Brand color (hex)
+    theme        = "dark"    # Options: system, light, dark
+    font         = "Inter"   # Options: Inter, Roboto, Poppins, Lato, etc.
+    accent_color = "#0066cc" # Brand color (hex)
 
     # Multi-language description
     description = "Production system status and uptime"
@@ -125,8 +125,72 @@ resource "hyperping_statuspage" "production" {
           ]
         }
       ]
+    },
+    {
+      name = {
+        en = "Scheduled jobs"
+        fr = "Tâches planifiées"
+      }
+      is_split = true
+      services = [
+        # A healthcheck is referenced by its public id (hc_…), never by `id`,
+        # which is the secret token of its ping URL. Uptime bars are supported;
+        # response times are not (leave show_response_times unset or false).
+        {
+          uuid        = hyperping_healthcheck.backup.public_id
+          show_uptime = true
+        },
+        # A group mixing healthchecks and monitors
+        {
+          is_group = true
+          name = {
+            en = "Data pipelines"
+            fr = "Pipelines de données"
+          }
+          services = [
+            {
+              uuid        = hyperping_healthcheck.etl.public_id
+              show_uptime = true
+            },
+            {
+              uuid        = hyperping_healthcheck.sync.public_id
+              show_uptime = false
+            },
+            {
+              uuid = hyperping_monitor.api.id
+              name = {
+                en = "Ingestion API"
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
+}
+
+resource "hyperping_healthcheck" "backup" {
+  name               = "Nightly backup"
+  cron               = "0 3 * * *"
+  timezone           = "Europe/Berlin"
+  grace_period_value = 1
+  grace_period_type  = "hours"
+}
+
+resource "hyperping_healthcheck" "etl" {
+  name               = "ETL"
+  period_value       = 6
+  period_type        = "hours"
+  grace_period_value = 30
+  grace_period_type  = "minutes"
+}
+
+resource "hyperping_healthcheck" "sync" {
+  name               = "CRM sync"
+  period_value       = 15
+  period_type        = "minutes"
+  grace_period_value = 5
+  grace_period_type  = "minutes"
 }
 
 # Example monitors (referenced in status page)
@@ -157,7 +221,7 @@ resource "hyperping_monitor" "database" {
 
 resource "hyperping_monitor" "db_primary" {
   name            = "DB Primary"
-  url             = "tcp://db-primary.example.com:5432"
+  url             = "https://db-primary.example.com"
   protocol        = "port"
   port            = 5432
   check_frequency = 60
@@ -165,13 +229,19 @@ resource "hyperping_monitor" "db_primary" {
 
 resource "hyperping_monitor" "db_replica" {
   name            = "DB Replica"
-  url             = "tcp://db-replica.example.com:5432"
+  url             = "https://db-replica.example.com"
   protocol        = "port"
   port            = 5432
   check_frequency = 60
 }
 
 # Output the status page URL
+# Each service reports its type, read from the API:
+# monitor, healthcheck, server or component (null for a group header).
+output "scheduled_jobs_types" {
+  value = [for s in hyperping_statuspage.production.sections[2].services : s.type]
+}
+
 output "status_page_url" {
   value       = hyperping_statuspage.production.url
   description = "Public URL of the status page"
@@ -276,13 +346,14 @@ Optional:
 - `is_group` (Boolean) Whether this service is a group containing nested services
 - `name` (Map of String) Localized service name (language code -> text)
 - `services` (Attributes List) Nested monitor services within this group. Required when is_group=true; must contain at least one entry. Ignored when is_group=false. (see [below for nested schema](#nestedatt--sections--services--services))
-- `show_response_times` (Boolean) Show response times
-- `show_uptime` (Boolean) Show uptime percentage
-- `uuid` (String) Monitor UUID to display. Required for non-group services (is_group=false). Omit for group header entries (is_group=true).
+- `show_response_times` (Boolean) Show response times. Not available for a healthcheck: leave unset or set to `false`.
+- `show_uptime` (Boolean) Show uptime bars. Supported for every service type, healthchecks included.
+- `uuid` (String) Id of what to display: a monitor (`mon_…`, e.g. `hyperping_monitor.x.id`), a healthcheck (`hc_…`, `hyperping_healthcheck.x.public_id`, never the `tok_…` ping token), a server (`agt_…`) or a component (`comp_…`). Required for non-group services (is_group=false). Omit for group header entries (is_group=true).
 
 Read-Only:
 
 - `id` (String) Service ID (computed)
+- `type` (String) Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.
 
 <a id="nestedatt--sections--services--services"></a>
 ### Nested Schema for `sections.services.services`
@@ -292,10 +363,11 @@ Optional:
 - `description` (Map of String) Localized service description (language code -> text). **Note:** The Hyperping API does not currently persist descriptions on nested services inside groups. The value is accepted by Terraform but will not appear on the rendered status page. Use descriptions on top-level (non-group) services instead.
 - `is_group` (Boolean) Whether this nested service is a group
 - `name` (Map of String) Localized service name (language code -> text)
-- `show_response_times` (Boolean) Show response times
-- `show_uptime` (Boolean) Show uptime percentage
-- `uuid` (String) Monitor UUID to display
+- `show_response_times` (Boolean) Show response times. Not available for a healthcheck: leave unset or set to `false`.
+- `show_uptime` (Boolean) Show uptime bars. Supported for every service type, healthchecks included.
+- `uuid` (String) Id of what to display: a monitor (`mon_…`), a healthcheck (`hc_…`, `hyperping_healthcheck.x.public_id`), a server (`agt_…`) or a component (`comp_…`).
 
 Read-Only:
 
 - `id` (String) Service ID (computed)
+- `type` (String) Type of the service, read from the API: `monitor`, `healthcheck`, `server` or `component`. Null for a group header.

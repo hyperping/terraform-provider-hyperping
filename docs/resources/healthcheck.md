@@ -15,18 +15,18 @@ Manages a Hyperping healthcheck for cron job monitoring (dead man's switch).
 ```terraform
 # Create a healthcheck with cron schedule
 resource "hyperping_healthcheck" "daily_backup" {
-  name             = "Daily Backup Job"
-  cron             = "0 2 * * *" # 2 AM every day
-  tz               = "America/New_York"
+  name               = "Daily Backup Job"
+  cron               = "0 2 * * *" # 2 AM every day
+  timezone           = "America/New_York"
   grace_period_value = 30
   grace_period_type  = "minutes"
 }
 
 # Create a healthcheck with period-based schedule
 resource "hyperping_healthcheck" "hourly_sync" {
-  name             = "Hourly Data Sync"
-  period_value     = 1
-  period_type      = "hours"
+  name               = "Hourly Data Sync"
+  period_value       = 1
+  period_type        = "hours"
   grace_period_value = 15
   grace_period_type  = "minutes"
   escalation_policy  = "ep_abc123def456" # Optional
@@ -34,12 +34,12 @@ resource "hyperping_healthcheck" "hourly_sync" {
 
 # Paused healthcheck example
 resource "hyperping_healthcheck" "maintenance_job" {
-  name             = "Maintenance Job (Paused)"
-  period_value     = 7
-  period_type      = "days"
+  name               = "Maintenance Job (Paused)"
+  period_value       = 7
+  period_type        = "days"
   grace_period_value = 1
   grace_period_type  = "hours"
-  is_paused        = true
+  is_paused          = true
 }
 
 # Output the ping URL for use in cron jobs
@@ -47,6 +47,12 @@ output "backup_ping_url" {
   value       = hyperping_healthcheck.daily_backup.ping_url
   description = "Add this URL to your backup script: curl $PING_URL"
   sensitive   = true
+}
+
+# Public id (hc_…) to show the healthcheck on a status page. Unlike the ping
+# URL and `id`, it is not a secret.
+output "backup_public_id" {
+  value = hyperping_healthcheck.daily_backup.public_id
 }
 ```
 
@@ -72,8 +78,9 @@ output "backup_ping_url" {
 
 - `created_at` (String) Creation timestamp in ISO 8601 format (read-only).
 - `grace_period` (Number) Calculated grace period in seconds (read-only).
-- `id` (String) The unique identifier (UUID) of the healthcheck.
+- `id` (String) The unique identifier of the healthcheck (`tok_…`). It is also the secret token of the ping URL: to show the healthcheck on a status page, use `public_id`.
 - `is_down` (Boolean) Whether the healthcheck is currently in a failure state (read-only).
 - `last_ping` (String) Timestamp of the last ping received in ISO 8601 format (read-only).
 - `period` (Number) Calculated period in seconds (read-only).
 - `ping_url` (String, Sensitive) The auto-generated ping URL. Your cron job pings this URL to prove it ran.
+- `public_id` (String) Public id of the healthcheck (`hc_…`). Use it to show the healthcheck on a status page (`sections[].services[].uuid`). Unlike `id`, which is the secret token of the ping URL, it is safe to share.

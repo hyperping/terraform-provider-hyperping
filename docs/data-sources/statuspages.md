@@ -149,6 +149,7 @@ Read-Only:
 - `services` (Attributes List) Nested services within group (see [below for nested schema](#nestedatt--statuspages--sections--services--services))
 - `show_response_times` (Boolean) Show response times
 - `show_uptime` (Boolean) Show uptime percentage
+- `type` (String)
 - `uuid` (String) Monitor UUID
 
 <a id="nestedatt--statuspages--sections--services--services"></a>
@@ -162,6 +163,7 @@ Read-Only:
 - `name` (Map of String) Localized service name
 - `show_response_times` (Boolean) Show response times
 - `show_uptime` (Boolean) Show uptime percentage
+- `type` (String)
 - `uuid` (String) Monitor UUID
 
 

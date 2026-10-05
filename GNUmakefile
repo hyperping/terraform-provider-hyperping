@@ -50,8 +50,8 @@ testacc-test: ## Run acceptance tests with TEST API key (safer)
 	fi
 
 .PHONY: docs
-docs: ## Generate documentation
-	cd tools && go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate --provider-dir .. --provider-name hyperping
+docs: ## Generate documentation (deletes docs/guides and rewrites docs/index.md: restore them from git, or use lefthook run pre-commit)
+	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.24.0 generate --provider-dir . --provider-name hyperping
 
 .PHONY: coverage
 coverage: ## Check test coverage (52%+ threshold)
