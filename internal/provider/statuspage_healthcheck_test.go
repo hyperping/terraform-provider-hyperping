@@ -286,3 +286,36 @@ func TestMapHealthcheckCommonFields_PublicID(t *testing.T) {
 		t.Error("nil healthcheck must map public_id to null")
 	}
 }
+
+// TestMapHealthcheckCommonFields_TimezoneFromTz is the regression test for
+// "timezone was Europe/Berlin, but now null" on a cron healthcheck: GET and
+// PUT /v2/healthchecks return the timezone as "tz", POST as "timezone".
+func TestMapHealthcheckCommonFields_TimezoneFromTz(t *testing.T) {
+	for _, hc := range []hyperping.Healthcheck{
+		{UUID: "tok_a", Cron: "0 3 * * *", Tz: "Europe/Berlin"},
+		{UUID: "tok_a", Cron: "0 3 * * *", Timezone: "Europe/Berlin"},
+	} {
+		if got := MapHealthcheckCommonFields(&hc).Timezone; got.ValueString() != "Europe/Berlin" {
+			t.Errorf("%+v: timezone = %s, want Europe/Berlin", hc, got)
+		}
+	}
+
+	var decoded hyperping.Healthcheck
+	if err := json.Unmarshal([]byte(`{"uuid":"tok_a","cron":"0 3 * * *","tz":"Europe/Berlin"}`), &decoded); err != nil {
+		t.Fatal(err)
+	}
+	if got := MapHealthcheckCommonFields(&decoded).Timezone; got.ValueString() != "Europe/Berlin" {
+		t.Errorf("GET shape: timezone = %s, want Europe/Berlin", got)
+	}
+
+	// The API stores a timezone (UTC by default) for period-based
+	// healthchecks too; it only applies to a cron schedule, so it stays null.
+	for _, hc := range []hyperping.Healthcheck{
+		{UUID: "tok_b"},
+		{UUID: "tok_b", Tz: "UTC", PeriodValue: func() *int { v := 5; return &v }(), PeriodType: "minutes"},
+	} {
+		if got := MapHealthcheckCommonFields(&hc).Timezone; !got.IsNull() {
+			t.Errorf("period healthcheck %+v: timezone = %s, want null", hc, got)
+		}
+	}
+}

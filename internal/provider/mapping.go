@@ -314,8 +314,13 @@ func MapHealthcheckCommonFields(hc *hyperping.Healthcheck) HealthcheckCommonFiel
 	} else {
 		f.Cron = types.StringNull()
 	}
-	if hc.Timezone != "" {
-		f.Timezone = types.StringValue(hc.Timezone)
+	// GET and PUT return the timezone as "tz", POST as "timezone":
+	// GetTimezone reads either (reading only Timezone lost the timezone of
+	// cron healthchecks on refresh: "was Europe/Berlin, but now null").
+	// The timezone only applies to a cron schedule: the API also stores one
+	// (UTC by default) for period-based healthchecks, where it stays null.
+	if hc.Cron != "" {
+		f.Timezone = stringOrNull(hc.GetTimezone())
 	} else {
 		f.Timezone = types.StringNull()
 	}

@@ -294,13 +294,15 @@ func (m *mockCronHealthcheckServer) createHealthcheck(w http.ResponseWriter, r *
 	period := calculatePeriodFromCronExpr(cron)
 	gracePeriod := calculateSeconds(gracePeriodValue, gracePeriodType)
 
-	// API returns camelCase
+	// API returns camelCase. Like the real API, the stored record (returned by
+	// GET, list and PUT) carries the timezone as "tz"; only the POST response
+	// calls it "timezone".
 	healthcheck := map[string]interface{}{
 		"uuid":             id,
 		"name":             req["name"],
 		"pingUrl":          fmt.Sprintf("https://hb.tinyping.io/%s", id),
 		"cron":             cron,
-		"timezone":         timezone,
+		"tz":               timezone,
 		"period":           period,
 		"gracePeriod":      gracePeriod,
 		"gracePeriodValue": gracePeriodValue,
@@ -313,9 +315,16 @@ func (m *mockCronHealthcheckServer) createHealthcheck(w http.ResponseWriter, r *
 
 	m.healthchecks[id] = healthcheck
 
+	created := make(map[string]interface{}, len(healthcheck))
+	for k, v := range healthcheck {
+		created[k] = v
+	}
+	delete(created, "tz")
+	created["timezone"] = timezone
+
 	response := map[string]interface{}{
 		"message":     "Healthcheck created successfully",
-		"healthcheck": healthcheck,
+		"healthcheck": created,
 	}
 	json.NewEncoder(w).Encode(response)
 }
@@ -367,7 +376,7 @@ func (m *mockCronHealthcheckServer) updateHealthcheck(w http.ResponseWriter, r *
 		}
 	}
 	if timezone, ok := req["timezone"]; ok {
-		healthcheck["timezone"] = timezone
+		healthcheck["tz"] = timezone
 	}
 	if gpv, ok := req["grace_period_value"]; ok {
 		healthcheck["gracePeriodValue"] = gpv
