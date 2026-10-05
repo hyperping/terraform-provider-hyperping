@@ -64,6 +64,7 @@ type MonitorResourceModel struct {
 	RequiredKeyword    types.String `tfsdk:"required_keyword"`
 	Status             types.String `tfsdk:"status"`
 	SSLExpiration      types.Int64  `tfsdk:"ssl_expiration"`
+	IPVersion          types.Int64  `tfsdk:"ip_version"`
 	SSLAlertDays       types.Int64  `tfsdk:"ssl_alert_days"`
 	SSLReminders       types.Bool   `tfsdk:"ssl_reminders"`
 	SSLNotifyOnChange  types.Bool   `tfsdk:"ssl_notify_on_change"`
@@ -214,6 +215,19 @@ func (r *MonitorResource) Schema(_ context.Context, _ resource.SchemaRequest, re
 			"ssl_expiration": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Whole days until the TLS certificate expires (rounded down).",
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
+			},
+			"ip_version": schema.Int64Attribute{
+				MarkdownDescription: "IP version used to reach the target: `4` or `6`. An IPv6 monitor is checked over IPv6 only, " +
+					"from the selected regions that have an IPv6 probe. Available for the `http`, `port` and `icmp` protocols. " +
+					"If omitted, the value stored by Hyperping is kept (`4` on create).",
+				Optional: true,
+				Computed: true,
+				Validators: []validator.Int64{
+					int64validator.OneOf(client.AllowedIPVersions...),
+				},
 				PlanModifiers: []planmodifier.Int64{
 					int64planmodifier.UseStateForUnknown(),
 				},
@@ -612,6 +626,7 @@ func (r *MonitorResource) mapMonitorToModel(monitor *client.Monitor, model *Moni
 	}
 
 	// Handle SSL/domain expiry alert settings (echoed by the API for every protocol)
+	model.IPVersion = intPtrToTF(monitor.IPVersion)
 	model.SSLAlertDays = intPtrToTF(monitor.SSLAlertDays)
 	model.SSLReminders = boolPtrToTF(monitor.SSLReminders)
 	model.SSLNotifyOnChange = boolPtrToTF(monitor.SSLNotifyOnChange)
@@ -669,6 +684,9 @@ func (r *MonitorResource) buildCreateRequest(ctx context.Context, plan *MonitorR
 
 	// Handle optional required_keyword
 	createReq.RequiredKeyword = tfStringToPtr(plan.RequiredKeyword)
+
+	// Handle optional ip_version. Optional+Computed: not sent when omitted (IPv4).
+	createReq.IPVersion = tfIntToPtr(plan.IPVersion)
 
 	// Handle optional SSL/domain expiry alert settings. Optional+Computed: when
 	// omitted from config the plan value is unknown, the field is not sent and
@@ -827,6 +845,11 @@ func applyMonitoringFieldChanges(ctx context.Context, plan *MonitorResourceModel
 	// Handle port
 	if !plan.Port.Equal(state.Port) {
 		updateReq.Port = tfIntToPtr(plan.Port)
+	}
+
+	// Handle ip_version (Optional+Computed: only sent when known and changed)
+	if !plan.IPVersion.Equal(state.IPVersion) {
+		updateReq.IPVersion = tfIntToPtr(plan.IPVersion)
 	}
 }
 

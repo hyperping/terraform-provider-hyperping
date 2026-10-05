@@ -72,6 +72,7 @@ resource "hyperping_incident" "outage" {
 - `expected_status_code` (String) Expected HTTP status code or pattern (e.g., `200`, `2xx`).
 - `follow_redirects` (Boolean) Whether the monitor follows HTTP redirects.
 - `http_method` (String) HTTP method used for checks (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).
+- `ip_version` (Number) IP version used to reach the target: `4` or `6` (IPv6 only).
 - `name` (String) The name of the monitor.
 - `paused` (Boolean) Whether the monitor is paused.
 - `port` (Number) Port number for port protocol monitors.

@@ -290,6 +290,7 @@ func (cv *ContractValidator) ValidateMonitor(monitor *Monitor) {
 	// Optional fields
 	ValidateOptionalInteger(cv.t, "Port", monitor.Port, 1, 65535)
 	ValidateOptionalInteger(cv.t, "SSLExpiration", monitor.SSLExpiration, 0, 365)
+	validateOptionalIntEnum(cv.t, "IPVersion", monitor.IPVersion, AllowedIPVersions)
 	validateOptionalIntEnum(cv.t, "SSLAlertDays", monitor.SSLAlertDays, AllowedSSLAlertDays)
 	validateOptionalIntEnum(cv.t, "DomainAlertDays", monitor.DomainAlertDays, AllowedDomainAlertDays)
 

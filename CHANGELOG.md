@@ -14,6 +14,8 @@ Published releases start from v1.0.3.
 
 - **`hyperping_monitor`**: TLS certificate and domain expiry alert settings — new optional attributes `ssl_alert_days` (`-1` = never, `1`, `3`, `7`, `15`, `30`, `60`, `90`), `ssl_reminders`, `ssl_notify_on_change` and `domain_alert_days` (`-1` = never, `7`, `14`, `30`, `60`, `90`). They are Optional + Computed: when omitted, the provider sends nothing and reads back whatever Hyperping has stored (server defaults on create), so existing configurations see no diff. Values are populated on `terraform import`.
 - **`hyperping_monitor`**: New read-only `domain_expiration` attribute — whole days until the domain registration expires, `null` when unknown or when the registry does not publish expiry dates (e.g. `.de`, `.eu`, `.ch`).
+- **`hyperping_monitor`**: New optional `ip_version` attribute (`4` or `6`). An IPv6 monitor is checked over IPv6 only, for the `http`, `port` and `icmp` protocols. Optional + Computed like the expiry settings: when omitted, nothing is sent and the stored value is read back, so a monitor switched to IPv6 in the dashboard is not flipped back to IPv4. Populated on `terraform import`.
+- **`hyperping_monitor` / `hyperping_monitors` data sources**: Expose `ip_version`.
 - **`hyperping_monitor` / `hyperping_monitors` data sources**: Expose `ssl_alert_days`, `ssl_reminders`, `ssl_notify_on_change`, `domain_alert_days` and `domain_expiration`.
 
 ### Changed

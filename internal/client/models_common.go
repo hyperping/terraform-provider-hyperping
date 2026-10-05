@@ -145,6 +145,9 @@ var (
 	// AllowedMethods contains valid HTTP methods for monitors.
 	AllowedMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
 
+	// AllowedIPVersions contains valid values for a monitor's ip_version.
+	AllowedIPVersions = []int64{4, 6}
+
 	// AllowedSSLAlertDays contains valid values for a monitor's ssl_alert_days
 	// (days before TLS certificate expiry to send the first alert; -1 = never).
 	AllowedSSLAlertDays = []int64{-1, 1, 3, 7, 15, 30, 60, 90}

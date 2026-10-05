@@ -41,6 +41,14 @@ resource "hyperping_monitor" "maintenance" {
   paused   = true
 }
 
+# Monitor checked over IPv6 only (http, port and icmp)
+resource "hyperping_monitor" "ipv6" {
+  name       = "API over IPv6"
+  url        = "https://api.example.com/health"
+  protocol   = "http"
+  ip_version = 6
+}
+
 # Monitor with TLS certificate and domain expiry alerts
 resource "hyperping_monitor" "expiry_alerts" {
   name     = "Customer Portal"

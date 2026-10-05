@@ -79,6 +79,7 @@ func MapMonitorCommonFields(monitor *client.Monitor, diags *diag.Diagnostics) Mo
 
 	// Handle SSL/domain expiry alert settings and domain_expiration (read-only, nullable)
 	result.SSLAlertDays = intPtrToTF(monitor.SSLAlertDays)
+	result.IPVersion = intPtrToTF(monitor.IPVersion)
 	result.SSLReminders = boolPtrToTF(monitor.SSLReminders)
 	result.SSLNotifyOnChange = boolPtrToTF(monitor.SSLNotifyOnChange)
 	result.DomainAlertDays = intPtrToTF(monitor.DomainAlertDays)
@@ -115,6 +116,7 @@ type MonitorCommonFields struct {
 	Status             types.String
 	SSLExpiration      types.Int64
 	SSLAlertDays       types.Int64
+	IPVersion          types.Int64
 	SSLReminders       types.Bool
 	SSLNotifyOnChange  types.Bool
 	DomainAlertDays    types.Int64

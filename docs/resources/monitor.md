@@ -56,6 +56,14 @@ resource "hyperping_monitor" "maintenance" {
   paused   = true
 }
 
+# Monitor checked over IPv6 only (http, port and icmp)
+resource "hyperping_monitor" "ipv6" {
+  name       = "API over IPv6"
+  url        = "https://api.example.com/health"
+  protocol   = "http"
+  ip_version = 6
+}
+
 # Monitor with TLS certificate and domain expiry alerts
 resource "hyperping_monitor" "expiry_alerts" {
   name     = "Customer Portal"
@@ -99,6 +107,7 @@ output "portal_domain_days_left" {
 - `expected_status_code` (String) Expected HTTP status code pattern. Use `2xx` for any 2xx status, or specific like `200`, `201`. Defaults to `2xx`.
 - `follow_redirects` (Boolean) Whether to follow HTTP redirects. Defaults to `true`.
 - `http_method` (String) HTTP method to use. Valid values: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`. Defaults to `GET`.
+- `ip_version` (Number) IP version used to reach the target: `4` or `6`. An IPv6 monitor is checked over IPv6 only, from the selected regions that have an IPv6 probe. Available for the `http`, `port` and `icmp` protocols. If omitted, the value stored by Hyperping is kept (`4` on create).
 - `paused` (Boolean) Whether the monitor is paused. Defaults to `false`.
 - `port` (Number) Port number to check. Required when `protocol` is `port`.
 - `project_uuid` (String) UUID of the Hyperping project this monitor belongs to.

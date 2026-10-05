@@ -58,6 +58,7 @@ type MonitorDataModel struct {
 	RequiredKeyword    types.String `tfsdk:"required_keyword"`
 	Status             types.String `tfsdk:"status"`
 	SSLExpiration      types.Int64  `tfsdk:"ssl_expiration"`
+	IPVersion          types.Int64  `tfsdk:"ip_version"`
 	SSLAlertDays       types.Int64  `tfsdk:"ssl_alert_days"`
 	SSLReminders       types.Bool   `tfsdk:"ssl_reminders"`
 	SSLNotifyOnChange  types.Bool   `tfsdk:"ssl_notify_on_change"`
@@ -167,6 +168,10 @@ func (d *MonitorsDataSource) Schema(_ context.Context, _ datasource.SchemaReques
 						"ssl_expiration": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Whole days until the TLS certificate expires (rounded down).",
+						},
+						"ip_version": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "IP version used to reach the target: `4` or `6` (IPv6 only).",
 						},
 						"ssl_alert_days": schema.Int64Attribute{
 							Computed:            true,
@@ -366,6 +371,7 @@ func (d *MonitorsDataSource) mapMonitorToDataModel(monitor *client.Monitor, mode
 		}
 		return types.Int64Null()
 	}()
+	model.IPVersion = fields.IPVersion
 	model.SSLAlertDays = fields.SSLAlertDays
 	model.SSLReminders = fields.SSLReminders
 	model.SSLNotifyOnChange = fields.SSLNotifyOnChange

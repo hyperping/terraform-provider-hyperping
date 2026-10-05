@@ -49,6 +49,7 @@ type Monitor struct {
 	// SSL/domain expiry alerting. Pointers so an absent field (older API) maps
 	// to null rather than a misleading zero value.
 	SSLAlertDays      *int  `json:"ssl_alert_days,omitempty"`       // Days before cert expiry to send the first alert (-1 = never)
+	IPVersion         *int  `json:"ip_version,omitempty"`           // 4 or 6; 6 = checked over IPv6 only
 	SSLReminders      *bool `json:"ssl_reminders,omitempty"`        // Also remind at the standard steps below the threshold
 	SSLNotifyOnChange *bool `json:"ssl_notify_on_change,omitempty"` // Notify when the served certificate changes
 	DomainAlertDays   *int  `json:"domain_alert_days,omitempty"`    // Days before domain expiry to alert (-1 = never)
@@ -126,6 +127,7 @@ type CreateMonitorRequest struct {
 	AlertsWait         *int            `json:"alerts_wait,omitempty"`
 	EscalationPolicy   *string         `json:"escalation_policy,omitempty"`
 	SSLAlertDays       *int            `json:"ssl_alert_days,omitempty"`
+	IPVersion          *int            `json:"ip_version,omitempty"`
 	SSLReminders       *bool           `json:"ssl_reminders,omitempty"`
 	SSLNotifyOnChange  *bool           `json:"ssl_notify_on_change,omitempty"`
 	DomainAlertDays    *int            `json:"domain_alert_days,omitempty"`
@@ -162,6 +164,7 @@ type UpdateMonitorRequest struct {
 	AlertsWait         *int             `json:"alerts_wait,omitempty"`
 	EscalationPolicy   *string          `json:"escalation_policy,omitempty"`
 	SSLAlertDays       *int             `json:"ssl_alert_days,omitempty"`
+	IPVersion          *int             `json:"ip_version,omitempty"`
 	SSLReminders       *bool            `json:"ssl_reminders,omitempty"`
 	SSLNotifyOnChange  *bool            `json:"ssl_notify_on_change,omitempty"`
 	DomainAlertDays    *int             `json:"domain_alert_days,omitempty"`

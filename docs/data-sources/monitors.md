@@ -90,6 +90,7 @@ Read-Only:
 - `follow_redirects` (Boolean) Whether to follow HTTP redirects.
 - `http_method` (String) HTTP method used for the check (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).
 - `id` (String) The unique identifier (UUID) of the monitor.
+- `ip_version` (Number) IP version used to reach the target: `4` or `6` (IPv6 only).
 - `name` (String) The name of the monitor.
 - `paused` (Boolean) Whether the monitor is paused.
 - `port` (Number) Port number for port protocol monitors.
