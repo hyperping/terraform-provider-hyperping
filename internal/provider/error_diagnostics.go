@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // ValidValueReference returns a formatted reference table of valid values for

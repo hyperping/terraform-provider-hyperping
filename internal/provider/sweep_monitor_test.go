@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // sweepMonitors deletes all test monitors (those prefixed with "tf-acc-test-")

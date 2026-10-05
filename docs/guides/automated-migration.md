@@ -234,13 +234,13 @@ Download pre-built binaries from GitHub releases:
 ```bash
 # Download latest release for Linux
 curl -L -o migrate-betterstack \
-  https://github.com/develeap/terraform-provider-hyperping/releases/latest/download/migrate-betterstack-linux-amd64
+  https://github.com/hyperping/terraform-provider-hyperping/releases/latest/download/migrate-betterstack-linux-amd64
 chmod +x migrate-betterstack
 sudo mv migrate-betterstack /usr/local/bin/
 
 # Download for macOS (Apple Silicon)
 curl -L -o migrate-betterstack \
-  https://github.com/develeap/terraform-provider-hyperping/releases/latest/download/migrate-betterstack-darwin-arm64
+  https://github.com/hyperping/terraform-provider-hyperping/releases/latest/download/migrate-betterstack-darwin-arm64
 chmod +x migrate-betterstack
 sudo mv migrate-betterstack /usr/local/bin/
 
@@ -255,7 +255,7 @@ Repeat for other tools (`migrate-uptimerobot`, `migrate-pingdom`).
 
 ```bash
 # Clone repository
-git clone https://github.com/develeap/terraform-provider-hyperping.git
+git clone https://github.com/hyperping/terraform-provider-hyperping.git
 cd terraform-provider-hyperping
 
 # Build Better Stack migration tool
@@ -1261,8 +1261,8 @@ terraform {
   required_version = ">= 1.8"
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -2587,8 +2587,8 @@ The automated migration tools dramatically simplify migrating to Hyperping:
 **Need Help?**
 
 - 📚 [Hyperping Documentation](https://docs.hyperping.io)
-- 💬 [GitHub Discussions](https://github.com/develeap/terraform-provider-hyperping/discussions)
-- 🐛 [Report Issues](https://github.com/develeap/terraform-provider-hyperping/issues)
+- 💬 [GitHub Discussions](https://github.com/hyperping/terraform-provider-hyperping/discussions)
+- 🐛 [Report Issues](https://github.com/hyperping/terraform-provider-hyperping/issues)
 - 📧 [Hyperping Support](https://hyperping.io/support)
 
 **Related Guides:**

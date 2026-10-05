@@ -18,15 +18,15 @@ import (
 	"path/filepath"
 	"time"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/generator"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/report"
-	"github.com/develeap/terraform-provider-hyperping/pkg/checkpoint"
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrationstate"
-	"github.com/develeap/terraform-provider-hyperping/pkg/recovery"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/generator"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/report"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/checkpoint"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrationstate"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/recovery"
 )
 
 var (

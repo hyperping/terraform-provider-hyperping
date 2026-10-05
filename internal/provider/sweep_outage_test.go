@@ -9,7 +9,7 @@ import (
 	"log"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // sweepOutages deletes all test outages (those with title prefixed with "tf-acc-test-")

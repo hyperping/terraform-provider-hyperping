@@ -17,7 +17,7 @@ Skip manual conversion and use the automated migration tool for 90% faster migra
 
 ```bash
 # Install tool
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack@latest
 
 # Run automated migration
 migrate-betterstack migrate \
@@ -341,8 +341,8 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 
@@ -1035,8 +1035,8 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -1835,8 +1835,8 @@ Migrating from Better Stack to Hyperping with Terraform provides:
 **Need Help?**
 
 - [Hyperping Documentation](https://docs.hyperping.io)
-- [Terraform Provider Docs](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
-- [GitHub Issues](https://github.com/develeap/terraform-provider-hyperping/issues)
+- [Terraform Provider Docs](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
+- [GitHub Issues](https://github.com/hyperping/terraform-provider-hyperping/issues)
 - [Hyperping Support](https://hyperping.io/support)
 
 ---

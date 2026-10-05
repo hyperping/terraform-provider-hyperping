@@ -144,7 +144,7 @@ Different endpoints use different versions:
 ### Rate Limits
 - Handle 429 responses
 - Respect `Retry-After` header
-- Exponential backoff implemented in `github.com/develeap/hyperping-go` transport layer
+- Exponential backoff implemented in `github.com/hyperping/hyperping-go` transport layer
 
 ## Testing Requirements
 
@@ -345,7 +345,7 @@ Types: feat, fix, refactor, docs, test, chore, perf, ci
 
 ### Adding API Coverage
 1. Check `docs/API_COMPLETENESS_AUDIT.md` for gaps
-2. Add client methods and models to `github.com/develeap/hyperping-go`
+2. Add client methods and models to `github.com/hyperping/hyperping-go`
 3. Implement provider resource/data source in `internal/provider/`
 4. Add acceptance tests
 5. Update audit doc
@@ -377,7 +377,7 @@ Integration tests for migration tools skip when source platform API keys are mis
 HTTP monitors have fields (http_method, expected_status_code) that don't apply to ICMP/Port. Use save-restore pattern to prevent drift for non-HTTP protocols.
 
 ### VCR Test Fixtures
-- VCR cassettes for the REST client are maintained in `github.com/develeap/hyperping-go/testdata/cassettes/`
+- VCR cassettes for the REST client are maintained in `github.com/hyperping/hyperping-go/testdata/cassettes/`
 - Provider acceptance tests use mock HTTP servers (no cassettes needed)
 - Run tests with real API occasionally to verify contracts: `TF_ACC=1 HYPERPING_TEST_API_KEY=sk_xxx go test ./internal/provider/ -v`
 
@@ -404,7 +404,7 @@ HTTP monitors have fields (http_method, expected_status_code) that don't apply t
 - `terraform-plugin-framework` v1.19.0 - Provider framework
 - `terraform-plugin-go` v0.29.0 - Plugin protocol
 - `terraform-plugin-testing` v1.14.0 - Acceptance testing
-- `github.com/develeap/hyperping-go` v0.3.0 - Shared Hyperping REST + MCP client
+- `github.com/hyperping/hyperping-go` v0.3.0 - Shared Hyperping REST + MCP client
 
 ### Interactive Mode (v1.2.0+)
 - `survey/v2` v2.3.7 - Interactive prompts
@@ -441,5 +441,5 @@ HTTP monitors have fields (http_method, expected_status_code) that don't apply t
 
 - **GitHub Issues**: Bug reports, feature requests
 - **Discussions**: Questions, ideas
-- **Provider Registry**: https://registry.terraform.io/providers/develeap/hyperping
+- **Provider Registry**: https://registry.terraform.io/providers/hyperping/hyperping
 - **Changelog**: See `CHANGELOG.md` for detailed release notes

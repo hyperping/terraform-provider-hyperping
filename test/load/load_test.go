@@ -13,9 +13,9 @@ import (
 	"testing"
 	"time"
 
-	bsconverter "github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
-	pdconverter "github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
-	urconverter "github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	bsconverter "github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/converter"
+	pdconverter "github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
+	urconverter "github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
 )
 
 // TestLoadSuite runs a comprehensive load test suite across all platforms.

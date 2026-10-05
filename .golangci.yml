@@ -92,7 +92,7 @@ formatters:
   settings:
     goimports:
       local-prefixes:
-        - github.com/develeap/terraform-provider-hyperping
+        - github.com/hyperping/terraform-provider-hyperping
   exclusions:
     generated: lax
     paths:

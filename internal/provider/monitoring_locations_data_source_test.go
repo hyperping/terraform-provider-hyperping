@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	tfresource "github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // T31: Location metadata correctness (unit test)

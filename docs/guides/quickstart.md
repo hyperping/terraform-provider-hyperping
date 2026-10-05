@@ -41,8 +41,8 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -176,7 +176,7 @@ resource "hyperping_monitor" "database" {
 
 ### Create a Status Page
 
-Share uptime status with your users. Learn more in the [Status Page Resource Documentation](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/statuspage).
+Share uptime status with your users. Learn more in the [Status Page Resource Documentation](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/statuspage).
 
 ```hcl
 resource "hyperping_statuspage" "public" {
@@ -326,9 +326,9 @@ terraform init -upgrade
 
 ### Documentation
 
-- [Provider Configuration](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
-- [Monitor Resource Reference](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/monitor)
-- [All Resources and Data Sources](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- [Provider Configuration](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
+- [Monitor Resource Reference](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/monitor)
+- [All Resources and Data Sources](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
 
 ### Guides
 
@@ -347,7 +347,7 @@ Browse the [examples directory](../../examples/) for real-world patterns:
 
 ### Community
 
-- [GitHub Issues](https://github.com/develeap/terraform-provider-hyperping/issues) - Report bugs or request features
+- [GitHub Issues](https://github.com/hyperping/terraform-provider-hyperping/issues) - Report bugs or request features
 - [Hyperping Support](https://hyperping.io/support) - Official Hyperping help
 
 ---
@@ -412,4 +412,4 @@ jobs:
 
 ---
 
-**Need help?** Check out the [Troubleshooting Guide](./error-handling.md) or [open an issue](https://github.com/develeap/terraform-provider-hyperping/issues).
+**Need help?** Check out the [Troubleshooting Guide](./error-handling.md) or [open an issue](https://github.com/hyperping/terraform-provider-hyperping/issues).

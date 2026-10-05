@@ -429,7 +429,7 @@ If you hit API rate limits:
 ## Related Documentation
 
 - [Pingdom Migration Guide](../../docs/guides/migrate-from-pingdom.md)
-- [Hyperping Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping)
+- [Hyperping Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping)
 - [Terraform Import Guide](https://developer.hashicorp.com/terraform/cli/import)
 
 ## License

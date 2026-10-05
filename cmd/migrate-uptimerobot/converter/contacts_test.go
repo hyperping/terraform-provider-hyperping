@@ -6,7 +6,7 @@ package converter
 import (
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
 )
 
 func TestCategorizeAlertContacts(t *testing.T) {

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // TestGenerateScript_RejectsMaliciousUUID is defense-in-depth: the Hyperping

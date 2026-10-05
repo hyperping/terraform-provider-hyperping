@@ -6,7 +6,7 @@ package main
 import (
 	"testing"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 func TestFilterConfig_NewFilterConfig(t *testing.T) {

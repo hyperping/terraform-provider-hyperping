@@ -14,7 +14,7 @@ We release patches for security vulnerabilities for the following versions:
 
 Instead, please report security vulnerabilities by emailing:
 
-**security@develeap.com**
+**hello@hyperping.io** (subject: "Security")
 
 You should receive a response within 48 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
 

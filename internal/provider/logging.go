@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // sensitiveLogFieldKeys are structured-log field names whose values are

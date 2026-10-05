@@ -1,12 +1,14 @@
 # Terraform Provider for Hyperping
 
-[![Tests](https://github.com/develeap/terraform-provider-hyperping/actions/workflows/test.yml/badge.svg)](https://github.com/develeap/terraform-provider-hyperping/actions/workflows/test.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/develeap/terraform-provider-hyperping)](https://github.com/develeap/terraform-provider-hyperping/releases)
-[![Terraform Registry](https://img.shields.io/badge/terraform-registry-623CE4?logo=terraform)](https://registry.terraform.io/providers/develeap/hyperping)
+[![Tests](https://github.com/hyperping/terraform-provider-hyperping/actions/workflows/test.yml/badge.svg)](https://github.com/hyperping/terraform-provider-hyperping/actions/workflows/test.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/hyperping/terraform-provider-hyperping)](https://github.com/hyperping/terraform-provider-hyperping/releases)
+[![Terraform Registry](https://img.shields.io/badge/terraform-registry-623CE4?logo=terraform)](https://registry.terraform.io/providers/hyperping/hyperping)
 [![License: MPL-2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
-[![Go Report Card](https://goreportcard.com/badge/github.com/develeap/terraform-provider-hyperping)](https://goreportcard.com/report/github.com/develeap/terraform-provider-hyperping)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hyperping/terraform-provider-hyperping)](https://goreportcard.com/report/github.com/hyperping/terraform-provider-hyperping)
 
-Community Terraform provider for [Hyperping](https://hyperping.io/) - manage uptime monitoring, incidents, status pages, and maintenance windows as infrastructure-as-code.
+Terraform provider for [Hyperping](https://hyperping.io/), maintained by Hyperping - manage uptime monitoring, incidents, status pages, and maintenance windows as infrastructure-as-code.
+
+This provider was created by [Develeap](https://develeap.com) as [`develeap/terraform-provider-hyperping`](https://github.com/develeap/terraform-provider-hyperping) and is now maintained by Hyperping as a fork, under the same MPL-2.0 license. Thanks to Khaled Salhab and the Develeap team for building it. Coming from `develeap/hyperping`? See [Migrating from develeap/hyperping](#migrating-from-develeaphyperping).
 
 ## Features
 
@@ -37,8 +39,8 @@ Community Terraform provider for [Hyperping](https://hyperping.io/) - manage upt
 terraform {
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -91,6 +93,40 @@ resource "hyperping_maintenance" "upgrade" {
 }
 ```
 
+## Migrating from develeap/hyperping
+
+Resources and attributes are unchanged, only the provider address moves from `develeap/hyperping` to `hyperping/hyperping`. No resource is recreated. A state written by `develeap/hyperping` 2.0.x is supported as is.
+
+1. Update the provider source in every module that declares it:
+
+   ```hcl
+   terraform {
+     required_providers {
+       hyperping = {
+         source  = "hyperping/hyperping" # was "develeap/hyperping"
+         version = "~> 2.1"
+       }
+     }
+   }
+   ```
+
+2. Point the existing state at the new address (once per state / workspace):
+
+   ```bash
+   terraform state replace-provider \
+     registry.terraform.io/develeap/hyperping \
+     registry.terraform.io/hyperping/hyperping
+   ```
+
+3. Reinstall providers and check that nothing changes:
+
+   ```bash
+   terraform init -upgrade
+   terraform plan   # expected: No changes.
+   ```
+
+See the [full guide](docs/guides/migrating-from-develeap.md) (Terragrunt, several workspaces, lock files, coming from 1.x).
+
 ## Authentication
 
 Get your API key from the [Hyperping dashboard](https://app.hyperping.io/).
@@ -125,15 +161,15 @@ Automated CLI tools for migrating from other monitoring platforms:
 
 ```bash
 # Migrate from Better Stack
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack@latest
 migrate-betterstack --betterstack-token $BETTERSTACK_TOKEN --hyperping-api-key $HYPERPING_KEY
 
 # Migrate from UptimeRobot
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot@latest
 migrate-uptimerobot --uptimerobot-api-key $UPTIMEROBOT_KEY --hyperping-api-key $HYPERPING_KEY
 
 # Migrate from Pingdom
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom@latest
 migrate-pingdom --pingdom-api-key $PINGDOM_KEY --hyperping-api-key $HYPERPING_KEY
 ```
 
@@ -153,8 +189,8 @@ migrate-pingdom --pingdom-api-key $PINGDOM_KEY --hyperping-api-key $HYPERPING_KE
 
 ## Documentation
 
-- **[Wiki](https://github.com/develeap/terraform-provider-hyperping/wiki)** - Complete guide with all resources, examples, migration tools, and architecture docs
-- **[Terraform Registry](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)** - Complete resource/data source reference
+- **[Wiki](https://github.com/hyperping/terraform-provider-hyperping/wiki)** - Complete guide with all resources, examples, migration tools, and architecture docs
+- **[Terraform Registry](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)** - Complete resource/data source reference
 - **[Examples](./examples/)** - Real-world usage examples
 - **[Changelog](./CHANGELOG.md)** - Version history and release notes
 - **[Hyperping API Docs](https://hyperping.com/docs/api/overview)** - Official API documentation
@@ -169,7 +205,7 @@ migrate-pingdom --pingdom-api-key $PINGDOM_KEY --hyperping-api-key $HYPERPING_KE
 
 ```bash
 # Clone and build
-git clone https://github.com/develeap/terraform-provider-hyperping.git
+git clone https://github.com/hyperping/terraform-provider-hyperping.git
 cd terraform-provider-hyperping
 go build -v
 
@@ -186,7 +222,7 @@ gosec ./...
 
 ### Testing
 
-Provider acceptance tests use mock HTTP servers — no real API key required for unit/acceptance tests. VCR cassettes for the REST client are maintained in the [`hyperping-go`](https://github.com/develeap/hyperping-go) module.
+Provider acceptance tests use mock HTTP servers — no real API key required for unit/acceptance tests. VCR cassettes for the REST client are maintained in the [`hyperping-go`](https://github.com/hyperping/hyperping-go) module.
 
 #### Acceptance Tests
 
@@ -265,10 +301,11 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Support
 
-- [Issue Tracker](https://github.com/develeap/terraform-provider-hyperping/issues)
+- [Issue Tracker](https://github.com/hyperping/terraform-provider-hyperping/issues)
 
 ## Related Projects
 
+- **[hyperping-go](https://github.com/hyperping/hyperping-go)** — Go client for the Hyperping API used by this provider (MIT, originally `develeap/hyperping-go`).
 - **[hyperping-exporter](https://github.com/develeap/hyperping-exporter)** — Prometheus exporter for Hyperping monitoring metrics. Standalone Go service with Grafana dashboards, alerting rules, and Kubernetes manifests.
 
 ## License
@@ -277,4 +314,4 @@ Mozilla Public License 2.0 - see [LICENSE](LICENSE) for details.
 
 ---
 
-Maintained by [Develeap](https://develeap.com)
+Maintained by [Hyperping](https://hyperping.io). Originally created by [Develeap](https://develeap.com).

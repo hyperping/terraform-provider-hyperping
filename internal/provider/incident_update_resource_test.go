@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"iter"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -14,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // mockIncidentUpdateAPI implements hyperping.IncidentAPI for unit testing
@@ -35,6 +36,23 @@ func (m *mockIncidentUpdateAPI) ListIncidents(ctx context.Context) ([]hyperping.
 		return m.listIncidentsFunc(ctx)
 	}
 	return nil, errors.New("ListIncidents not implemented")
+}
+
+// IterIncidents satisfies hyperping.IncidentAPI (added in hyperping-go v0.8.0)
+// by iterating over ListIncidents.
+func (m *mockIncidentUpdateAPI) IterIncidents(ctx context.Context) iter.Seq2[hyperping.Incident, error] {
+	return func(yield func(hyperping.Incident, error) bool) {
+		incidents, err := m.ListIncidents(ctx)
+		if err != nil {
+			yield(hyperping.Incident{}, err)
+			return
+		}
+		for _, inc := range incidents {
+			if !yield(inc, nil) {
+				return
+			}
+		}
+	}
 }
 
 func (m *mockIncidentUpdateAPI) GetIncident(ctx context.Context, id string) (*hyperping.Incident, error) {

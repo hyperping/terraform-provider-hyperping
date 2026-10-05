@@ -8,11 +8,11 @@ import (
 	"regexp"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrate"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrate"
 )
 
 // TerraformGenerator generates Terraform HCL configuration.

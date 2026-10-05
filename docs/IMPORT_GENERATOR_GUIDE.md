@@ -1049,9 +1049,9 @@ terraform import hyperping_monitor.custom_name mon_abc123
 
 ## Support
 
-- **Issues:** https://github.com/develeap/terraform-provider-hyperping/issues
-- **Documentation:** https://github.com/develeap/terraform-provider-hyperping/tree/main/docs
-- **Examples:** https://github.com/develeap/terraform-provider-hyperping/tree/main/examples
+- **Issues:** https://github.com/hyperping/terraform-provider-hyperping/issues
+- **Documentation:** https://github.com/hyperping/terraform-provider-hyperping/tree/main/docs
+- **Examples:** https://github.com/hyperping/terraform-provider-hyperping/tree/main/examples
 
 ---
 

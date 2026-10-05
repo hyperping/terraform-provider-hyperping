@@ -9,7 +9,7 @@ import (
 	"log"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // sweepStatusPages deletes all test status pages (those with name prefixed with "tf-acc-test-")

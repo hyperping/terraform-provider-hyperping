@@ -203,8 +203,8 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -433,8 +433,8 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -1013,7 +1013,7 @@ resource "hyperping_monitor" "slow_endpoint" {
 
 ## Additional Resources
 
-- [Hyperping Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- [Hyperping Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
 - [Kong Gateway Documentation](https://docs.konghq.com/)
 - [AWS API Gateway Monitoring](https://docs.aws.amazon.com/apigateway/latest/developerguide/monitoring-cloudwatch.html)
 - [GraphQL Best Practices](https://graphql.org/learn/best-practices/)

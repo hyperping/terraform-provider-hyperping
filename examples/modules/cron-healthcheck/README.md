@@ -420,6 +420,6 @@ See the `tests/` directory for complete working examples:
 
 ## Related Resources
 
-- [Hyperping Healthcheck Resource](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/healthcheck)
+- [Hyperping Healthcheck Resource](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/healthcheck)
 - [Crontab Format Reference](https://crontab.guru)
 - [IANA Time Zone Database](https://www.iana.org/time-zones)

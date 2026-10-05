@@ -230,6 +230,6 @@ Error: Invalid cron expression format
 If you're still experiencing issues:
 
 1. **Check the logs:** Run with `TF_LOG=DEBUG terraform apply`
-2. **GitHub Issues:** https://github.com/develeap/terraform-provider-hyperping/issues
+2. **GitHub Issues:** https://github.com/hyperping/terraform-provider-hyperping/issues
 3. **Hyperping Support:** Contact via dashboard
 4. **API Documentation:** https://hyperping.io/docs/api

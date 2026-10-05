@@ -346,12 +346,12 @@ terraform destroy
 
 ## Resources
 
-- [Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- [Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)
 - [Hyperping API Docs](https://hyperping.notion.site/Hyperping-API-documentation-a0dc48fb818e4542a8f7fb4163ede2c3)
 - [Terraform Best Practices](https://developer.hashicorp.com/terraform/language/best-practices)
 
 ## Support
 
-- Issues: [GitHub Issues](https://github.com/develeap/terraform-provider-hyperping/issues)
-- Questions: [GitHub Discussions](https://github.com/develeap/terraform-provider-hyperping/discussions)
-- Documentation: [Provider Docs](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- Issues: [GitHub Issues](https://github.com/hyperping/terraform-provider-hyperping/issues)
+- Questions: [GitHub Discussions](https://github.com/hyperping/terraform-provider-hyperping/discussions)
+- Documentation: [Provider Docs](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)

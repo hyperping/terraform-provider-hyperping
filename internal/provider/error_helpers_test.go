@@ -11,7 +11,7 @@ import (
 
 	"github.com/sony/gobreaker"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // ---------------------------------------------------------------------------

@@ -15,7 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // Terraform configuration generators

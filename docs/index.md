@@ -15,7 +15,7 @@ The Hyperping provider allows you to manage Hyperping monitors, incidents, and m
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 }
@@ -103,6 +103,7 @@ available on provider schema attributes.
 ### Getting Started
 - [Quickstart Guide](guides/quickstart.md) - Get up and running in 5 minutes
 - [Migration Guide](guides/migration.md) - Migrate from manual Hyperping management to Terraform
+- [Migrating from develeap/hyperping](guides/migrating-from-develeap.md) - Move an existing state from the `develeap/hyperping` address to `hyperping/hyperping`
 
 ### Use Cases
 - [Monitoring Microservices](guides/use-case-microservices.md) - Monitor microservices architectures
@@ -118,7 +119,7 @@ available on provider schema attributes.
 
 ## CI/CD
 
-- [GitHub Actions Workflows](https://github.com/develeap/terraform-provider-hyperping/tree/main/examples/github-actions) - Ready-to-use workflows for automated Terraform deployments
+- [GitHub Actions Workflows](https://github.com/hyperping/terraform-provider-hyperping/tree/main/examples/github-actions) - Ready-to-use workflows for automated Terraform deployments
 
 ## Troubleshooting
 

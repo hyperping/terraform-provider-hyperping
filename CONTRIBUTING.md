@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing! This document provides guidelines for contributing to this Terraform provider.
 
-If you're new to the project, the **[Wiki](https://github.com/develeap/terraform-provider-hyperping/wiki)** is the best starting point — it covers all resources, guides, architecture, and testing docs in one place.
+If you're new to the project, the **[Wiki](https://github.com/hyperping/terraform-provider-hyperping/wiki)** is the best starting point — it covers all resources, guides, architecture, and testing docs in one place.
 
 ## How Can I Contribute?
 
@@ -191,9 +191,9 @@ Releases are automated via GitHub Actions when a version tag is pushed:
 
 ## Questions?
 
-- 💬 [Open a Discussion](https://github.com/develeap/terraform-provider-hyperping/discussions)
-- 🐛 [Report a Bug](https://github.com/develeap/terraform-provider-hyperping/issues/new?template=bug_report.yml)
-- ✨ [Request a Feature](https://github.com/develeap/terraform-provider-hyperping/issues/new?template=feature_request.yml)
+- 💬 [Open a Discussion](https://github.com/hyperping/terraform-provider-hyperping/discussions)
+- 🐛 [Report a Bug](https://github.com/hyperping/terraform-provider-hyperping/issues/new?template=bug_report.yml)
+- ✨ [Request a Feature](https://github.com/hyperping/terraform-provider-hyperping/issues/new?template=feature_request.yml)
 
 ---
 

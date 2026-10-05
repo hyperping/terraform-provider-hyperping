@@ -8,7 +8,7 @@ import (
 	"errors"
 	"testing"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 func TestFetchResources_ContinueOnError_Monitors(t *testing.T) {

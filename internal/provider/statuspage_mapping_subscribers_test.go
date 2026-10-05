@@ -8,9 +8,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/provider/testutil"
+	"github.com/hyperping/terraform-provider-hyperping/internal/provider/testutil"
 )
 
 // TestMapSubscriberToTF tests subscriber mapping

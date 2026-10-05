@@ -1230,7 +1230,7 @@ check_frequency = 60  # Valid
 
 If you encounter errors not covered in this guide:
 
-1. Check the [GitHub Issues](https://github.com/develeap/terraform-provider-hyperping/issues)
+1. Check the [GitHub Issues](https://github.com/hyperping/terraform-provider-hyperping/issues)
 2. Search for similar errors in closed issues
 3. Open a new issue with:
    - Full error message

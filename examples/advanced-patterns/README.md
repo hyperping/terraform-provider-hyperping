@@ -490,4 +490,4 @@ terraform apply -target='hyperping_monitor.services["api"]'
 - [Main README](../../README.md)
 - [Complete Example](../complete/)
 - [Multi-Tenant Example](../multi-tenant/)
-- [Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping/latest/docs)
+- [Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs)

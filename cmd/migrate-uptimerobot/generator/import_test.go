@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
 )
 
 func TestGenerateImportScript_Golden(t *testing.T) {

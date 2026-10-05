@@ -6,8 +6,8 @@ package converter
 import (
 	"fmt"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrate"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrate"
 )
 
 // HyperpingMonitor represents a Hyperping monitor configuration.

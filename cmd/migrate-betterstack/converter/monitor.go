@@ -6,8 +6,8 @@ package converter
 import (
 	"fmt"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrate"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-betterstack/betterstack"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrate"
 )
 
 // Converter handles conversion from Better Stack to Hyperping format.

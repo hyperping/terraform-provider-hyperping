@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
 )
 
 // GenerateManualSteps generates documentation for manual migration steps.
@@ -289,7 +289,7 @@ func generateDecommissioningSection() string {
 
 	sb.WriteString("## Need Help?\n\n")
 	sb.WriteString("- **Hyperping Documentation:** https://hyperping.io/docs\n")
-	sb.WriteString("- **Terraform Provider:** https://registry.terraform.io/providers/develeap/hyperping\n")
+	sb.WriteString("- **Terraform Provider:** https://registry.terraform.io/providers/hyperping/hyperping\n")
 	sb.WriteString("- **Support:** support@hyperping.io\n")
 
 	return sb.String()

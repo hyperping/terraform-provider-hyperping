@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrate"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/converter"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrate"
 )
 
 // ImportGenerator generates Terraform import scripts.

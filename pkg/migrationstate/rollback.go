@@ -9,10 +9,10 @@ import (
 	"os"
 	"time"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 
-	"github.com/develeap/terraform-provider-hyperping/pkg/checkpoint"
-	"github.com/develeap/terraform-provider-hyperping/pkg/recovery"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/checkpoint"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/recovery"
 )
 
 // PerformRollback deletes Hyperping resources created during a migration run.

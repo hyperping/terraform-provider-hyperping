@@ -4,7 +4,7 @@
 package converter
 
 import (
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-uptimerobot/uptimerobot"
 )
 
 // AlertContactInfo represents categorized alert contact information.

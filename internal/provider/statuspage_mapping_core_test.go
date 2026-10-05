@@ -10,9 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/provider/testutil"
+	"github.com/hyperping/terraform-provider-hyperping/internal/provider/testutil"
 )
 
 // TestMapStringMapToTF tests conversion of map[string]string to types.Map

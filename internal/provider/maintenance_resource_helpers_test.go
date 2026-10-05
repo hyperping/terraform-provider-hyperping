@@ -10,7 +10,7 @@ import (
 	"net/http/httptest"
 	"time"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // maintenanceTestFixture represents a maintenance window for testing

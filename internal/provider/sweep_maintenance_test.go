@@ -9,7 +9,7 @@ import (
 	"log"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // sweepMaintenance deletes all test maintenance windows (those with name prefixed with "tf-acc-test-")

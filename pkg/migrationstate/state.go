@@ -7,8 +7,8 @@ package migrationstate
 import (
 	"fmt"
 
-	"github.com/develeap/terraform-provider-hyperping/pkg/checkpoint"
-	"github.com/develeap/terraform-provider-hyperping/pkg/recovery"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/checkpoint"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/recovery"
 )
 
 // CheckpointInterval is the number of resources processed between checkpoint saves.

@@ -15,8 +15,8 @@ import (
 	"testing"
 	"time"
 
-	hyperping "github.com/develeap/hyperping-go"
 	"github.com/google/uuid"
+	hyperping "github.com/hyperping/hyperping-go"
 	"github.com/stretchr/testify/require"
 )
 

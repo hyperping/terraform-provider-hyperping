@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 var (

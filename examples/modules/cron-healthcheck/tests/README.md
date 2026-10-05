@@ -360,5 +360,5 @@ jobs:
 ## Additional Resources
 
 - [Module Documentation](../README.md)
-- [Hyperping Healthcheck Resource](https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/healthcheck)
+- [Hyperping Healthcheck Resource](https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/healthcheck)
 - [Terraform Testing Best Practices](https://www.terraform.io/docs/language/modules/testing-experiment.html)

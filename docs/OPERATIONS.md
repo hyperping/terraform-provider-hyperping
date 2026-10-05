@@ -238,7 +238,7 @@ curl https://api.hyperping.io/
 
 ```bash
 terraform version
-# Should show: provider registry.terraform.io/develeap/hyperping vX.Y.Z
+# Should show: provider registry.terraform.io/hyperping/hyperping vX.Y.Z
 ```
 
 ### Step 4: Validate Configuration
@@ -598,7 +598,7 @@ terraform version
 terraform init -upgrade
 
 # Check for known issues
-# https://github.com/develeap/terraform-provider-hyperping/issues
+# https://github.com/hyperping/terraform-provider-hyperping/issues
 ```
 
 ### 7. Export State for Analysis
@@ -618,7 +618,7 @@ Create `test.tf`:
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 }
@@ -689,8 +689,8 @@ terraform import hyperping_monitor.api mon_abc123
 
 ## Support
 
-- **Issues**: https://github.com/develeap/terraform-provider-hyperping/issues
-- **Documentation**: https://registry.terraform.io/providers/develeap/hyperping/latest/docs
+- **Issues**: https://github.com/hyperping/terraform-provider-hyperping/issues
+- **Documentation**: https://registry.terraform.io/providers/hyperping/hyperping/latest/docs
 - **Hyperping Support**: https://hyperping.io/support
 
 ---

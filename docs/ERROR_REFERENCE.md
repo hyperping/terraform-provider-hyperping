@@ -38,7 +38,7 @@ Operation: create
   $ terraform plan                             # Test with valid credentials
 
 📚 Documentation:
-  https://registry.terraform.io/providers/develeap/hyperping/latest/docs#authentication
+  https://registry.terraform.io/providers/hyperping/hyperping/latest/docs#authentication
   https://app.hyperping.io/settings/api        # Generate new API key
 ```
 
@@ -136,7 +136,7 @@ Operation: create
   $ terraform apply -refresh=false             # Skip refresh to reduce API calls
 
 📚 Documentation:
-  https://github.com/develeap/terraform-provider-hyperping/tree/main/docs/guides/rate-limits.md
+  https://github.com/hyperping/terraform-provider-hyperping/tree/main/docs/guides/rate-limits.md
   https://api.hyperping.io/docs#rate-limits
 ```
 
@@ -192,7 +192,7 @@ Closest valid values to your input (45):
   frequency = 60  # Check every minute
 
 📚 Documentation:
-  https://registry.terraform.io/providers/develeap/hyperping/latest/docs/resources/monitor#check_frequency
+  https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/resources/monitor#check_frequency
 ```
 
 **Cause**: The `check_frequency` value is not one of the allowed intervals.
@@ -396,7 +396,7 @@ Operation: read
   $ terraform import hyperping_monitor.prod_api <resource_id>
 
 📚 Documentation:
-  https://registry.terraform.io/providers/develeap/hyperping/latest/docs/guides/import
+  https://registry.terraform.io/providers/hyperping/hyperping/latest/docs/guides/import
   https://app.hyperping.io                   # View resources in dashboard
 ```
 
@@ -540,7 +540,7 @@ If you encounter an error not listed here:
    TF_LOG=DEBUG terraform apply
    ```
 3. **Check Status Page**: [status.hyperping.io](https://status.hyperping.io)
-4. **GitHub Issues**: [Report an issue](https://github.com/develeap/terraform-provider-hyperping/issues)
+4. **GitHub Issues**: [Report an issue](https://github.com/hyperping/terraform-provider-hyperping/issues)
 5. **Hyperping Support**: [hyperping.io/support](https://hyperping.io/support)
 
 ---

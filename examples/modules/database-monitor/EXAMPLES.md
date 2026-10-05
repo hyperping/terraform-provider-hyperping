@@ -12,7 +12,7 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
+      source  = "hyperping/hyperping"
       version = ">= 1.0"
     }
   }

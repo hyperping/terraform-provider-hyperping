@@ -1,17 +1,17 @@
-module github.com/develeap/terraform-provider-hyperping
+module github.com/hyperping/terraform-provider-hyperping
 
 go 1.26.5
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
 	github.com/briandowns/spinner v1.23.2
-	github.com/develeap/hyperping-go v0.7.1
 	github.com/google/uuid v1.6.0
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0
 	github.com/hashicorp/terraform-plugin-go v0.31.0
 	github.com/hashicorp/terraform-plugin-log v0.10.0
 	github.com/hashicorp/terraform-plugin-testing v1.16.0
+	github.com/hyperping/hyperping-go v0.8.0
 	github.com/mattn/go-isatty v0.0.23
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/schollz/progressbar/v3 v3.19.1

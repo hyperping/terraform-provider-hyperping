@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // TestIntegration_ValidationMode tests the full validation workflow

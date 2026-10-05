@@ -16,7 +16,7 @@ updates:
       # Keep the shared Go client up to date automatically
       "hyperping-go":
         patterns:
-          - "github.com/develeap/hyperping-go"
+          - "github.com/hyperping/hyperping-go"
   - package-ecosystem: "github-actions"
     directory: "/"
     groups:

@@ -26,7 +26,7 @@ cat > provider.tf << 'EOF'
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 }
@@ -458,4 +458,4 @@ After migration:
 
 - [Troubleshooting Guide](../TROUBLESHOOTING.md)
 - [Validation Guide](validation.md)
-- [GitHub Issues](https://github.com/develeap/terraform-provider-hyperping/issues)
+- [GitHub Issues](https://github.com/hyperping/terraform-provider-hyperping/issues)

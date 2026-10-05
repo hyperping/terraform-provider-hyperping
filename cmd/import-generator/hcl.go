@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 
-	"github.com/develeap/terraform-provider-hyperping/pkg/migrate"
+	"github.com/hyperping/terraform-provider-hyperping/pkg/migrate"
 )
 
 // buildOptionalStringField returns an HCL line for a string field only when

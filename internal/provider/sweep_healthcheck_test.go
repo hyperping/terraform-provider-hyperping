@@ -9,7 +9,7 @@ import (
 	"log"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // sweepHealthchecks deletes all test healthchecks (those with name prefixed with "tf-acc-test-")

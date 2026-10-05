@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 
-	"github.com/develeap/terraform-provider-hyperping/internal/provider"
+	"github.com/hyperping/terraform-provider-hyperping/internal/provider"
 )
 
 var (
@@ -29,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/develeap/hyperping",
+		Address: "registry.terraform.io/hyperping/hyperping",
 		Debug:   debug,
 	}
 

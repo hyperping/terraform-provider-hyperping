@@ -270,8 +270,8 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 
@@ -912,8 +912,8 @@ terraform {
   required_version = ">= 1.8"
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -1921,7 +1921,7 @@ Test complete workflows:
 terraform {
   required_providers {
     hyperping = {
-      source = "develeap/hyperping"
+      source = "hyperping/hyperping"
     }
   }
 }
@@ -2374,4 +2374,4 @@ Following these best practices ensures:
 
 ---
 
-**Need help implementing these practices?** Open an issue on [GitHub](https://github.com/develeap/terraform-provider-hyperping/issues) or contact your team's infrastructure lead.
+**Need help implementing these practices?** Open an issue on [GitHub](https://github.com/hyperping/terraform-provider-hyperping/issues) or contact your team's infrastructure lead.

@@ -1243,7 +1243,7 @@ terraform apply
 3. **API compatibility**: Hyperping API will reject invalid data anyway
 4. **Better UX**: Catching errors at plan time is faster than apply time
 
-**Alternative:** If you believe a validator is too strict for your use case, please [open an issue](https://github.com/develeap/terraform-provider-hyperping/issues) with:
+**Alternative:** If you believe a validator is too strict for your use case, please [open an issue](https://github.com/hyperping/terraform-provider-hyperping/issues) with:
 - Your use case
 - Example configuration
 - Why the current validation is problematic
@@ -1338,7 +1338,7 @@ When values are unknown at plan time (from data sources, external commands, etc.
 
 ### How do I report a bug in a validator?
 
-**Answer:** [Open an issue](https://github.com/develeap/terraform-provider-hyperping/issues/new) with:
+**Answer:** [Open an issue](https://github.com/hyperping/terraform-provider-hyperping/issues/new) with:
 
 1. **Validator name** (e.g., URLFormat, PortRange)
 2. **Your input value** (what you tried)
@@ -1365,7 +1365,7 @@ Provider version: v1.0.10
 
 - **Provider Documentation**: [Resource Reference](../resources/)
 - **Troubleshooting Guide**: [TROUBLESHOOTING.md](../TROUBLESHOOTING.md)
-- **GitHub Issues**: https://github.com/develeap/terraform-provider-hyperping/issues
+- **GitHub Issues**: https://github.com/hyperping/terraform-provider-hyperping/issues
 - **Terraform Plugin Framework**: https://developer.hashicorp.com/terraform/plugin/framework
 - **Cron Expression Reference**: https://crontab.guru/
 - **IANA Timezones**: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones

@@ -1568,7 +1568,7 @@ See [IMPORTING.md](IMPORTING.md) for details.
 
 ## Resources
 
-- [Provider Docs](https://registry.terraform.io/providers/develeap/hyperping)
+- [Provider Docs](https://registry.terraform.io/providers/hyperping/hyperping)
 - [Hyperping API](https://hyperping.io/docs)
 ```
 
@@ -1596,6 +1596,6 @@ You now have everything needed to import existing Hyperping resources into Terra
 
 - Check [Troubleshooting](#troubleshooting) section
 - Review [resource-specific guides](#resource-specific-import-guides)
-- Consult [Hyperping Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping)
+- Consult [Hyperping Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping)
 
 Happy importing!

@@ -16,7 +16,7 @@ Simplify your Pingdom migration with our automated CLI tool:
 
 ```bash
 # Install the Pingdom migration tool
-go install github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom@latest
+go install github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom@latest
 
 # Run full automated migration
 migrate-pingdom migrate \
@@ -214,8 +214,8 @@ terraform {
 
   required_providers {
     hyperping = {
-      source  = "develeap/hyperping"
-      version = "~> 1.0"
+      source  = "hyperping/hyperping"
+      version = "~> 2.1"
     }
   }
 }
@@ -1883,7 +1883,7 @@ You now have a complete migration path from Pingdom to Hyperping:
 
 **Need Help?**
 
-- [Hyperping Provider Documentation](https://registry.terraform.io/providers/develeap/hyperping)
+- [Hyperping Provider Documentation](https://registry.terraform.io/providers/hyperping/hyperping)
 - [Importing Resources Guide](importing-resources.md)
 - [Validation Guide](validation.md)
 - [Troubleshooting](../TROUBLESHOOTING.md)

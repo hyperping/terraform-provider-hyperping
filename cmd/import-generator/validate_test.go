@@ -9,7 +9,7 @@ import (
 	"errors"
 	"testing"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 func TestValidate_AllValid(t *testing.T) {

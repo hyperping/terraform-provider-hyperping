@@ -9,7 +9,7 @@ import (
 	"log"
 	"strings"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // sweepIncidents deletes all test incidents (those with title prefixed with "tf-acc-test-")

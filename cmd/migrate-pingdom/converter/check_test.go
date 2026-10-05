@@ -7,7 +7,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/develeap/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
+	"github.com/hyperping/terraform-provider-hyperping/cmd/migrate-pingdom/pingdom"
 )
 
 func TestConvert_DispatchByType(t *testing.T) {

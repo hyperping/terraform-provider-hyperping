@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	hyperping "github.com/develeap/hyperping-go"
+	hyperping "github.com/hyperping/hyperping-go"
 )
 
 // Integration tests that validate error propagation through resources.

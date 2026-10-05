@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/develeap/terraform-provider-hyperping/test/integration"
+	"github.com/hyperping/terraform-provider-hyperping/test/integration"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
