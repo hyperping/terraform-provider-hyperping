@@ -4,6 +4,7 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
 	"strings"
 	"testing"
@@ -317,5 +318,44 @@ func TestMapHealthcheckCommonFields_TimezoneFromTz(t *testing.T) {
 		if got := MapHealthcheckCommonFields(&hc).Timezone; !got.IsNull() {
 			t.Errorf("period healthcheck %+v: timezone = %s, want null", hc, got)
 		}
+	}
+}
+
+// TestMapStatusPageToModel_ImportFiltersLanguages: on import there is no
+// prior state, so the localized names must be filtered on the page's own
+// languages (the API also returns empty translations for the others), as
+// every later refresh does. Otherwise the first plan after import shows a
+// diff on every section and service name.
+func TestMapStatusPageToModel_ImportFiltersLanguages(t *testing.T) {
+	var sp hyperping.StatusPage
+	body := `{"uuid":"sp_a","name":"Status","hostedsubdomain":"status.hyperping.app",
+		"settings":{"name":"Status","languages":["en"],"default_language":"en","theme":"system","font":"Inter","accent_color":"#36b27e",
+			"subscribe":{},"authentication":{}},
+		"sections":[{"name":{"en":"Jobs","fr":"","de":""},"is_split":true,"services":[
+			{"id":"hc_a","uuid":"hc_a","name":{"en":"Backup","fr":"","de":""},"is_group":false,"type":"healthcheck","show_uptime":true,"show_response_times":false}
+		]}]}`
+	if err := json.Unmarshal([]byte(body), &sp); err != nil {
+		t.Fatal(err)
+	}
+
+	r := &StatusPageResource{}
+	model := StatusPageResourceModel{
+		ID:       types.StringValue("sp_a"),
+		Settings: types.ObjectNull(StatusPageSettingsAttrTypes()),
+		Sections: types.ListNull(types.ObjectType{AttrTypes: SectionAttrTypes()}),
+	}
+	var d diag.Diagnostics
+	r.mapStatusPageToModel(context.Background(), &sp, &model, &d)
+	if d.HasError() {
+		t.Fatalf("unexpected errors: %v", d.Errors())
+	}
+
+	section := model.Sections.Elements()[0].(types.Object).Attributes()
+	if got := len(section["name"].(types.Map).Elements()); got != 1 {
+		t.Errorf("section name has %d languages, want 1 (en): %v", got, section["name"])
+	}
+	service := section["services"].(types.List).Elements()[0].(types.Object).Attributes()
+	if got := len(service["name"].(types.Map).Elements()); got != 1 {
+		t.Errorf("service name has %d languages, want 1 (en): %v", got, service["name"])
 	}
 }
