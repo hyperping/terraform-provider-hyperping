@@ -212,3 +212,27 @@ func testIntPtr(i int) *int {
 func testBoolPtr(b bool) *bool {
 	return &b
 }
+
+func TestIntPtrToTF(t *testing.T) {
+	if !intPtrToTF(nil).IsNull() {
+		t.Error("intPtrToTF(nil) should be null")
+	}
+	for _, v := range []int{-1, 0, 30} {
+		got := intPtrToTF(&v)
+		if got.IsNull() || got.ValueInt64() != int64(v) {
+			t.Errorf("intPtrToTF(&%d) = %v", v, got)
+		}
+	}
+}
+
+func TestBoolPtrToTF(t *testing.T) {
+	if !boolPtrToTF(nil).IsNull() {
+		t.Error("boolPtrToTF(nil) should be null")
+	}
+	for _, v := range []bool{true, false} {
+		got := boolPtrToTF(&v)
+		if got.IsNull() || got.ValueBool() != v {
+			t.Errorf("boolPtrToTF(&%t) = %v", v, got)
+		}
+	}
+}

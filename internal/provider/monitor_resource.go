@@ -15,7 +15,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -68,6 +70,11 @@ type MonitorResourceModel struct {
 	Status               types.String `tfsdk:"status"`
 	IsDown               types.Bool   `tfsdk:"is_down"`
 	SSLExpiration        types.Int64  `tfsdk:"ssl_expiration"`
+	SSLAlertDays         types.Int64  `tfsdk:"ssl_alert_days"`
+	SSLReminders         types.Bool   `tfsdk:"ssl_reminders"`
+	SSLNotifyOnChange    types.Bool   `tfsdk:"ssl_notify_on_change"`
+	DomainAlertDays      types.Int64  `tfsdk:"domain_alert_days"`
+	DomainExpiration     types.Int64  `tfsdk:"domain_expiration"`
 	ProjectUUID          types.String `tfsdk:"project_uuid"`
 }
 
@@ -260,7 +267,57 @@ func (r *MonitorResource) Schema(_ context.Context, _ resource.SchemaRequest, re
 			},
 			"ssl_expiration": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "Days until the SSL certificate expires.",
+				MarkdownDescription: "Whole days until the TLS certificate expires (rounded down).",
+			},
+			"ssl_alert_days": schema.Int64Attribute{
+				MarkdownDescription: "Days before the TLS certificate expires to send the first expiry alert. " +
+					"Valid values: `-1` (never), `1`, `3`, `7`, `15`, `30`, `60`, `90`. " +
+					"If omitted, the value stored by Hyperping is kept (the server default applies on create).",
+				Optional: true,
+				Computed: true,
+				Validators: []validator.Int64{
+					int64validator.OneOf(-1, 1, 3, 7, 15, 30, 60, 90),
+				},
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
+			},
+			"ssl_reminders": schema.BoolAttribute{
+				MarkdownDescription: "Whether to also send reminders at the standard steps below `ssl_alert_days` " +
+					"(30, 15, 7, 3 and 1 days before the certificate expires). " +
+					"If omitted, the value stored by Hyperping is kept (the server default is `true`).",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"ssl_notify_on_change": schema.BoolAttribute{
+				MarkdownDescription: "Whether to notify when the server starts serving a different TLS certificate. " +
+					"If omitted, the value stored by Hyperping is kept (the server default is `false`).",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"domain_alert_days": schema.Int64Attribute{
+				MarkdownDescription: "Days before the domain registration expires to send an alert. " +
+					"Valid values: `-1` (never), `7`, `14`, `30`, `60`, `90`. " +
+					"If omitted, the value stored by Hyperping is kept (the server default is `-1`).",
+				Optional: true,
+				Computed: true,
+				Validators: []validator.Int64{
+					int64validator.OneOf(-1, 7, 14, 30, 60, 90),
+				},
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
+			},
+			"domain_expiration": schema.Int64Attribute{
+				Computed: true,
+				MarkdownDescription: "Whole days until the domain registration expires. `null` when unknown or when the " +
+					"registry does not publish expiry dates (e.g. `.de`, `.eu`, `.ch`).",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -581,6 +638,11 @@ func (r *MonitorResource) mapMonitorToModel(monitor *hyperping.Monitor, model *M
 	model.Status = common.Status
 	model.IsDown = common.IsDown
 	model.SSLExpiration = common.SSLExpiration
+	model.SSLAlertDays = common.SSLAlertDays
+	model.SSLReminders = common.SSLReminders
+	model.SSLNotifyOnChange = common.SSLNotifyOnChange
+	model.DomainAlertDays = common.DomainAlertDays
+	model.DomainExpiration = common.DomainExpiration
 	model.ProjectUUID = common.ProjectUUID
 }
 
@@ -632,6 +694,14 @@ func (r *MonitorResource) buildCreateRequest(ctx context.Context, plan *MonitorR
 	createReq.DNSRecordType = tfStringToPtr(plan.DNSRecordType)
 	createReq.DNSNameserver = tfStringToPtr(plan.DNSNameserver)
 	createReq.DNSExpectedAnswer = tfStringToPtr(plan.DNSExpectedAnswer)
+
+	// Handle optional TLS certificate / domain expiry alert settings.
+	// Optional+Computed: when omitted from config the plan value is unknown,
+	// the field is not sent and the server default applies.
+	createReq.SSLAlertDays = tfIntToPtr(plan.SSLAlertDays)
+	createReq.SSLReminders = tfBoolToPtr(plan.SSLReminders)
+	createReq.SSLNotifyOnChange = tfBoolToPtr(plan.SSLNotifyOnChange)
+	createReq.DomainAlertDays = tfIntToPtr(plan.DomainAlertDays)
 
 	// Handle optional project_uuid
 	createReq.ProjectUUID = plan.ProjectUUID.ValueString()
@@ -810,9 +880,33 @@ func applyMonitoringFieldChanges(ctx context.Context, plan *MonitorResourceModel
 	}
 }
 
+// applyExpiryAlertFieldChanges handles SSL/domain expiry alert setting changes for monitor updates.
+// Handles: ssl_alert_days, ssl_reminders, ssl_notify_on_change, domain_alert_days.
+// These attributes are Optional+Computed: removing one from config keeps the prior
+// state value (UseStateForUnknown), so there is nothing to "clear". A value is only
+// sent when it is known and differs from state.
+func applyExpiryAlertFieldChanges(plan *MonitorResourceModel, state *MonitorResourceModel, updateReq *hyperping.UpdateMonitorRequest) {
+	if !plan.SSLAlertDays.Equal(state.SSLAlertDays) {
+		updateReq.SSLAlertDays = tfIntToPtr(plan.SSLAlertDays)
+	}
+
+	if !plan.SSLReminders.Equal(state.SSLReminders) {
+		updateReq.SSLReminders = tfBoolToPtr(plan.SSLReminders)
+	}
+
+	if !plan.SSLNotifyOnChange.Equal(state.SSLNotifyOnChange) {
+		updateReq.SSLNotifyOnChange = tfBoolToPtr(plan.SSLNotifyOnChange)
+	}
+
+	if !plan.DomainAlertDays.Equal(state.DomainAlertDays) {
+		updateReq.DomainAlertDays = tfIntToPtr(plan.DomainAlertDays)
+	}
+}
+
 // applyComplexFieldChanges detects and applies changes for complex fields.
-// Dispatches to applyHTTPFieldChanges and applyMonitoringFieldChanges.
+// Dispatches to applyHTTPFieldChanges, applyMonitoringFieldChanges and applyExpiryAlertFieldChanges.
 func (r *MonitorResource) applyComplexFieldChanges(ctx context.Context, plan *MonitorResourceModel, state *MonitorResourceModel, updateReq *hyperping.UpdateMonitorRequest, diags *diag.Diagnostics) {
 	applyHTTPFieldChanges(plan, state, updateReq, diags)
 	applyMonitoringFieldChanges(ctx, plan, state, updateReq, diags)
+	applyExpiryAlertFieldChanges(plan, state, updateReq)
 }

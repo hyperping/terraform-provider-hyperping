@@ -505,6 +505,13 @@ func (m *mockHyperpingServer) createMonitor(w http.ResponseWriter, r *http.Reque
 		"status":               "up",
 		"ssl_expiration":       90,
 		"projectUuid":          "proj_test123",
+		// SSL/domain expiry alert settings: always echoed, server defaults when omitted.
+		// ssl_alert_days default mirrors the API's DB column default (15 at time of writing).
+		"ssl_alert_days":       getOrDefaultInt(req, "ssl_alert_days", 15),
+		"ssl_reminders":        getOrDefaultBool(req, "ssl_reminders", true),
+		"ssl_notify_on_change": getOrDefaultBool(req, "ssl_notify_on_change", false),
+		"domain_alert_days":    getOrDefaultInt(req, "domain_alert_days", -1),
+		"domain_expiration":    nil,
 	}
 
 	if headers, ok := req["request_headers"].([]interface{}); ok {
@@ -649,11 +656,13 @@ var dnsStringFields = map[string]bool{
 // intFields are monitor fields that map from JSON numbers.
 var monitorIntFields = map[string]bool{
 	"check_frequency": true, "port": true, "alerts_wait": true, "ssl_expiration": true,
+	"ssl_alert_days": true, "domain_alert_days": true,
 }
 
 // boolFields are monitor fields that map from JSON booleans.
 var monitorBoolFields = map[string]bool{
 	"follow_redirects": true, "paused": true,
+	"ssl_reminders": true, "ssl_notify_on_change": true,
 }
 
 // applyMonitorField applies a single field from the request map to the monitor map.
@@ -901,4 +910,21 @@ resource "hyperping_monitor" "test" {
   protocol = "http"
 }
 `
+}
+
+func testAccMonitorResourceConfigWithExpiryAlerts(baseURL string, sslAlertDays, domainAlertDays int, notifyOnChange bool) string {
+	return fmt.Sprintf(`
+provider "hyperping" {
+  api_key  = "test_api_key"
+  base_url = %[1]q
+}
+
+resource "hyperping_monitor" "test" {
+  name                 = "expiry-alerts"
+  url                  = "https://example.com"
+  ssl_alert_days       = %[2]d
+  domain_alert_days    = %[3]d
+  ssl_notify_on_change = %[4]t
+}
+`, baseURL, sslAlertDays, domainAlertDays, notifyOnChange)
 }

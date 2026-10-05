@@ -421,3 +421,61 @@ func TestAccMonitorResource_requiredKeyword(t *testing.T) {
 		},
 	})
 }
+
+// TestAccMonitorResource_expiryAlerts verifies the SSL/domain expiry alert settings:
+// server defaults are read back when omitted, configured values round-trip (including
+// import), and removing them from config keeps the stored values without a diff.
+func TestAccMonitorResource_expiryAlerts(t *testing.T) {
+	server := newMockHyperpingServer(t)
+	defer server.Close()
+
+	tfresource.ParallelTest(t, tfresource.TestCase{
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []tfresource.TestStep{
+			// Omitted: server defaults are read back into state
+			{
+				Config: testAccMonitorResourceConfigBasic(server.URL, "expiry-alerts"),
+				Check: tfresource.ComposeAggregateTestCheckFunc(
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_alert_days", "15"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_reminders", "true"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_notify_on_change", "false"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "domain_alert_days", "-1"),
+					tfresource.TestCheckNoResourceAttr("hyperping_monitor.test", "domain_expiration"),
+				),
+			},
+			// Set explicitly
+			{
+				Config: testAccMonitorResourceConfigWithExpiryAlerts(server.URL, 30, 30, true),
+				Check: tfresource.ComposeAggregateTestCheckFunc(
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_alert_days", "30"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_reminders", "true"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_notify_on_change", "true"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "domain_alert_days", "30"),
+				),
+			},
+			// Import populates the settings from the API
+			{
+				ResourceName:      "hyperping_monitor.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// "Never" values
+			{
+				Config: testAccMonitorResourceConfigWithExpiryAlerts(server.URL, -1, -1, false),
+				Check: tfresource.ComposeAggregateTestCheckFunc(
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_alert_days", "-1"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_notify_on_change", "false"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "domain_alert_days", "-1"),
+				),
+			},
+			// Removed from config: stored values are kept, no perpetual diff
+			{
+				Config: testAccMonitorResourceConfigBasic(server.URL, "expiry-alerts"),
+				Check: tfresource.ComposeAggregateTestCheckFunc(
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ssl_alert_days", "-1"),
+					tfresource.TestCheckResourceAttr("hyperping_monitor.test", "domain_alert_days", "-1"),
+				),
+			},
+		},
+	})
+}

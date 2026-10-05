@@ -99,6 +99,13 @@ func MapMonitorCommonFields(monitor *hyperping.Monitor, diags *diag.Diagnostics)
 		result.SSLExpiration = types.Int64Null()
 	}
 
+	// Handle SSL/domain expiry alert settings and domain_expiration (read-only, nullable)
+	result.SSLAlertDays = intPtrToTF(monitor.SSLAlertDays)
+	result.SSLReminders = boolPtrToTF(monitor.SSLReminders)
+	result.SSLNotifyOnChange = boolPtrToTF(monitor.SSLNotifyOnChange)
+	result.DomainAlertDays = intPtrToTF(monitor.DomainAlertDays)
+	result.DomainExpiration = intPtrToTF(monitor.DomainExpiration)
+
 	// Handle project_uuid
 	if monitor.ProjectUUID != "" {
 		result.ProjectUUID = types.StringValue(monitor.ProjectUUID)
@@ -134,6 +141,11 @@ type MonitorCommonFields struct {
 	Status               types.String
 	IsDown               types.Bool
 	SSLExpiration        types.Int64
+	SSLAlertDays         types.Int64
+	SSLReminders         types.Bool
+	SSLNotifyOnChange    types.Bool
+	DomainAlertDays      types.Int64
+	DomainExpiration     types.Int64
 	ProjectUUID          types.String
 }
 

@@ -45,3 +45,21 @@ func tfBoolToPtr(v types.Bool) *bool {
 	b := v.ValueBool()
 	return &b
 }
+
+// intPtrToTF converts *int to types.Int64.
+// Returns null if pointer is nil, otherwise returns the value (zero and negative values included).
+func intPtrToTF(i *int) types.Int64 {
+	if i == nil {
+		return types.Int64Null()
+	}
+	return types.Int64Value(int64(*i))
+}
+
+// boolPtrToTF converts *bool to types.Bool.
+// Returns null if pointer is nil, otherwise returns the bool value (false included).
+func boolPtrToTF(b *bool) types.Bool {
+	if b == nil {
+		return types.BoolNull()
+	}
+	return types.BoolValue(*b)
+}
