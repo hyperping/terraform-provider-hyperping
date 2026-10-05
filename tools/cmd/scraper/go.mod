@@ -7,7 +7,7 @@ require (
 	github.com/getkin/kin-openapi v0.124.0
 	github.com/go-rod/rod v0.116.2
 	github.com/google/go-github/v68 v68.0.0
-	github.com/hashicorp/terraform-json v0.27.2
+	github.com/hashicorp/terraform-json v0.28.0
 	github.com/tufin/oasdiff v1.10.15
 	golang.org/x/oauth2 v0.35.0
 	golang.org/x/time v0.14.0
@@ -22,7 +22,7 @@ require (
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
-	github.com/hashicorp/go-version v1.7.0 // indirect
+	github.com/hashicorp/go-version v1.9.0 // indirect
 	github.com/invopop/yaml v0.3.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
