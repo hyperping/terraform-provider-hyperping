@@ -269,7 +269,7 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 										Computed:            true,
 									},
 									"name": schema.MapAttribute{
-										MarkdownDescription: "Localized service name (language code -> text)",
+										MarkdownDescription: "Localized service name (language code -> text), shown as the row label on the page. Set it on every service: the page does not fall back to the monitor or healthcheck name.",
 										ElementType:         types.StringType,
 										Optional:            true,
 										Computed:            true,
@@ -314,7 +314,7 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 													Computed:            true,
 												},
 												"name": schema.MapAttribute{
-													MarkdownDescription: "Localized service name (language code -> text)",
+													MarkdownDescription: "Localized service name (language code -> text), shown as the row label on the page. Set it on every service: the page does not fall back to the monitor or healthcheck name.",
 													ElementType:         types.StringType,
 													Optional:            true,
 													Computed:            true,

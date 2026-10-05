@@ -138,6 +138,7 @@ resource "hyperping_statuspage" "production" {
         # response times are not (leave show_response_times unset or false).
         {
           uuid        = hyperping_healthcheck.backup.public_id
+          name        = { en = "Nightly backup" }
           show_uptime = true
         },
         # A group mixing healthchecks and monitors
@@ -150,10 +151,12 @@ resource "hyperping_statuspage" "production" {
           services = [
             {
               uuid        = hyperping_healthcheck.etl.public_id
+              name        = { en = "ETL" }
               show_uptime = true
             },
             {
               uuid        = hyperping_healthcheck.sync.public_id
+              name        = { en = "CRM sync" }
               show_uptime = false
             },
             {
@@ -344,7 +347,7 @@ Optional:
 
 - `description` (Map of String) Localized service description (language code -> text). On write, only the default language value is sent as a plain string.
 - `is_group` (Boolean) Whether this service is a group containing nested services
-- `name` (Map of String) Localized service name (language code -> text)
+- `name` (Map of String) Localized service name (language code -> text), shown as the row label on the page. Set it on every service: the page does not fall back to the monitor or healthcheck name.
 - `services` (Attributes List) Nested monitor services within this group. Required when is_group=true; must contain at least one entry. Ignored when is_group=false. (see [below for nested schema](#nestedatt--sections--services--services))
 - `show_response_times` (Boolean) Show response times. Not available for a healthcheck: leave unset or set to `false`.
 - `show_uptime` (Boolean) Show uptime bars. Supported for every service type, healthchecks included.
@@ -362,7 +365,7 @@ Optional:
 
 - `description` (Map of String) Localized service description (language code -> text). **Note:** The Hyperping API does not currently persist descriptions on nested services inside groups. The value is accepted by Terraform but will not appear on the rendered status page. Use descriptions on top-level (non-group) services instead.
 - `is_group` (Boolean) Whether this nested service is a group
-- `name` (Map of String) Localized service name (language code -> text)
+- `name` (Map of String) Localized service name (language code -> text), shown as the row label on the page. Set it on every service: the page does not fall back to the monitor or healthcheck name.
 - `show_response_times` (Boolean) Show response times. Not available for a healthcheck: leave unset or set to `false`.
 - `show_uptime` (Boolean) Show uptime bars. Supported for every service type, healthchecks included.
 - `uuid` (String) Id of what to display: a monitor (`mon_…`), a healthcheck (`hc_…`, `hyperping_healthcheck.x.public_id`), a server (`agt_…`) or a component (`comp_…`).

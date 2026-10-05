@@ -120,6 +120,7 @@ resource "hyperping_statuspage" "production" {
         # response times are not (leave show_response_times unset or false).
         {
           uuid        = hyperping_healthcheck.backup.public_id
+          name        = { en = "Nightly backup" }
           show_uptime = true
         },
         # A group mixing healthchecks and monitors
@@ -132,10 +133,12 @@ resource "hyperping_statuspage" "production" {
           services = [
             {
               uuid        = hyperping_healthcheck.etl.public_id
+              name        = { en = "ETL" }
               show_uptime = true
             },
             {
               uuid        = hyperping_healthcheck.sync.public_id
+              name        = { en = "CRM sync" }
               show_uptime = false
             },
             {

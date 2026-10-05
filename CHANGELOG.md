@@ -10,6 +10,10 @@ Published releases start from v1.0.3.
 
 ## [Unreleased]
 
+### Documentation
+
+- **`hyperping_statuspage`**: A service's `name` is the row label on the page, and the page does not fall back to the monitor or healthcheck name. The attribute description says so, and the examples now set it on every service.
+
 ## [2.1.0] - 2026-10-05
 
 ### Changed
