@@ -66,6 +66,7 @@ type MonitorDataModel struct {
 	IsDown               types.Bool   `tfsdk:"is_down"`
 	SSLExpiration        types.Int64  `tfsdk:"ssl_expiration"`
 	SSLAlertDays         types.Int64  `tfsdk:"ssl_alert_days"`
+	IPVersion            types.Int64  `tfsdk:"ip_version"`
 	SSLReminders         types.Bool   `tfsdk:"ssl_reminders"`
 	SSLNotifyOnChange    types.Bool   `tfsdk:"ssl_notify_on_change"`
 	DomainAlertDays      types.Int64  `tfsdk:"domain_alert_days"`
@@ -164,6 +165,10 @@ func (d *MonitorsDataSource) Schema(_ context.Context, _ datasource.SchemaReques
 						"port": schema.Int64Attribute{
 							MarkdownDescription: "Port number for port protocol monitors.",
 							Computed:            true,
+						},
+						"ip_version": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "IP version used to reach the target: `4` or `6` (IPv6 only).",
 						},
 						"alerts_wait": schema.Int64Attribute{
 							MarkdownDescription: "Minutes to wait before sending alerts after an outage is detected. " +
@@ -416,6 +421,7 @@ func (d *MonitorsDataSource) mapMonitorToDataModel(monitor *hyperping.Monitor, m
 	model.IsDown = fields.IsDown
 	model.SSLExpiration = fields.SSLExpiration
 	model.SSLAlertDays = fields.SSLAlertDays
+	model.IPVersion = fields.IPVersion
 	model.SSLReminders = fields.SSLReminders
 	model.SSLNotifyOnChange = fields.SSLNotifyOnChange
 	model.DomainAlertDays = fields.DomainAlertDays

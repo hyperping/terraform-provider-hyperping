@@ -507,6 +507,7 @@ func (m *mockHyperpingServer) createMonitor(w http.ResponseWriter, r *http.Reque
 		"projectUuid":          "proj_test123",
 		// SSL/domain expiry alert settings: always echoed, server defaults when omitted.
 		// ssl_alert_days default mirrors the API's DB column default (15 at time of writing).
+		"ip_version":           getOrDefaultInt(req, "ip_version", 4),
 		"ssl_alert_days":       getOrDefaultInt(req, "ssl_alert_days", 15),
 		"ssl_reminders":        getOrDefaultBool(req, "ssl_reminders", true),
 		"ssl_notify_on_change": getOrDefaultBool(req, "ssl_notify_on_change", false),
@@ -656,7 +657,7 @@ var dnsStringFields = map[string]bool{
 // intFields are monitor fields that map from JSON numbers.
 var monitorIntFields = map[string]bool{
 	"check_frequency": true, "port": true, "alerts_wait": true, "ssl_expiration": true,
-	"ssl_alert_days": true, "domain_alert_days": true,
+	"ssl_alert_days": true, "domain_alert_days": true, "ip_version": true,
 }
 
 // boolFields are monitor fields that map from JSON booleans.
@@ -927,4 +928,19 @@ resource "hyperping_monitor" "test" {
   ssl_notify_on_change = %[4]t
 }
 `, baseURL, sslAlertDays, domainAlertDays, notifyOnChange)
+}
+
+func testAccMonitorResourceConfigWithIPVersion(baseURL string, ipVersion int) string {
+	return fmt.Sprintf(`
+provider "hyperping" {
+  api_key  = "test_api_key"
+  base_url = %[1]q
+}
+
+resource "hyperping_monitor" "test" {
+  name       = "ip-version"
+  url        = "https://example.com"
+  ip_version = %[2]d
+}
+`, baseURL, ipVersion)
 }

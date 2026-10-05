@@ -479,3 +479,34 @@ func TestAccMonitorResource_expiryAlerts(t *testing.T) {
 		},
 	})
 }
+
+// TestAccMonitorResource_ipVersion verifies ip_version: the server default (4)
+// is read back when omitted, 6 round-trips (including import), and removing it
+// from config keeps the stored value without a diff.
+func TestAccMonitorResource_ipVersion(t *testing.T) {
+	server := newMockHyperpingServer(t)
+	defer server.Close()
+
+	tfresource.ParallelTest(t, tfresource.TestCase{
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []tfresource.TestStep{
+			{
+				Config: testAccMonitorResourceConfigBasic(server.URL, "ip-version"),
+				Check:  tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ip_version", "4"),
+			},
+			{
+				Config: testAccMonitorResourceConfigWithIPVersion(server.URL, 6),
+				Check:  tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ip_version", "6"),
+			},
+			{
+				ResourceName:      "hyperping_monitor.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			{
+				Config: testAccMonitorResourceConfigBasic(server.URL, "ip-version"),
+				Check:  tfresource.TestCheckResourceAttr("hyperping_monitor.test", "ip_version", "6"),
+			},
+		},
+	})
+}
