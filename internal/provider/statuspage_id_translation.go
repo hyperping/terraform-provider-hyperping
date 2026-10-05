@@ -109,6 +109,8 @@ func translateSectionsUUIDsToNumericIDs(
 
 // translateCreateServicesToNumericIDs translates UUIDs in CreateStatusPageService slice.
 // Top-level: MonitorUUID field. Nested (inside groups): UUID field.
+// Only monitors are translated: healthchecks (hc_), servers (agt_) and
+// components are sent as is, the API resolves them itself.
 func translateCreateServicesToNumericIDs(
 	services []hyperping.CreateStatusPageService,
 	uuidToID map[string]string,
@@ -117,21 +119,9 @@ func translateCreateServicesToNumericIDs(
 	for i := range services {
 		svc := &services[i]
 		// Top-level service: translate MonitorUUID
-		if svc.MonitorUUID != nil && *svc.MonitorUUID != "" {
-			if numericID, ok := uuidToID[*svc.MonitorUUID]; ok {
-				svc.MonitorUUID = &numericID
-			} else {
-				*unresolved = append(*unresolved, *svc.MonitorUUID)
-			}
-		}
+		svc.MonitorUUID = translateMonitorUUIDToNumericID(svc.MonitorUUID, uuidToID, unresolved)
 		// Nested service: translate UUID
-		if svc.UUID != nil && *svc.UUID != "" {
-			if numericID, ok := uuidToID[*svc.UUID]; ok {
-				svc.UUID = &numericID
-			} else {
-				*unresolved = append(*unresolved, *svc.UUID)
-			}
-		}
+		svc.UUID = translateMonitorUUIDToNumericID(svc.UUID, uuidToID, unresolved)
 		// Recurse into nested services (groups)
 		if len(svc.Services) > 0 {
 			translateCreateServicesToNumericIDs(svc.Services, uuidToID, unresolved)
@@ -183,4 +173,22 @@ func translateServicesToUUIDs(
 			translateServicesToUUIDs(svc.Services, idToUUID, unresolved)
 		}
 	}
+}
+
+// monitorUUIDPrefix is the prefix of a monitor UUID, the only kind of status
+// page service the uptime renderer needs as a numeric id.
+const monitorUUIDPrefix = "mon_"
+
+// translateMonitorUUIDToNumericID returns the numeric id of a monitor UUID,
+// records it as unresolved when the monitor is unknown, and returns any other
+// id (healthcheck, server, component, already numeric) unchanged.
+func translateMonitorUUIDToNumericID(id *string, uuidToID map[string]string, unresolved *[]string) *string {
+	if id == nil || !strings.HasPrefix(*id, monitorUUIDPrefix) {
+		return id
+	}
+	if numericID, ok := uuidToID[*id]; ok {
+		return &numericID
+	}
+	*unresolved = append(*unresolved, *id)
+	return id
 }

@@ -720,3 +720,43 @@ func TestWarnUnresolvedNumericUUIDs_SectionsWithDriftedUUIDs(t *testing.T) {
 		t.Errorf("expected count of 2, got: %s", detail)
 	}
 }
+
+// TestTranslateSectionsUUIDsToNumericIDs_NonMonitorIDsPassThrough checks that
+// only monitors are translated: healthchecks (hc_), servers (agt_) and
+// components are not monitors, are absent from the monitor map and must be
+// sent as is instead of failing as "unresolvable".
+func TestTranslateSectionsUUIDsToNumericIDs_NonMonitorIDsPassThrough(t *testing.T) {
+	uuidToID := map[string]string{"mon_api": "117896"}
+	mon, hc, agt, comp, hcChild, monChild := "mon_api", "hc_backup", "agt_box", "comp_cdn", "hc_etl", "mon_api"
+	isGroup := true
+	sections := []hyperping.CreateStatusPageSection{{
+		Name: "Mixed",
+		Services: []hyperping.CreateStatusPageService{
+			{MonitorUUID: &mon},
+			{MonitorUUID: &hc},
+			{MonitorUUID: &agt},
+			{MonitorUUID: &comp},
+			{IsGroup: &isGroup, Services: []hyperping.CreateStatusPageService{{UUID: &hcChild}, {UUID: &monChild}}},
+		},
+	}}
+
+	var diags diag.Diagnostics
+	translateSectionsUUIDsToNumericIDs(sections, uuidToID, &diags)
+	if diags.HasError() {
+		t.Fatalf("unexpected error: %s", diags.Errors()[0].Detail())
+	}
+	got := []string{
+		*sections[0].Services[0].MonitorUUID,
+		*sections[0].Services[1].MonitorUUID,
+		*sections[0].Services[2].MonitorUUID,
+		*sections[0].Services[3].MonitorUUID,
+		*sections[0].Services[4].Services[0].UUID,
+		*sections[0].Services[4].Services[1].UUID,
+	}
+	want := []string{"117896", "hc_backup", "agt_box", "comp_cdn", "hc_etl", "117896"}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Errorf("service %d: got %s, want %s", i, got[i], want[i])
+		}
+	}
+}
