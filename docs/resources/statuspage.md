@@ -345,7 +345,7 @@ Optional:
 
 Optional:
 
-- `description` (Map of String) Localized service description (language code -> text). On write, only the default language value is sent as a plain string.
+- `description` (Map of String) Localized service description (language code -> text). Every language is sent and stored.
 - `is_group` (Boolean) Whether this service is a group containing nested services
 - `name` (Map of String) Localized service name (language code -> text), shown as the row label on the page. Set it on every service: the page does not fall back to the monitor or healthcheck name.
 - `services` (Attributes List) Nested monitor services within this group. Required when is_group=true; must contain at least one entry. Ignored when is_group=false. (see [below for nested schema](#nestedatt--sections--services--services))

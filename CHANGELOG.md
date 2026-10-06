@@ -10,6 +10,15 @@ Published releases start from v1.0.3.
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-10-06
+
+### Fixed
+
+- **`hyperping_statuspage`**: On a page with several `settings.languages`, a section `name` and a top-level service `name` and `description` lost every translation but one, and the apply failed with `Provider produced inconsistent result after apply` (`.sections[0].name["de"]: was "Infrastruktur", but now ""`) ([#14](https://github.com/hyperping/terraform-provider-hyperping/issues/14)). They are now sent as localized maps, like group children already were, so every language is stored. Single-language pages see no change.
+
+  A page **created** by 2.1.0 with this error is marked tainted, and the next apply would destroy and recreate it (new id). Run `terraform plan` after upgrading: if it says the page `must be replaced`, run `terraform untaint <address>` (e.g. `terraform untaint hyperping_statuspage.main`) once, and the page is updated in place.
+- Client `github.com/hyperping/hyperping-go` v0.9.0.
+
 ### Documentation
 
 - **`hyperping_statuspage`**: A service's `name` is the row label on the page, and the page does not fall back to the monitor or healthcheck name. The attribute description says so, and the examples now set it on every service.
@@ -1190,7 +1199,8 @@ This provider is production-ready with comprehensive test coverage (45.8% overal
 - Operations guide for production deployments
 - Troubleshooting guide with common issues and solutions
 
-[Unreleased]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.12.1...v2.0.0
 [1.9.2]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.9.1...v1.9.2

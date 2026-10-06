@@ -5,6 +5,7 @@ package provider
 
 import (
 	"context"
+	"encoding/json"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -694,8 +695,10 @@ func TestMapTFToSections_WithValues(t *testing.T) {
 	}
 
 	section := sections[0]
-	if section.Name != "Services" {
-		t.Errorf("section name = %q, want 'Services'", section.Name)
+	// Every language is sent, not only "en" (issue #14).
+	name, ok := section.Name.(map[string]string)
+	if !ok || name["en"] != "Services" || name["fr"] != "Prestations de service" {
+		t.Errorf("section name = %v, want the localized map", section.Name)
 	}
 
 	if len(section.Services) != 1 {
@@ -1586,7 +1589,7 @@ func TestMapNestedServicesToTF_Description(t *testing.T) {
 }
 
 func TestMapTFToService_Description(t *testing.T) {
-	t.Run("en description extracted", func(t *testing.T) {
+	t.Run("en description sent as a localized map", func(t *testing.T) {
 		obj := types.ObjectValueMust(ServiceAttrTypes(), map[string]attr.Value{
 			"id":   types.StringNull(),
 			"uuid": types.StringValue("mon_1"),
@@ -1608,12 +1611,12 @@ func TestMapTFToService_Description(t *testing.T) {
 		if d.HasError() {
 			t.Fatalf("unexpected error: %v", d.Errors())
 		}
-		if descStr, ok := result.Description.(*string); !ok || descStr == nil || *descStr != "English desc" {
-			t.Errorf("expected 'English desc', got %v", result.Description)
+		if desc, ok := result.Description.(map[string]string); !ok || desc["en"] != "English desc" {
+			t.Errorf("expected map[en:English desc], got %v", result.Description)
 		}
 	})
 
-	t.Run("fallback to non-en language", func(t *testing.T) {
+	t.Run("non-en language kept", func(t *testing.T) {
 		obj := types.ObjectValueMust(ServiceAttrTypes(), map[string]attr.Value{
 			"id":                  types.StringNull(),
 			"uuid":                types.StringValue("mon_1"),
@@ -1633,8 +1636,8 @@ func TestMapTFToService_Description(t *testing.T) {
 		if d.HasError() {
 			t.Fatalf("unexpected error: %v", d.Errors())
 		}
-		if descStr, ok := result.Description.(*string); !ok || descStr == nil || *descStr != "French desc" {
-			t.Errorf("expected 'French desc', got %v", result.Description)
+		if desc, ok := result.Description.(map[string]string); !ok || desc["fr"] != "French desc" {
+			t.Errorf("expected map[fr:French desc], got %v", result.Description)
 		}
 	})
 
@@ -1713,4 +1716,69 @@ func TestMapTFToNestedServices_Description(t *testing.T) {
 			t.Errorf("expected nil description, got %q", result[0].Description)
 		}
 	})
+}
+
+// Issue #14: on a page in en + de, every name reaches the API with both
+// languages, at every level (section, group header, top-level service, child).
+func TestMapTFToSections_LocalizedNamesAtEveryLevel(t *testing.T) {
+	enDe := func(en, de string) types.Map {
+		return types.MapValueMust(types.StringType, map[string]attr.Value{
+			"en": types.StringValue(en),
+			"de": types.StringValue(de),
+		})
+	}
+	child := types.ObjectValueMust(NestedServiceAttrTypes(), map[string]attr.Value{
+		"id":                  types.StringNull(),
+		"uuid":                types.StringValue("mon_example"),
+		"name":                enDe("Example", "Beispiel"),
+		"is_group":            types.BoolNull(),
+		"type":                types.StringNull(),
+		"show_uptime":         types.BoolValue(true),
+		"show_response_times": types.BoolNull(),
+		"description":         types.MapNull(types.StringType),
+	})
+	group := types.ObjectValueMust(ServiceAttrTypes(), map[string]attr.Value{
+		"id":                  types.StringNull(),
+		"uuid":                types.StringNull(),
+		"name":                enDe("APIs", "Schnittstellen"),
+		"is_group":            types.BoolValue(true),
+		"type":                types.StringNull(),
+		"show_uptime":         types.BoolNull(),
+		"show_response_times": types.BoolNull(),
+		"description":         types.MapNull(types.StringType),
+		"services":            types.ListValueMust(types.ObjectType{AttrTypes: NestedServiceAttrTypes()}, []attr.Value{child}),
+	})
+	website := types.ObjectValueMust(ServiceAttrTypes(), map[string]attr.Value{
+		"id":                  types.StringNull(),
+		"uuid":                types.StringValue("mon_example_org"),
+		"name":                enDe("Website", "Webseite"),
+		"is_group":            types.BoolValue(false),
+		"type":                types.StringNull(),
+		"show_uptime":         types.BoolValue(true),
+		"show_response_times": types.BoolValue(true),
+		"description":         enDe("Public site", "Öffentliche Seite"),
+		"services":            types.ListNull(types.ObjectType{AttrTypes: NestedServiceAttrTypes()}),
+	})
+	section := types.ObjectValueMust(SectionAttrTypes(), map[string]attr.Value{
+		"name":     enDe("Infrastructure", "Infrastruktur"),
+		"is_split": types.BoolValue(true),
+		"services": types.ListValueMust(types.ObjectType{AttrTypes: ServiceAttrTypes()}, []attr.Value{group, website}),
+	})
+
+	var diags diag.Diagnostics
+	sections := mapTFToSections(types.ListValueMust(types.ObjectType{AttrTypes: SectionAttrTypes()}, []attr.Value{section}), &diags)
+	if diags.HasError() {
+		t.Fatalf("unexpected error: %v", diags.Errors())
+	}
+
+	got, err := json.Marshal(sections)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := `[{"name":{"de":"Infrastruktur","en":"Infrastructure"},"is_split":true,"services":[` +
+		`{"name":{"de":"Schnittstellen","en":"APIs"},"is_group":true,"services":[{"uuid":"mon_example","name":{"de":"Beispiel","en":"Example"},"show_uptime":true}]},` +
+		`{"monitor_uuid":"mon_example_org","name":{"de":"Webseite","en":"Website"},"show_uptime":true,"show_response_times":true,"description":{"de":"Öffentliche Seite","en":"Public site"},"is_group":false}]}]`
+	if string(got) != want {
+		t.Errorf("request body:\n got %s\nwant %s", got, want)
+	}
 }

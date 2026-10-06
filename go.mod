@@ -13,7 +13,7 @@ require (
 	github.com/hashicorp/terraform-plugin-go v0.31.0
 	github.com/hashicorp/terraform-plugin-log v0.10.0
 	github.com/hashicorp/terraform-plugin-testing v1.16.0
-	github.com/hyperping/hyperping-go v0.8.0
+	github.com/hyperping/hyperping-go v0.9.0
 	github.com/mattn/go-isatty v0.0.23
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/schollz/progressbar/v3 v3.19.1

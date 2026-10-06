@@ -295,8 +295,11 @@ func verifyFullService(t *testing.T, result hyperping.CreateStatusPageService) {
 	if result.MonitorUUID == nil || *result.MonitorUUID != "mon_123" {
 		t.Errorf("expected MonitorUUID 'mon_123', got %v", result.MonitorUUID)
 	}
-	if result.NameShown == nil || *result.NameShown != "API Service" {
-		t.Errorf("expected NameShown 'API Service', got %v", result.NameShown)
+	if result.NameShown != nil {
+		t.Errorf("expected nil NameShown (name is sent as a localized map), got %v", *result.NameShown)
+	}
+	if result.Name["en"] != "API Service" {
+		t.Errorf("expected Name[en] 'API Service', got %v", result.Name)
 	}
 	if result.ShowUptime == nil || !*result.ShowUptime {
 		t.Error("expected ShowUptime true")
@@ -314,8 +317,8 @@ func verifyMinimalService(t *testing.T, result hyperping.CreateStatusPageService
 	if result.MonitorUUID == nil || *result.MonitorUUID != "mon_minimal" {
 		t.Errorf("expected MonitorUUID 'mon_minimal', got %v", result.MonitorUUID)
 	}
-	if result.NameShown != nil {
-		t.Errorf("expected nil NameShown, got %v", *result.NameShown)
+	if result.NameShown != nil || result.Name != nil {
+		t.Errorf("expected no name, got %v / %v", result.NameShown, result.Name)
 	}
 	if result.ShowUptime != nil {
 		t.Error("expected nil ShowUptime")

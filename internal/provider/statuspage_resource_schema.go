@@ -294,7 +294,7 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 										Computed:            true,
 									},
 									"description": schema.MapAttribute{
-										MarkdownDescription: "Localized service description (language code -> text). On write, only the default language value is sent as a plain string.",
+										MarkdownDescription: "Localized service description (language code -> text). Every language is sent and stored.",
 										ElementType:         types.StringType,
 										Optional:            true,
 									},

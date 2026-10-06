@@ -452,20 +452,10 @@ func mapTFToSections(list types.List, diags *diag.Diagnostics) []hyperping.Creat
 
 		section := hyperping.CreateStatusPageSection{}
 
-		// Extract name (map[string]string -> string)
-		// API expects string on create, but returns map on read
+		// Extract name as a localized map: the API stores every language sent.
 		if nameMap, ok := attrs["name"].(types.Map); ok && !nameMap.IsNull() {
-			nameStrMap := mapTFToStringMap(nameMap, diags)
-			if len(nameStrMap) > 0 {
-				// Prefer "en" if available, otherwise take first value
-				if enName, ok := nameStrMap["en"]; ok {
-					section.Name = enName
-				} else {
-					for _, v := range nameStrMap {
-						section.Name = v
-						break
-					}
-				}
+			if nameStrMap := mapTFToStringMap(nameMap, diags); len(nameStrMap) > 0 {
+				section.Name = nameStrMap
 			}
 		}
 
@@ -556,18 +546,11 @@ func mapTFToService(elem attr.Value, diags *diag.Diagnostics) hyperping.CreateSt
 		}
 	}
 
-	// Extract name_shown (always used — group name or monitor display name)
+	// Extract name (group name or monitor display name) as a localized map,
+	// like nested services: name_shown would keep only one language.
 	if nameMap, ok := attrs["name"].(types.Map); ok && !nameMap.IsNull() {
-		nameStrMap := mapTFToStringMap(nameMap, diags)
-		if enName, ok := nameStrMap["en"]; ok && enName != "" {
-			service.NameShown = &enName
-		} else {
-			for _, v := range nameStrMap {
-				if v != "" {
-					service.NameShown = &v
-					break
-				}
-			}
+		if nameStrMap := mapTFToStringMap(nameMap, diags); len(nameStrMap) > 0 {
+			service.Name = nameStrMap
 		}
 	}
 
@@ -583,18 +566,10 @@ func mapTFToService(elem attr.Value, diags *diag.Diagnostics) hyperping.CreateSt
 		service.ShowResponseTimes = &val
 	}
 
-	// Extract description (write as plain string from localized map)
+	// Extract description as a localized map, every language kept.
 	if descMap, ok := attrs["description"].(types.Map); ok && !descMap.IsNull() {
-		descStrMap := mapTFToStringMap(descMap, diags)
-		if enDesc, ok := descStrMap["en"]; ok && enDesc != "" {
-			service.Description = &enDesc
-		} else {
-			for _, v := range descStrMap {
-				if v != "" {
-					service.Description = &v
-					break
-				}
-			}
+		if descStrMap := mapTFToStringMap(descMap, diags); len(descStrMap) > 0 {
+			service.Description = descStrMap
 		}
 	}
 
@@ -637,9 +612,7 @@ func mapTFToNestedServices(list types.List, diags *diag.Diagnostics) []hyperping
 			svc.Name = mapTFToStringMap(nameMap, diags)
 		}
 
-		// Extract description as localized map for nested services.
-		// The API expects nested service descriptions as maps (like "name"),
-		// unlike top-level services which use plain strings (like "name_shown").
+		// Extract description as localized map, like top-level services.
 		if descMap, ok := attrs["description"].(types.Map); ok && !descMap.IsNull() {
 			svc.Description = mapTFToStringMap(descMap, diags)
 		}
