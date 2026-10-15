@@ -18,6 +18,10 @@ Published releases start from v1.0.3.
 - **`hyperping_statuspage_sso_connection`** (new data source): reads a connection of the project by `id` or `name`, including SAML connections set up in the dashboard (`type` = `okta`, `azure`, `google`, `saml`, or `workos`), to link them to a page.
 - Client `github.com/hyperping/hyperping-go` v0.10.0 (SSO connections).
 
+### Security
+
+- Go toolchain 1.26.9 for released binaries and `golang.org/x/net` v0.60.0 (GO-2026-6610, GO-2026-6611, GO-2026-6612, GO-2026-6613, GO-2026-6617: HTTP/2 and `net/http` fixes).
+
 ### Documentation
 
 - **`hyperping_statuspage`**: `settings.authentication.sso_connection_uuid` and `saml_sso` describe SSO connections of both kinds, SAML and OpenID Connect (`saml_sso` keeps its historical name and is turned on by setting `sso_connection_uuid`). `allowed_domains` is documented as the Google SSO domain list it is.
