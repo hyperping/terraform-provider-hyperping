@@ -218,18 +218,18 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 								Computed:            true,
 							},
 							"saml_sso": schema.BoolAttribute{
-								MarkdownDescription: "Enable SAML SSO",
+								MarkdownDescription: "Require visitors to sign in through the SSO connection set in `sso_connection_uuid`, SAML or OpenID Connect (the name predates OpenID Connect). Turned on by setting `sso_connection_uuid`.",
 								Optional:            true,
 								Computed:            true,
 							},
 							"allowed_domains": schema.ListAttribute{
-								MarkdownDescription: "Allowed email domains for SSO",
+								MarkdownDescription: "Email domains allowed to sign in with Google SSO",
 								ElementType:         types.StringType,
 								Optional:            true,
 								Computed:            true,
 							},
 							"sso_connection_uuid": schema.StringAttribute{
-								MarkdownDescription: "SSO connection UUID for SAML SSO integration",
+								MarkdownDescription: "ID of the SSO connection visitors sign in with (`sso_…`), SAML or OpenID Connect: `hyperping_statuspage_sso_connection.<name>.id`, or the `id` of the `hyperping_statuspage_sso_connection` data source for a connection set up in the dashboard.",
 								Optional:            true,
 								Computed:            true,
 							},

@@ -308,11 +308,11 @@ Optional:
 
 Optional:
 
-- `allowed_domains` (List of String) Allowed email domains for SSO
+- `allowed_domains` (List of String) Email domains allowed to sign in with Google SSO
 - `google_sso` (Boolean) Enable Google SSO
 - `password_protection` (Boolean) Enable password protection
-- `saml_sso` (Boolean) Enable SAML SSO
-- `sso_connection_uuid` (String) SSO connection UUID for SAML SSO integration
+- `saml_sso` (Boolean) Require visitors to sign in through the SSO connection set in `sso_connection_uuid`, SAML or OpenID Connect (the name predates OpenID Connect). Turned on by setting `sso_connection_uuid`.
+- `sso_connection_uuid` (String) ID of the SSO connection visitors sign in with (`sso_…`), SAML or OpenID Connect: `hyperping_statuspage_sso_connection.<name>.id`, or the `id` of the `hyperping_statuspage_sso_connection` data source for a connection set up in the dashboard.
 
 
 <a id="nestedatt--settings--subscribe"></a>

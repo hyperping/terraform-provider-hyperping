@@ -196,6 +196,7 @@ func (p *HyperpingProvider) Resources(_ context.Context) []func() resource.Resou
 		NewHealthcheckResource,
 		NewStatusPageResource,
 		NewStatusPageSubscriberResource,
+		NewStatusPageSSOConnectionResource,
 	}
 }
 
@@ -217,6 +218,7 @@ func (p *HyperpingProvider) DataSources(_ context.Context) []func() datasource.D
 		NewStatusPageDataSource,
 		NewStatusPagesDataSource,
 		NewStatusPageSubscribersDataSource,
+		NewStatusPageSSOConnectionDataSource,
 		NewMonitoringLocationsDataSource,
 		NewEscalationPoliciesDataSource,
 		NewEscalationPolicyDataSource,

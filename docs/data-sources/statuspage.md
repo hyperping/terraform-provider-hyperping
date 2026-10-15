@@ -154,8 +154,8 @@ Read-Only:
 - `allowed_domains` (List of String) Allowed domains for SSO
 - `google_sso` (Boolean) Google SSO enabled
 - `password_protection` (Boolean) Password protection enabled
-- `saml_sso` (Boolean) SAML SSO enabled
-- `sso_connection_uuid` (String) SSO connection UUID
+- `saml_sso` (Boolean) Sign-in through the SSO connection (SAML or OpenID Connect) enabled
+- `sso_connection_uuid` (String) ID of the SSO connection visitors sign in with (SAML or OpenID Connect)
 
 
 <a id="nestedatt--settings--subscribe"></a>

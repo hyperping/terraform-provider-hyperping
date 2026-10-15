@@ -176,7 +176,7 @@ func (d *StatusPageDataSource) Schema(ctx context.Context, req datasource.Schema
 								Computed:            true,
 							},
 							"saml_sso": schema.BoolAttribute{
-								MarkdownDescription: "SAML SSO enabled",
+								MarkdownDescription: "Sign-in through the SSO connection (SAML or OpenID Connect) enabled",
 								Computed:            true,
 							},
 							"allowed_domains": schema.ListAttribute{
@@ -185,7 +185,7 @@ func (d *StatusPageDataSource) Schema(ctx context.Context, req datasource.Schema
 								Computed:            true,
 							},
 							"sso_connection_uuid": schema.StringAttribute{
-								MarkdownDescription: "SSO connection UUID",
+								MarkdownDescription: "ID of the SSO connection visitors sign in with (SAML or OpenID Connect)",
 								Computed:            true,
 							},
 						},

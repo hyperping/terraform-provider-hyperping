@@ -67,9 +67,10 @@ func TestProvider_Resources(t *testing.T) {
 	p := &HyperpingProvider{}
 	resources := p.Resources(context.Background())
 
-	// Monitor, Incident, IncidentUpdate, Maintenance, Outage, Healthcheck, StatusPage, StatusPageSubscriber
-	if len(resources) != 8 {
-		t.Errorf("expected 8 resources, got %d", len(resources))
+	// Monitor, Incident, IncidentUpdate, Maintenance, Outage, Healthcheck, StatusPage, StatusPageSubscriber,
+	// StatusPageSSOConnection
+	if len(resources) != 9 {
+		t.Errorf("expected 9 resources, got %d", len(resources))
 	}
 }
 
@@ -79,9 +80,9 @@ func TestProvider_DataSources(t *testing.T) {
 
 	// 16 original + 5 new:
 	// EscalationPolicies, EscalationPolicy, OnCallSchedules, OnCallSchedule, Integrations
-	// 16 + 5 = 21
-	if len(dataSources) != 21 {
-		t.Errorf("expected 21 data sources, got %d", len(dataSources))
+	// + StatusPageSSOConnection = 22
+	if len(dataSources) != 22 {
+		t.Errorf("expected 22 data sources, got %d", len(dataSources))
 	}
 }
 

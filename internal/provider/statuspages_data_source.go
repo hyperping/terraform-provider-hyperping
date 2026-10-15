@@ -182,14 +182,14 @@ func (d *StatusPagesDataSource) Schema(ctx context.Context, req datasource.Schem
 									Attributes: map[string]schema.Attribute{
 										"password_protection": schema.BoolAttribute{MarkdownDescription: "Password protection enabled", Computed: true},
 										"google_sso":          schema.BoolAttribute{MarkdownDescription: "Google SSO enabled", Computed: true},
-										"saml_sso":            schema.BoolAttribute{MarkdownDescription: "SAML SSO enabled", Computed: true},
+										"saml_sso":            schema.BoolAttribute{MarkdownDescription: "Sign-in through the SSO connection (SAML or OpenID Connect) enabled", Computed: true},
 										"allowed_domains": schema.ListAttribute{
 											MarkdownDescription: "Allowed domains for SSO",
 											ElementType:         types.StringType,
 											Computed:            true,
 										},
 										"sso_connection_uuid": schema.StringAttribute{
-											MarkdownDescription: "SSO connection UUID",
+											MarkdownDescription: "ID of the SSO connection visitors sign in with (SAML or OpenID Connect)",
 											Computed:            true,
 										},
 									},

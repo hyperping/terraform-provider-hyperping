@@ -10,6 +10,18 @@ Published releases start from v1.0.3.
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-10-15
+
+### Added
+
+- **`hyperping_statuspage_sso_connection`** (new resource): an OpenID Connect connection that visitors of private status pages sign in with (Auth0, Okta, Microsoft Entra ID, Keycloak…). Set `name`, `issuer`, `client_id`, `client_secret` (sensitive) and optionally `allowed_domains`, then use its `id` as `settings.authentication.sso_connection_uuid` of a `hyperping_statuspage`. Hyperping checks the issuer's discovery document and the client credentials before saving, so a configuration the identity provider refuses fails at `apply` and creates nothing. Register the read-only `redirect_uri` as a callback URL in the identity provider. The issuer keeps the spelling of the configuration (`acme.eu.auth0.com`, with or without `https://` or a trailing slash) while it names the identity provider Hyperping stored. The client secret is never returned by the API: it is sent on create and when it changes, and once after `terraform import`. A connection is billed like one created in the dashboard. Deleting a connection a status page still uses fails with the API's message.
+- **`hyperping_statuspage_sso_connection`** (new data source): reads a connection of the project by `id` or `name`, including SAML connections set up in the dashboard (`type` = `okta`, `azure`, `google`, `saml`, or `workos`), to link them to a page.
+- Client `github.com/hyperping/hyperping-go` v0.10.0 (SSO connections).
+
+### Documentation
+
+- **`hyperping_statuspage`**: `settings.authentication.sso_connection_uuid` and `saml_sso` describe SSO connections of both kinds, SAML and OpenID Connect (`saml_sso` keeps its historical name and is turned on by setting `sso_connection_uuid`). `allowed_domains` is documented as the Google SSO domain list it is.
+
 ## [2.1.1] - 2026-10-06
 
 ### Fixed
@@ -1199,7 +1211,8 @@ This provider is production-ready with comprehensive test coverage (45.8% overal
 - Operations guide for production deployments
 - Troubleshooting guide with common issues and solutions
 
-[Unreleased]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/hyperping/terraform-provider-hyperping/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/develeap/terraform-provider-hyperping/compare/v1.12.1...v2.0.0
